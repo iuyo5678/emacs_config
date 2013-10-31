@@ -2,7 +2,7 @@
 
 ;; Author: ahei <ahei0802@gmail.com>
 ;; URL: http://code.google.com/p/dea/source/browse/trunk/my-lisps/python-settings.el
-;; Time-stamp: <2013-10-30 16:17:09 Wednesday by zhangguhua>
+;; Time-stamp: <2013-10-31 23:41:25 Thursday by nilin>
 
 ;; This  file is free  software; you  can redistribute  it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -21,9 +21,19 @@
 
 ;;(load "python-mode")
 (require 'pdb-settings)
-;;(require 'pydb)
+(require 'pydb)
 ;;(require 'ipython)
 
 (require 'python-mode)
+(when (executable-find "pyflakes")
+  (defun flymake-pyflakes-init ()
+    (let* ((temp-file (flymake-init-create-temp-buffer-copy
+                       'flymake-create-temp-inplace))
+           (local-file (file-relative-name
+                        temp-file
+                        (file-name-directory buffer-file-name))))
+      (list "pyflakes" (list local-file))))
+  (add-to-list 'flymake-allowed-file-name-masks
+               '("\\.py\\'" flymake-pyflakes-init)))
 
 (provide 'python-settings)
