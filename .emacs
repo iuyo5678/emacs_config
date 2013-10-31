@@ -13,9 +13,9 @@
 (my-add-subdirs-to-load-path my-emacs-lisps-path)
 (my-add-subdirs-to-load-path my-emacs-my-lisps-path)
 
-(add-to-list 'load-path "/home/nilin/.emacs.d/lisps/auto-complete/")
+(add-to-list 'load-path "~/.emacs.d/lisps/auto-complete/")
 (require 'auto-complete-config)
-(add-to-list 'ac-dictionary-directories "/home/nilin/.emacs.d/lisps/auto-complete//ac-dict")
+(add-to-list 'ac-dictionary-directories "~/.emacs.d/lisps/auto-complete//ac-dict")
 (ac-config-default)
 
 
