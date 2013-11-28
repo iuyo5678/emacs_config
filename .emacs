@@ -1,5 +1,5 @@
 ;; -*- Emacs-Lisp -*-
-;; Time-stamp: <2013-10-30 18:06:59 Wednesday by zhangguhua>
+;; Time-stamp: <2013-11-29 00:28:21 Friday by nilin>
 
 (defconst my-emacs-path           "~/.emacs.d/" "我的emacs相关配置文件的路径")
 (defconst my-emacs-my-lisps-path  (concat my-emacs-path "mylisps/") "我自己写的emacs lisp包的路径")
@@ -200,6 +200,10 @@
     (funcall mode)
     (setq switch-major-mode-last-mode last-mode)))
 (global-set-key (kbd "C-x q") 'switch-major-mode)
+
+;;dired模式的一些配置
+(require 'dired-settings)
+
 
 (defun get-mode-name ()
   "显示`major-mode'及`mode-name'"
