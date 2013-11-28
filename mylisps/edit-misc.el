@@ -3,7 +3,7 @@
 ;; Author: ahei <ahei0802@gmail.com>
 ;; Keywords: 
 ;; URL: http://code.google.com/p/dea/source/browse/trunk/my-lisps/edit-misc.el
-;; Time-stamp: <2013-09-01 16:51:23 Sunday by nilin>
+;; Time-stamp: <2013-11-19 11:35:09 Tuesday by zhangguhua>
 
 ;; This  file is free  software; you  can redistribute  it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -117,6 +117,14 @@ If NOT-WHOLE is non-nil, do not copy whole sexp."
   (save-excursion
     (mark-function)
     (comment-region (region-beginning) (region-end) arg)))
+
+;;;###autoload
+(defun uncomment-function (&optional arg)
+  "unComment function."
+  (interactive "P")
+  (save-excursion
+    (mark-function)
+    (uncomment-region (region-beginning) (region-end) arg)))
 
 ;;;###autoload
 (defun kill-whole-paragraph (&optional arg)
@@ -259,7 +267,11 @@ If NOT-WHOLE is non-nil, do not copy whole sexp."
 (defun uncomment (&optional arg)
   "如果`mark-active'的话,就`uncomment-region',否则取消注释光标所在行"
   (interactive "P")
-  (comment (not arg)))
+  (if mark-active
+      (uncomment-region (region-beginning) (region-end) arg)
+    (let (fun)
+      (if arg (setq fun 'comment-region) (setq fun 'uncomment-region))
+      (funcall fun (line-beginning-position) (line-end-position)))))
 
 ;;;###autoload
 (defun mark-invisible-region ()

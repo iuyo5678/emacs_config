@@ -1,6 +1,6 @@
 ;; -*- Emacs-Lisp -*-
 
-;; Time-stamp: <2013-09-01 16:51:20 Sunday by nilin>
+;; Time-stamp: <2013-11-19 11:29:07 Tuesday by zhangguhua>
 
 (require 'compile-settings)
 (require 'edit-misc)
@@ -49,7 +49,8 @@
                     conf-javaprop-mode-map html-mode-map tcl-mode-map
                     autoconf-mode-map perl-mode-map nxml-mode-map
                     python-mode-map graphviz-dot-mode-map))
- `(("C-c C-c" comment)))
+ `(("C-c C-c" comment)
+   ("C-c C-x" uncomment)))
 
 ;;;###autoload
 (defmacro def-redo-command (fun-name redo undo)
@@ -111,6 +112,7 @@
    ("C-c f" copy-function)
    ("C-c F" kill-function)
    ("C-c C-q" indent-function)
-   ("C-c C" comment-function)))
+   ("C-c C" comment-function)
+   ("C-c X" uncomment-function)))
 
 (provide 'edit-settings)

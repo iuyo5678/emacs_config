@@ -2,7 +2,7 @@
 
 ;; Author: ahei <ahei0802@gmail.com>
 ;; URL: http://code.google.com/p/dea/source/browse/trunk/my-lisps/python-settings.el
-;; Time-stamp: <2013-10-31 23:41:25 Thursday by nilin>
+;; Time-stamp: <2013-11-04 14:08:59 Monday by zhangguhua>
 
 ;; This  file is free  software; you  can redistribute  it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -24,7 +24,9 @@
 (require 'pydb)
 ;;(require 'ipython)
 
+(setq py-install-directory (concat my-emacs-lisps-path "python-mode.el-6.1.2/"))
 (require 'python-mode)
+
 (when (executable-find "pyflakes")
   (defun flymake-pyflakes-init ()
     (let* ((temp-file (flymake-init-create-temp-buffer-copy
