@@ -2,7 +2,7 @@
 
 ;; Author: ahei <ahei0802@gmail.com>
 ;; URL: http://code.google.com/p/dea/source/browse/trunk/my-lisps/python-settings.el
-;; Time-stamp: <2013-11-04 14:08:59 Monday by zhangguhua>
+;; Time-stamp: <2013-12-03 23:45:53 Tuesday by nilin>
 
 ;; This  file is free  software; you  can redistribute  it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -19,7 +19,6 @@
 ;; write  to  the Free  Software  Foundation,  Inc., 51  Franklin
 ;; Street, Fifth Floor, Boston, MA 02110-1301, USA.
 
-;;(load "python-mode")
 (require 'pdb-settings)
 (require 'pydb)
 ;;(require 'ipython)
@@ -36,6 +35,20 @@
                         (file-name-directory buffer-file-name))))
       (list "pyflakes" (list local-file))))
   (add-to-list 'flymake-allowed-file-name-masks
-               '("\\.py\\'" flymake-pyflakes-init)))
+               '("\\.py\\'" flymake-pyflakes-init))
+  ;; (require 'flymake-cursor)
+  ;; (add-hook 'find-file-hook 'flymake-find-file-hook)
+  ;; (load-library "flymake-cursor")  ;在minibuffer显示错误信息
+  ;; (global-set-key (kbd "<f11>") 'flymake-start-syntax-check)
+  ;; (global-set-key (kbd "<s-up>") 'flymake-goto-prev-error)
+  ;; (global-set-key (kbd "<s-down>") 'flymake-goto-next-error)
+
+  ;; (custom-set-faces
+  ;;  '(flymake-errline ((((class color)) (:underline "red"))))
+  ;;  '(flymake-warnline ((((class color)) (:underline "yellow1")))))
+  ;; (setq flymake-no-changes-timeout 600)
+  )
+
+(load "python-mode")
 
 (provide 'python-settings)
