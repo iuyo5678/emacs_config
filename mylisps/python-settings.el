@@ -2,11 +2,8 @@
 
 ;; Author: ahei <ahei0802@gmail.com>
 ;; URL: http://code.google.com/p/dea/source/browse/trunk/my-lisps/python-settings.el
-<<<<<<< HEAD
-;; Time-stamp: <2013-12-03 23:45:53 Tuesday by nilin>
-=======
+;; Time-stamp: <2013-12-04 00:17:37 Wednesday by nilin>
 ;; Time-stamp: <2013-11-29 18:53:39 Friday by zhangguhua>
->>>>>>> c6ff1f5d8ca07ff6887c5057ca6b9680a7d48299
 
 ;; This  file is free  software; you  can redistribute  it and/or
 ;; modify it under the terms of the GNU General Public License as
