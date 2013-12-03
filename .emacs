@@ -1,5 +1,5 @@
 ;; -*- Emacs-Lisp -*-
-;; Time-stamp: <2013-11-29 00:28:21 Friday by nilin>
+;; Time-stamp: <2013-12-02 16:07:04 Monday by zhangguhua>
 
 (defconst my-emacs-path           "~/.emacs.d/" "我的emacs相关配置文件的路径")
 (defconst my-emacs-my-lisps-path  (concat my-emacs-path "mylisps/") "我自己写的emacs lisp包的路径")
@@ -13,9 +13,9 @@
 (my-add-subdirs-to-load-path my-emacs-lisps-path)
 (my-add-subdirs-to-load-path my-emacs-my-lisps-path)
 
-(add-to-list 'load-path "~/.emacs.d/lisps/auto-complete/")
+(add-to-list 'load-path (concat my-emacs-lisps-path "auto-complete/"))
 (require 'auto-complete-config)
-(add-to-list 'ac-dictionary-directories "~/.emacs.d/lisps/auto-complete//ac-dict")
+(add-to-list 'ac-dictionary-directories (concat my-emacs-lisps-path "auto-complete//ac-dict"))
 (ac-config-default)
 
 
@@ -65,7 +65,7 @@
 (defun visit-.emacs ()
   "访问.emacs文件"
   (interactive)
-  (find-file (concat "~/.emacs.d/" ".emacs")))
+  (find-file (concat my-emacs-path ".emacs")))
 (global-set-key (kbd "C-x E") 'visit-.emacs)
  
 

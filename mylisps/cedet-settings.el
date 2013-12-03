@@ -4,7 +4,7 @@
 
 ;;; Code:
 
-(load-file "~/.emacs.d/lisps/cedet-1.1/common/cedet.el")
+(load-file (concat my-emacs-lisps-path "cedet-1.1/common/cedet.el"))
 (global-ede-mode 1)
 (global-srecode-minor-mode 1)
 
