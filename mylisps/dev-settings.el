@@ -1,6 +1,6 @@
 ;; -*- Emacs-Lisp -*-
 
-;; Time-stamp: <2013-10-30 17:38:36 Wednesday by zhangguhua>
+;; Time-stamp: <2013-12-05 00:21:34 Thursday by nilin>
 
 ;; This  file is free  software; you  can redistribute  it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -52,7 +52,7 @@
  `(("{" skeleton-c-mode-left-brace)))
 
 ;; 动态检查语法错误
-;;(require 'flymake-settings)
+(require 'flymake-settings)
 
 (defun skeleton-c-mode-left-brace (arg)
   (interactive "P")

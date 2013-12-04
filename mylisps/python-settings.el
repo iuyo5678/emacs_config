@@ -2,7 +2,7 @@
 
 ;; Author: ahei <ahei0802@gmail.com>
 ;; URL: http://code.google.com/p/dea/source/browse/trunk/my-lisps/python-settings.el
-;; Time-stamp: <2013-12-04 00:17:37 Wednesday by nilin>
+;; Time-stamp: <2013-12-05 00:10:52 Thursday by nilin>
 ;; Time-stamp: <2013-11-29 18:53:39 Friday by zhangguhua>
 
 ;; This  file is free  software; you  can redistribute  it and/or
@@ -25,7 +25,9 @@
 ;;(require 'ipython)
 
 (setq py-install-directory (concat my-emacs-lisps-path "python-mode.el-6.1.2/"))
-(require 'python-mode)
+(autoload 'python-mode "python-mode" "Python Mode." t)
+(add-to-list 'auto-mode-alist '("\\.py\\'" . python-mode))
+(add-to-list 'interpreter-mode-alist '("python" . python-mode))
 
 (when (executable-find "pyflakes")
   (defun flymake-pyflakes-init ()
@@ -36,21 +38,7 @@
                         (file-name-directory buffer-file-name))))
       (list "pyflakes" (list local-file))))
   (add-to-list 'flymake-allowed-file-name-masks
-               '("\\.py\\'" flymake-pyflakes-init))
-  ;; (require 'flymake-cursor)
-  ;; (add-hook 'find-file-hook 'flymake-find-file-hook)
-  ;; (load-library "flymake-cursor")  ;在minibuffer显示错误信息
-  ;; (global-set-key (kbd "<f11>") 'flymake-start-syntax-check)
-  ;; (global-set-key (kbd "<s-up>") 'flymake-goto-prev-error)
-  ;; (global-set-key (kbd "<s-down>") 'flymake-goto-next-error)
-
-  ;; (custom-set-faces
-  ;;  '(flymake-errline ((((class color)) (:underline "red"))))
-  ;;  '(flymake-warnline ((((class color)) (:underline "yellow1")))))
-  ;; (setq flymake-no-changes-timeout 600)
-  )
-
-(load "python-mode")
+               '("\\.py\\'" flymake-pyflakes-init)))
 
 (load "python-mode")
 
