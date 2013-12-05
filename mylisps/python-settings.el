@@ -2,7 +2,7 @@
 
 ;; Author: ahei <ahei0802@gmail.com>
 ;; URL: http://code.google.com/p/dea/source/browse/trunk/my-lisps/python-settings.el
-;; Time-stamp: <2013-12-05 00:10:52 Thursday by nilin>
+;; Time-stamp: <2013-12-06 00:55:52 Friday by nilin>
 ;; Time-stamp: <2013-11-29 18:53:39 Friday by zhangguhua>
 
 ;; This  file is free  software; you  can redistribute  it and/or
@@ -25,9 +25,15 @@
 ;;(require 'ipython)
 
 (setq py-install-directory (concat my-emacs-lisps-path "python-mode.el-6.1.2/"))
-(autoload 'python-mode "python-mode" "Python Mode." t)
-(add-to-list 'auto-mode-alist '("\\.py\\'" . python-mode))
-(add-to-list 'interpreter-mode-alist '("python" . python-mode))
+(require 'python-mode)
+(setq py-shell-name "ipython")
+(when (featurep 'python) (unload-feature 'python t))
+
+(autoload 'pymacs-apply "pymacs")
+(autoload 'pymacs-call "pymacs")
+(autoload 'pymacs-eval "pymacs" nil t)
+(autoload 'pymacs-exec "pymacs" nil t)
+(autoload 'pymacs-load "pymacs" nil t)
 
 (when (executable-find "pyflakes")
   (defun flymake-pyflakes-init ()
@@ -41,6 +47,9 @@
                '("\\.py\\'" flymake-pyflakes-init)))
 
 (load "python-mode")
+
+
+
 
 
 (provide 'python-settings)

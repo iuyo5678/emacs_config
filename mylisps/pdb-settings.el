@@ -2,7 +2,7 @@
 
 ;; Author: ahei <ahei0802@gmail.com>
 ;; URL: http://code.google.com/p/dea/source/browse/trunk/my-lisps/pdb-settings.el
-;; Time-stamp: <2011-03-20 23:24:54 Sunday by taoshanwen>
+;; Time-stamp: <2013-12-05 23:46:16 Thursday by nilin>
 
 ;; This  file is free  software; you  can redistribute  it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -22,6 +22,7 @@
 (defun pdb-settings ()
   "Settings for `pdb'."
   (add-hook 'pdb-mode-hook 'kill-buffer-when-shell-command-exit))
+
 
 (eval-after-load "gud"
   `(pdb-settings))

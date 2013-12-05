@@ -29,7 +29,7 @@
 (semanticdb-enable-gnu-global-databases 'c++-mode)
 
 (semantic-load-enable-primary-exuberent-ctags-support)
-
+(global-semantic-idle-scheduler-mode nil)
 ;;让cedet找到头文件
 (defconst cedet-user-include-dirs
   (list ".." "../include" "../inc" "../common" "../public"
