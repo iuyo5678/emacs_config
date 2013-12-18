@@ -1,6 +1,6 @@
 ;; -*- Emacs-Lisp -*-
 
-;; Time-stamp: <2012-05-23 22:48:29 Wednesday by ahei>
+;; Time-stamp: <2013-12-18 22:29:17 Wednesday by nilin>
 
 (require 'util)
 
@@ -13,7 +13,8 @@
  (append makefile-mode-map-list
          '(c-mode-base-map svn-status-mode-map sh-mode-map
                            compilation-mode-map ruby-mode-map
-                           python-mode-map py-mode-map))
+                           ;;python-mode-map py-mode-map
+                           ))
  `(("C-c C-m"  make-sb)
    ("C-c m"    make-check-sb)
    ("C-c M"    make-clean-sb)

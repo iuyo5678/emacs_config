@@ -1,6 +1,6 @@
 ;; -*- Emacs-Lisp -*-
 
-;; Time-stamp: <2013-12-17 23:33:17 Tuesday by nilin>
+;; Time-stamp: <2013-12-17 23:59:54 Tuesday by nilin>
 
 ;; This  file is free  software; you  can redistribute  it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -95,8 +95,8 @@
 ;;(require 'cedet-settings)
 
 ;; ecb 代码浏览器
-(require 'ecb)
-(setq stack-trace-on-error nil)
+;;(require 'ecb)
+;;(setq stack-trace-on-error nil)
 ;; doxygen
 (require 'doxymacs-settings)
 

@@ -3,7 +3,7 @@
 ;; Author: ahei <ahei0802@gmail.com>
 ;; Keywords: 
 ;; URL: http://code.google.com/p/dea/source/browse/trunk/my-lisps/compile-settings-autoloads.el
-;; Time-stamp: <2012-01-02 14:35:52 Monday by taoshanwen>
+;; Time-stamp: <2013-12-18 00:41:22 Wednesday by nilin>
 
 ;; This  file is free  software; you  can redistribute  it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -56,7 +56,8 @@
          ((equal extension "sh")
           (compile (format "sh -n %s" file)))
          ((equal extension "py")
-          (compile (format "epylint %s" file))))))))
+          (compile (format "epylint %s" file)))
+         )))))
 
 ;;;###autoload
 (defun run-program (command)

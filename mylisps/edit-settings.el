@@ -1,6 +1,6 @@
 ;; -*- Emacs-Lisp -*-
 
-;; Time-stamp: <2013-12-02 15:46:47 Monday by zhangguhua>
+;; Time-stamp: <2013-12-18 22:29:43 Wednesday by nilin>
 
 (require 'compile-settings)
 (require 'edit-misc)
@@ -48,9 +48,9 @@
   `(c-mode-base-map emacs-lisp-mode-map lisp-interaction-mode-map
                     conf-javaprop-mode-map html-mode-map tcl-mode-map
                     autoconf-mode-map perl-mode-map nxml-mode-map
-                    python-mode-map graphviz-dot-mode-map sh-mode-map))
- `(("C-c C-c" comment)
-   ("C-c C-x" uncomment)))
+                    graphviz-dot-mode-map sh-mode-map python-mode-map py-mode-map))
+ `(("C-c c" comment)
+   ("C-c x" uncomment)))
 
 ;;;###autoload
 (defmacro def-redo-command (fun-name redo undo)
