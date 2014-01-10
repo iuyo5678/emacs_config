@@ -1,5 +1,5 @@
 ;; -*- Emacs-Lisp -*-
-;; Time-stamp: <2013-12-02 16:07:04 Monday by zhangguhua>
+;; Time-stamp: <2014-01-10 15:26:33 Friday by nilin>
 
 (defconst my-emacs-path           "~/.emacs.d/" "我的emacs相关配置文件的路径")
 (defconst my-emacs-my-lisps-path  (concat my-emacs-path "mylisps/") "我自己写的emacs lisp包的路径")
@@ -218,6 +218,16 @@
 
 (fset 'kill-head-blank
    "\C-a\C-@\C-[m\C-?\C-n")
+
+
+(defun edit-current-file-as-root ()
+  "Edit the file that is associated with the current buffer as root"
+  (interactive)
+  (if (buffer-file-name)
+      (progn
+        (setq file (concat "/sudo:root@localhost:" (buffer-file-name)))
+        (find-file file))
+    (message "Current buffer does not have an associated file.")))
 
 
 (cua-mode t)
