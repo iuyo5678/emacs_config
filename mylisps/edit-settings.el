@@ -1,6 +1,6 @@
 ;; -*- Emacs-Lisp -*-
 
-;; Time-stamp: <2013-12-18 22:29:43 Wednesday by nilin>
+;; Time-stamp: <2014-01-20 00:35:30 Monday by nilin>
 
 (require 'compile-settings)
 (require 'edit-misc)
@@ -114,5 +114,12 @@
    ("C-c C-q" indent-function)
    ("C-c C" comment-function)
    ("C-c X" uncomment-function)))
+
+(setq auto-indent-on-visit-file t) ;; If you want auto-indent on for files
+(require 'auto-indent-mode)
+(auto-indent-global-mode)
+
+
+
 
 (provide 'edit-settings)

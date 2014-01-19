@@ -1,6 +1,6 @@
 ;; -*- Emacs-Lisp -*-
 
-;; Time-stamp: <2013-12-17 23:59:54 Tuesday by nilin>
+;; Time-stamp: <2014-01-19 23:51:46 Sunday by nilin>
 
 ;; This  file is free  software; you  can redistribute  it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -92,11 +92,11 @@
 ;; cedet 强大的开发工具, 包括代码浏览, 补全, 类图生成
 ;; 用CEDET浏览和编辑C++代码 http://emacser.com/cedet.htm
 ;; Emacs才是世界上最强大的IDE － cedet的安装 http://emacser.com/install-cedet.htm
-;;(require 'cedet-settings)
+(require 'cedet-settings)
 
 ;; ecb 代码浏览器
-;;(require 'ecb)
-;;(setq stack-trace-on-error nil)
+(require 'ecb)
+(setq stack-trace-on-error nil)
 ;; doxygen
 (require 'doxymacs-settings)
 
@@ -171,6 +171,10 @@
 ;; 放在kde-emacs后面
 (require 'compile-settings)
 
+;;写html的配置
+(autoload 'html-helper-mode "html-helper-mode" "Yay HTML" t)
+(setq auto-mode-alist (cons '("\\.html$" . html-helper-mode)       auto-mode-alist))
+
 ;; 回车后indent
 (eal-define-keys
  `(lisp-mode-map emacs-lisp-mode-map lisp-interaction-mode-map sh-mode-map
@@ -203,4 +207,29 @@
                  python-settings
                  sed-settings
                  ))
+
+
+
+(dolist (command '(yank yank-pop))
+  (eval
+   `(defadvice ,command (after indent-region activate)
+      (and (not current-prefix-arg)
+           (member major-mode
+                   '(emacs-lisp-mode
+                     lisp-mode
+                     clojure-mode
+                     scheme-mode
+                     haskell-mode
+                     ruby-mode
+                     rspec-mode
+                     python-mode
+                     c-mode
+                     c++-mode
+                     objc-mode
+                     latex-mode
+                     js-mode
+                     plain-tex-mode))
+           (let ((mark-even-if-inactive transient-mark-mode))
+             (indent-region (region-beginning) (region-end) nil))))))
+
 (provide 'dev-settings)
