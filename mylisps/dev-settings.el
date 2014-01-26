@@ -1,6 +1,6 @@
 ;; -*- Emacs-Lisp -*-
 
-;; Time-stamp: <2014-01-19 23:51:46 Sunday by nilin>
+;; Time-stamp: <2014-01-26 15:37:30 Sunday by nilin>
 
 ;; This  file is free  software; you  can redistribute  it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -172,9 +172,7 @@
 (require 'compile-settings)
 
 ;;写html的配置
-(autoload 'html-helper-mode "html-helper-mode" "Yay HTML" t)
-(setq auto-mode-alist (cons '("\\.html$" . html-helper-mode)       auto-mode-alist))
-
+(require 'html-settings)
 ;; 回车后indent
 (eal-define-keys
  `(lisp-mode-map emacs-lisp-mode-map lisp-interaction-mode-map sh-mode-map
@@ -209,27 +207,6 @@
                  ))
 
 
-
-(dolist (command '(yank yank-pop))
-  (eval
-   `(defadvice ,command (after indent-region activate)
-      (and (not current-prefix-arg)
-           (member major-mode
-                   '(emacs-lisp-mode
-                     lisp-mode
-                     clojure-mode
-                     scheme-mode
-                     haskell-mode
-                     ruby-mode
-                     rspec-mode
-                     python-mode
-                     c-mode
-                     c++-mode
-                     objc-mode
-                     latex-mode
-                     js-mode
-                     plain-tex-mode))
-           (let ((mark-even-if-inactive transient-mark-mode))
-             (indent-region (region-beginning) (region-end) nil))))))
-
+;;阅读代码的配置，cscope
+(require 'xcscope)
 (provide 'dev-settings)
