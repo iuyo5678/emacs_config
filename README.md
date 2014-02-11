@@ -1,5 +1,4 @@
-Time-stamp: <2014-02-11 16:26:18 Tuesday by zhangguhua>
-Time-stamp: <>
+Time-stamp: <2014-02-11 16:33:50 Tuesday by zhangguhua>
 
 emacs_config
 ============
