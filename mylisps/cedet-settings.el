@@ -10,12 +10,7 @@
 
 (semantic-load-enable-minimum-features)
 (semantic-load-enable-code-helpers)
-;;(senator-minor-mode t)
-;;(semantic-mru-bookmark-mode t)
-;;(semantic-idle-summary-mode)
 (semantic-load-enable-guady-code-helpers)
-;;(semantic-stickyfunc-mode)
-;;(semantic-decoration-mode)
 (semantic-load-enable-excessive-code-helpers)
 (semantic-load-enable-semantic-debugging-helpers)
 
@@ -23,12 +18,13 @@
 (require 'semantic-gcc)
 (require 'semanticdb)
 (global-semanticdb-minor-mode 1)
+(global-semantic-idle-scheduler-mode 1)
+
 
 (require 'semanticdb-global)
 (semanticdb-enable-gnu-global-databases 'c-mode)
 (semanticdb-enable-gnu-global-databases 'c++-mode)
 
-(semantic-load-enable-primary-exuberent-ctags-support)
 (global-semantic-idle-scheduler-mode nil)
 ;;让cedet找到头文件
 (defconst cedet-user-include-dirs

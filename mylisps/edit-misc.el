@@ -3,7 +3,7 @@
 ;; Author: ahei <ahei0802@gmail.com>
 ;; Keywords: 
 ;; URL: http://code.google.com/p/dea/source/browse/trunk/my-lisps/edit-misc.el
-;; Time-stamp: <2013-11-19 11:35:09 Tuesday by zhangguhua>
+;; Time-stamp: <2014-02-11 16:23:37 Tuesday by zhangguhua>
 
 ;; This  file is free  software; you  can redistribute  it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -365,6 +365,11 @@ otherwise call `move-beginning-of-line'."
   "Run `fill-paragraph' with argument justify t."
   (interactive (list t))
   (fill-paragraph 'full region))
+
+;;;###autoload
+(defun insert-time ()
+  (interactive)
+  (insert "Time-stamp: <>\n"))
 
 (provide 'edit-misc)
 

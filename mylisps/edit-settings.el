@@ -1,6 +1,6 @@
 ;; -*- Emacs-Lisp -*-
 
-;; Time-stamp: <2014-01-20 00:35:30 Monday by nilin>
+;; Time-stamp: <2014-02-11 16:28:19 Tuesday by zhangguhua>
 
 (require 'compile-settings)
 (require 'edit-misc)
@@ -94,6 +94,7 @@
    ("M-m" beginning-of-line-text)
    ("C-M-\\" smart-indent)
    ("M-q" fill-paragraph-justify)
+   ("C-c t" insert-time)
    ("<escape> SPC" just-one-space)))
 
 (eal-define-keys
@@ -118,8 +119,6 @@
 (setq auto-indent-on-visit-file t) ;; If you want auto-indent on for files
 (require 'auto-indent-mode)
 (auto-indent-global-mode)
-
-
 
 
 (provide 'edit-settings)

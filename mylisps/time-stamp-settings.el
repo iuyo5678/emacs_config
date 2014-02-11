@@ -1,6 +1,6 @@
 ;; -*- Emacs-Lisp -*-
 
-;; Time-stamp: <2010-04-10 21:15:42 Saturday by ahei>
+;; Time-stamp: <2014-02-11 16:17:10 Tuesday by zhangguhua>
 
 (add-hook 'write-file-hooks 'time-stamp)
 
