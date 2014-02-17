@@ -2,7 +2,7 @@
 
 ;; Author: ahei <ahei0802@gmail.com>
 ;; URL: http://code.google.com/p/dea/source/browse/trunk/my-lisps/cedet-semantic-settings.el
-;; Time-stamp: <2010-11-30 11:42:06 Tuesday by taoshanwen>
+;; Time-stamp: <2014-02-17 18:06:36 Monday by nilin>
 
 ;; This  file is free  software; you  can redistribute  it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -19,6 +19,7 @@
 ;; write  to  the Free  Software  Foundation,  Inc., 51  Franklin
 ;; Street, Fifth Floor, Boston, MA 02110-1301, USA.
 
+(semantic-load-enable-minimum-features)
 (semantic-load-enable-excessive-code-helpers)
 (global-semantic-idle-completions-mode -1)
 (semantic-load-enable-semantic-debugging-helpers)
