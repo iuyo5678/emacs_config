@@ -11,6 +11,9 @@
 (require 'cedet-srecode-settings)
 (require 'cedet-speedbar-settings)
 
+
+
+
 ;; 用pulse实现Emacs的淡入淡出效果
 ;; http://emacser.com/pulse.htm
 (require 'pulse-settings)
@@ -42,7 +45,6 @@
 (global-semantic-tag-folding-mode 1)
 
 ;;快捷键绑定
-(global-set-key (kbd "C-c C-j") 'semantic-ia-fast-jump)
 (global-set-key (kbd "C-c -") 'semantic-tag-folding-fold-block)
 (global-set-key (kbd "C-c =") 'semantic-tag-folding-show-block)
 

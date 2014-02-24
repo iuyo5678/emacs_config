@@ -1,6 +1,6 @@
 ;; -*- Emacs-Lisp -*-
 
-;; Time-stamp: <2014-01-26 15:40:11 Sunday by nilin>
+;; Time-stamp: <2014-02-24 21:21:18 Monday by nilin>
 (require 'web-mode)
 
 (add-to-list 'auto-mode-alist '("\\.phtml\\'" . web-mode))
@@ -15,10 +15,10 @@
 (add-to-list 'auto-mode-alist '("\\.html?\\'" . web-mode))
 
 
-(setq web-mode-markup-indent-offset 2)
-(setq web-mode-css-indent-offset 2)
-(setq web-mode-code-indent-offset 2)
-(setq web-mode-code-indent-offset 2)
-(setq web-mode-indent-style 2)
+(setq web-mode-markup-indent-offset 4)
+(setq web-mode-css-indent-offset 4)
+(setq web-mode-code-indent-offset 4)
+(setq web-mode-code-indent-offset 4)
+(setq web-mode-indent-style 4)
 
 (provide 'html-settings)

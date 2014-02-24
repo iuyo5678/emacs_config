@@ -2,7 +2,7 @@
 
 ;; Author: ahei <ahei0802@gmail.com>
 ;; URL: http://code.google.com/p/dea/source/browse/trunk/my-lisps/python-settings.el
-;; Time-stamp: <2013-12-17 23:31:08 Tuesday by nilin>
+;; Time-stamp: <2014-02-24 21:16:25 Monday by nilin>
 ;; Time-stamp: <2013-11-29 18:53:39 Friday by zhangguhua>
 
 ;; This  file is free  software; you  can redistribute  it and/or
@@ -23,6 +23,7 @@
 (require 'pdb-settings)
 (require 'pydb)
 ;;(require 'ipython)
+(set-variable 'py-indent-offset 4)
 
 (setq py-install-directory (concat my-emacs-lisps-path "python-mode.el-6.1.2/"))
 (require 'python-mode)

@@ -1,6 +1,6 @@
 ;; -*- Emacs-Lisp -*-
 
-;; Time-stamp: <2014-02-17 14:09:27 Monday by zhangguhua>
+;; Time-stamp: <2014-02-20 00:26:53 Thursday by nilin>
 
 ;; This  file is free  software; you  can redistribute  it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -26,7 +26,7 @@
   (set-language-environment "UTF-8"))
 (set-terminal-coding-system 'utf-8)
 (set-keyboard-coding-system 'utf-8)
-(prefer-coding-system 'gbk)
+(prefer-coding-system 'utf-8)
 (setq default-buffer-file-coding-system 'utf-8)
 
 (defun revert-buffer-with-coding-system-no-confirm (coding-system)
