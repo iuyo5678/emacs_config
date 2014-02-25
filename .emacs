@@ -1,7 +1,7 @@
 ;; -*- Emacs-Lisp -*-
-;; Time-stamp: <2014-01-10 15:26:33 Friday by nilin>
+;; Time-stamp: <2014-02-25 13:22:40 Tuesday by work>
 
-(defconst my-emacs-path           "~/.emacs.d/" "我的emacs相关配置文件的路径")
+(defconst my-emacs-path           "~/zhangguhua/.emacs.d/" "我的emacs相关配置文件的路径")
 (defconst my-emacs-my-lisps-path  (concat my-emacs-path "mylisps/") "我自己写的emacs lisp包的路径")
 (defconst my-emacs-lisps-path     (concat my-emacs-path "lisps/") "我下载的emacs lisp包的路径")
 (defconst my-emacs-templates-path (concat my-emacs-path "templates/") "Path for templates")
@@ -218,7 +218,7 @@
 
 (fset 'kill-head-blank
    "\C-a\C-@\C-[m\C-?\C-n")
-
+(require 'shell-mode-settings)
 
 (defun edit-current-file-as-root ()
   "Edit the file that is associated with the current buffer as root"
