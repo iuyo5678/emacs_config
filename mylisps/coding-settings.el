@@ -26,7 +26,7 @@
   (set-language-environment "UTF-8"))
 (set-terminal-coding-system 'utf-8)
 (set-keyboard-coding-system 'utf-8)
-(prefer-coding-system 'gbk)
+(prefer-coding-system 'utf-8)
 (setq default-buffer-file-coding-system 'utf-8)
 
 (defun revert-buffer-with-coding-system-no-confirm (coding-system)
