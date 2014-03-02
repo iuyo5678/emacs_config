@@ -1,5 +1,5 @@
 ;; -*- Emacs-Lisp -*-
-;; Time-stamp: <2014-02-25 13:22:40 Tuesday by work>
+;; Time-stamp: <2014-03-02 17:24:40 Sunday by nilin>
 
 (defconst my-emacs-path           "~/.emacs.d/" "我的emacs相关配置文件的路径")
 (defconst my-emacs-my-lisps-path  (concat my-emacs-path "mylisps/") "我自己写的emacs lisp包的路径")
@@ -44,6 +44,11 @@
 ;; 字体配置
 (require 'font-settings)
 
+;;
+(require 'fill-column-indicator)
+(define-globalized-minor-mode
+  global-fci-mode fci-mode (lambda () (fci-mode 1)))
+(global-fci-mode t)
 
 ;; 显示行号
 (require 'linum-settings)

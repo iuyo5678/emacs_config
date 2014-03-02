@@ -2,7 +2,7 @@
 
 ;; Author: ahei <ahei0802@gmail.com>
 ;; URL: http://code.google.com/p/dea/source/browse/trunk/my-lisps/python-settings.el
-;; Time-stamp: <2014-02-24 21:16:25 Monday by nilin>
+;; Time-stamp: <2014-03-02 17:40:11 Sunday by nilin>
 ;; Time-stamp: <2013-11-29 18:53:39 Friday by zhangguhua>
 
 ;; This  file is free  software; you  can redistribute  it and/or
@@ -22,19 +22,37 @@
 
 (require 'pdb-settings)
 (require 'pydb)
-;;(require 'ipython)
-(set-variable 'py-indent-offset 4)
+
 
 (setq py-install-directory (concat my-emacs-lisps-path "python-mode.el-6.1.2/"))
 (require 'python-mode)
-(setq py-shell-name "ipython")
-(when (featurep 'python) (unload-feature 'python t))
 
+(setq-default py-shell-name "ipython")
+(setq-default py-which-bufname "IPython")
+                                        ; use the wx backend, for both mayavi and matplotlib
+(setq py-python-command-args
+      '("--gui=wx" "--pylab=wx" "-colors" "Linux"))
+(setq py-force-py-shell-name-p t)
+
+                                        ; switch to the interpreter after executing code
+(setq py-shell-switch-buffers-on-execute-p t)
+(setq py-switch-buffers-on-execute-p t)
+                                        ; don't split windows
+(setq py-split-windows-on-execute-p nil)
+                                        ; try to automagically figure out indentation
+(setq py-smart-indentation t)
+
+(setq ipython-command "/usr/bin/ipython")
+(require 'ipython)
+
+
+;;(when (featurep 'python) (unload-feature 'python t))
 (autoload 'pymacs-apply "pymacs")
 (autoload 'pymacs-call "pymacs")
 (autoload 'pymacs-eval "pymacs" nil t)
 (autoload 'pymacs-exec "pymacs" nil t)
 (autoload 'pymacs-load "pymacs" nil t)
+
 
 
 
@@ -51,6 +69,8 @@
 
 (load "python-mode")
 
+
+(setq py-load-pymacs-p t)
 
 
 

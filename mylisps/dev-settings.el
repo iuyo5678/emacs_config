@@ -1,6 +1,6 @@
 ;; -*- Emacs-Lisp -*-
 
-;; Time-stamp: <2014-01-26 15:37:30 Sunday by nilin>
+;; Time-stamp: <2014-03-02 17:00:56 Sunday by nilin>
 
 ;; This  file is free  software; you  can redistribute  it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -89,16 +89,6 @@
 ;; 用来显示当前光标在哪个函数
 (require 'which-func-settings)
 
-;; cedet 强大的开发工具, 包括代码浏览, 补全, 类图生成
-;; 用CEDET浏览和编辑C++代码 http://emacser.com/cedet.htm
-;; Emacs才是世界上最强大的IDE － cedet的安装 http://emacser.com/install-cedet.htm
-(require 'cedet-settings)
-
-;; ecb 代码浏览器
-(require 'ecb)
-(setq stack-trace-on-error nil)
-;; doxygen
-(require 'doxymacs-settings)
 
 (require 'autoconf-mode-settings)
 
@@ -162,9 +152,9 @@
 ;; 显示变量, 函数的声明
 (require 'eldoc-settings)
 
-;; 自动给你加上括号
-(electric-pair-mode 1)
-
+;; 自动括号配置
+(require 'autopair)
+(autopair-global-mode)
 ;; 方便开发c/c++的配置
 (require 'c-settings)
 
@@ -209,4 +199,17 @@
 
 ;;阅读代码的配置，cscope
 (require 'xcscope)
+
+
+;; cedet 强大的开发工具, 包括代码浏览, 补全, 类图生成
+;; 用CEDET浏览和编辑C++代码 http://emacser.com/cedet.htm
+;; Emacs才是世界上最强大的IDE － cedet的安装 http://emacser.com/install-cedet.htm
+(require 'cedet-settings)
+
+;; ecb 代码浏览器
+(require 'ecb)
+(setq stack-trace-on-error nil)
+;; doxygen
+(require 'doxymacs-settings)
+
 (provide 'dev-settings)
