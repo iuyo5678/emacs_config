@@ -3,7 +3,7 @@
 ;; Copyright (C) 2002, 2003, 2004 David Ponce
 
 ;; Author:  <zhangguhua@cq01-rdqa-dev042.cq01.baidu.com>
-;; Created: 2013-09-02 23:51:57+0800
+;; Created: 2014-03-09 11:26:36+0800
 ;; Keywords: syntax
 ;; X-RCS: $Id$
 
