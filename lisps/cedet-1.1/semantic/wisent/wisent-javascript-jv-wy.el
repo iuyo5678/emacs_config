@@ -3,7 +3,7 @@
 ;; Copyright (C) 2005-2011 Free Software Foundation, Inc.
 
 ;; Author:  <zhangguhua@cq01-rdqa-dev042.cq01.baidu.com>
-;; Created: 2014-03-09 11:26:45+0800
+;; Created: 2014-03-09 15:42:05+0800
 ;; Keywords: syntax
 ;; X-RCS: $Id$
 

@@ -7,7 +7,7 @@
 ;;;;;;  cedet-android-adb-version-check cedet-android-adb-devices
 ;;;;;;  cedet-android-adb-help cedet-android-start-ddms cedet-android-layoutopt
 ;;;;;;  cedet-android-target-list cedet-android-create-project) "cedet-android"
-;;;;;;  "cedet-android.el" (21261 24291 0 0))
+;;;;;;  "cedet-android.el" (21275 64358 0 0))
 ;;; Generated autoloads from cedet-android.el
 
 (autoload 'cedet-android-create-project "cedet-android" "\
@@ -67,7 +67,7 @@ Update the classpath for `cedet-java' to include the android compile-time librar
 ;;;***
 
 ;;;### (autoloads (cedet-update-autoloads) "cedet-autogen" "cedet-autogen.el"
-;;;;;;  (21261 24291 0 0))
+;;;;;;  (21275 64358 0 0))
 ;;; Generated autoloads from cedet-autogen.el
 
 (autoload 'cedet-update-autoloads "cedet-autogen" "\
@@ -84,7 +84,7 @@ exists.
 ;;;***
 
 ;;;### (autoloads (cedet-compat-utest) "cedet-compat" "cedet-compat.el"
-;;;;;;  (21261 24291 0 0))
+;;;;;;  (21275 64358 0 0))
 ;;; Generated autoloads from cedet-compat.el
 
 (if (or (featurep 'xemacs) (inversion-test 'emacs "22.0")) (defalias 'cedet-split-string 'cedet-split-string-1) (defalias 'cedet-split-string 'split-string))
@@ -100,7 +100,7 @@ Test compatability functions.
 
 ;;;### (autoloads (cedet-cscope-version-check cedet-cscope-expand-filename
 ;;;;;;  cedet-cscope-search cedet-cscope-command) "cedet-cscope"
-;;;;;;  "cedet-cscope.el" (21261 24291 0 0))
+;;;;;;  "cedet-cscope.el" (21275 64358 0 0))
 ;;; Generated autoloads from cedet-cscope.el
 
 (defvar cedet-cscope-command "cscope" "\
@@ -136,7 +136,7 @@ return nil.
 
 ;;;***
 
-;;;### (autoloads nil "cedet-edebug" "cedet-edebug.el" (21261 24291
+;;;### (autoloads nil "cedet-edebug" "cedet-edebug.el" (21275 64358
 ;;;;;;  0 0))
 ;;; Generated autoloads from cedet-edebug.el
 
@@ -147,7 +147,7 @@ return nil.
 ;;;***
 
 ;;;### (autoloads (cedet-files-utest) "cedet-files" "cedet-files.el"
-;;;;;;  (21261 24291 0 0))
+;;;;;;  (21275 64358 0 0))
 ;;; Generated autoloads from cedet-files.el
 
 (autoload 'cedet-files-utest "cedet-files" "\
@@ -160,7 +160,7 @@ Test out some file name conversions.
 ;;;### (autoloads (cedet-gnu-global-version-check cedet-gnu-global-root
 ;;;;;;  cedet-gnu-global-show-root cedet-gnu-global-expand-filename
 ;;;;;;  cedet-gnu-global-search cedet-global-gtags-command cedet-global-command)
-;;;;;;  "cedet-global" "cedet-global.el" (21261 24291 0 0))
+;;;;;;  "cedet-global" "cedet-global.el" (21275 64358 0 0))
 ;;; Generated autoloads from cedet-global.el
 
 (defvar cedet-global-command "global" "\
@@ -216,7 +216,7 @@ return nil.
 
 ;;;### (autoloads (cedet-graphviz-dot-version-check cedet-graphviz-neato-command
 ;;;;;;  cedet-graphviz-dot-command) "cedet-graphviz" "cedet-graphviz.el"
-;;;;;;  (21261 24291 0 0))
+;;;;;;  (21276 5054 0 0))
 ;;; Generated autoloads from cedet-graphviz.el
 
 (defvar cedet-graphviz-dot-command "dot" "\
@@ -241,7 +241,7 @@ return nil.
 
 ;;;### (autoloads (cedet-idutils-version-check cedet-idutils-expand-filename
 ;;;;;;  cedet-idutils-make-command cedet-idutils-token-command cedet-idutils-file-command)
-;;;;;;  "cedet-idutils" "cedet-idutils.el" (21261 24291 0 0))
+;;;;;;  "cedet-idutils" "cedet-idutils.el" (21275 64358 0 0))
 ;;; Generated autoloads from cedet-idutils.el
 
 (defvar cedet-idutils-file-command "fnid" "\
@@ -276,7 +276,7 @@ return nil.
 ;;;***
 
 ;;;### (autoloads (cedet-javap-dump-class cedet-java-version-check)
-;;;;;;  "cedet-java" "cedet-java.el" (21261 24291 0 0))
+;;;;;;  "cedet-java" "cedet-java.el" (21275 64358 0 0))
 ;;; Generated autoloads from cedet-java.el
 
 (autoload 'cedet-java-version-check "cedet-java" "\
@@ -296,7 +296,7 @@ Display in a javap output buffer.
 ;;;***
 
 ;;;### (autoloads (global-cedet-m3-minor-mode cedet-m3-minor-mode)
-;;;;;;  "cedet-m3" "cedet-m3.el" (21261 24291 0 0))
+;;;;;;  "cedet-m3" "cedet-m3.el" (21275 64358 0 0))
 ;;; Generated autoloads from cedet-m3.el
 
 (autoload 'cedet-m3-minor-mode "cedet-m3" "\
@@ -318,7 +318,7 @@ If ARG is nil, then toggle.
 ;;;***
 
 ;;;### (autoloads (cedet-utest-batch cedet-utest) "cedet-utests"
-;;;;;;  "cedet-utests.el" (21261 24291 0 0))
+;;;;;;  "cedet-utests.el" (21276 5068 0 0))
 ;;; Generated autoloads from cedet-utests.el
 
 (autoload 'cedet-utest "cedet-utests" "\
@@ -340,7 +340,7 @@ Run the CEDET unit test in BATCH mode.
 ;;;;;;  data-debug-insert-thing data-debug-insert-stuff-vector data-debug-insert-stuff-list
 ;;;;;;  data-debug-insert-widget-properties data-debug-insert-hash-table
 ;;;;;;  data-debug-insert-property-list) "data-debug" "data-debug.el"
-;;;;;;  (21261 24291 0 0))
+;;;;;;  (21275 64358 0 0))
 ;;; Generated autoloads from data-debug.el
 
 (autoload 'data-debug-insert-property-list "data-debug" "\
@@ -411,7 +411,7 @@ If the result is a list or vector, then use the data debugger to display it.
 
 ;;;***
 
-;;;### (autoloads (define-fame-channel) "fame" "fame.el" (21261 24291
+;;;### (autoloads (define-fame-channel) "fame" "fame.el" (21275 64358
 ;;;;;;  0 0))
 ;;; Generated autoloads from fame.el
 
@@ -435,7 +435,7 @@ messages to CHANNEL.
 
 ;;;### (autoloads (inversion-upgrade-package inversion-add-to-load-path
 ;;;;;;  inversion-find-version inversion-require-emacs inversion-require)
-;;;;;;  "inversion" "inversion.el" (21261 24291 0 0))
+;;;;;;  "inversion" "inversion.el" (21275 64358 0 0))
 ;;; Generated autoloads from inversion.el
 
 (autoload 'inversion-require "inversion" "\
@@ -487,7 +487,7 @@ Try to upgrade PACKAGE in DIRECTORY is available.
 ;;;***
 
 ;;;### (autoloads (mode-local-read-function) "mode-local" "mode-local.el"
-;;;;;;  (21261 24291 0 0))
+;;;;;;  (21275 64358 0 0))
 ;;; Generated autoloads from mode-local.el
 
 (autoload 'mode-local-read-function "mode-local" "\
@@ -499,7 +499,7 @@ PROMPT, INITIAL, HIST, and DEFAULT are the same as for `completing-read'.
 ;;;***
 
 ;;;### (autoloads (pprint-function pprint pprint-to-string) "pprint"
-;;;;;;  "pprint.el" (21261 24291 0 0))
+;;;;;;  "pprint.el" (21275 64358 0 0))
 ;;; Generated autoloads from pprint.el
 
 (autoload 'pprint-to-string "pprint" "\
@@ -531,7 +531,7 @@ See a pretty-printed representation of FUNCTION-NAME.
 ;;;### (autoloads (pulse-line-hook-function pulse-toggle-integration-advice
 ;;;;;;  pulse-momentary-highlight-region pulse-momentary-highlight-one-line
 ;;;;;;  pulse-momentary-highlight-overlay pulse-test pulse) "pulse"
-;;;;;;  "pulse.el" (21261 24291 0 0))
+;;;;;;  "pulse.el" (21276 4952 0 0))
 ;;; Generated autoloads from pulse.el
 
 (autoload 'pulse "pulse" "\
@@ -594,7 +594,7 @@ Only pulses the line if `pulse-command-advice-flag' is non-nil.
 ;;;***
 
 ;;;### (autoloads nil nil ("cedet-load.el" "cedet.el" "ezimage.el"
-;;;;;;  "working.el") (21275 57276 667394 223000))
+;;;;;;  "working.el") (21276 6971 677672 849000))
 
 ;;;***
 

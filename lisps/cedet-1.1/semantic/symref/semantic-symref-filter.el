@@ -32,8 +32,8 @@
 ;; starting at a basic filter level that doesn't use symref, up to filters
 ;; across symref results.
 
-(eval-when-compile
-  (require 'srecode-fields))
+;;(eval-when-compile
+  ;;(require 'srecode-fields))
 
 ;;; Code:
 

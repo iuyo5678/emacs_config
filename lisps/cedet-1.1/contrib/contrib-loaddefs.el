@@ -4,7 +4,7 @@
 
 
 ;;;### (autoloads (eassist-list-methods eassist-switch-h-cpp) "eassist"
-;;;;;;  "eassist.el" (21261 24291 0 0))
+;;;;;;  "eassist.el" (21275 64358 0 0))
 ;;; Generated autoloads from eassist.el
 
 (defvar eassist-header-switches '(("h" "cpp" "cc" "c") ("hpp" "cpp" "cc") ("cpp" "h" "hpp") ("c" "h") ("C" "H") ("H" "C" "CPP" "CC") ("cc" "h" "hpp")) "\
@@ -28,7 +28,7 @@ This function is recommended to be bound to some convinient hotkey.
 
 ;;;***
 
-;;;### (autoloads nil "ede-gnustep" "ede-gnustep.el" (21261 24291
+;;;### (autoloads nil "ede-gnustep" "ede-gnustep.el" (21275 64358
 ;;;;;;  0 0))
 ;;; Generated autoloads from ede-gnustep.el
 
@@ -44,7 +44,7 @@ This function is recommended to be bound to some convinient hotkey.
 
 ;;;### (autoloads (semantic-tag-folding-mode global-semantic-tag-folding-mode
 ;;;;;;  global-semantic-tag-folding-mode) "semantic-tag-folding"
-;;;;;;  "semantic-tag-folding.el" (21261 24291 0 0))
+;;;;;;  "semantic-tag-folding.el" (21275 64358 0 0))
 ;;; Generated autoloads from semantic-tag-folding.el
 
 (defvar global-semantic-tag-folding-mode nil "\
@@ -75,7 +75,7 @@ minor mode is enabled.
 ;;;***
 
 ;;;### (autoloads (wisent-csharp-default-setup) "wisent-csharp" "wisent-csharp.el"
-;;;;;;  (21261 24291 0 0))
+;;;;;;  (21275 64358 0 0))
 ;;; Generated autoloads from wisent-csharp.el
 
 (autoload 'wisent-csharp-default-setup "wisent-csharp" "\
@@ -88,7 +88,7 @@ minor mode is enabled.
 ;;;***
 
 ;;;### (autoloads (wisent-php-default-setup) "wisent-php" "wisent-php.el"
-;;;;;;  (21261 24291 0 0))
+;;;;;;  (21275 64358 0 0))
 ;;; Generated autoloads from wisent-php.el
 
 (autoload 'wisent-php-default-setup "wisent-php" "\
@@ -102,9 +102,8 @@ Use the alternate LALR(1) parser.
 ;;;***
 
 ;;;### (autoloads nil nil ("cedet-contrib-load.el" "cedet-contrib.el"
-;;;;;;  "semantic-ectag-scala.el" "wisent-csharp-wy.el" "wisent-php-wy.el"
-;;;;;;  "wisent-ruby-wy.el" "wisent-ruby.el") (21275 57295 692538
-;;;;;;  553000))
+;;;;;;  "semantic-ectag-scala.el" "wisent-ruby.el") (21276 7000 472683
+;;;;;;  128000))
 
 ;;;***
 

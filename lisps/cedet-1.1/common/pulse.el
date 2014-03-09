@@ -211,11 +211,11 @@ When optional NO-ERROR Don't throw an error if we can't run tests."
 	(error (concat "Pulse test only works on versions of Emacs"
 		       " that support pulsing")))
     ;; Run the tests
-    (when (cedet-called-interactively-p)
+    (when (cedet-called-interactively-p `interactive)
       (message "<Press a key> Pulse one line.")
       (read-char))
     (pulse-momentary-highlight-one-line (point))
-    (when (cedet-called-interactively-p)
+    (when (cedet-called-interactively-p `interactive)
       (message "<Press a key> Pulse a region.")
       (read-char))
     (pulse-momentary-highlight-region (point)
@@ -224,11 +224,11 @@ When optional NO-ERROR Don't throw an error if we can't run tests."
 					    (forward-char 30)
 					  (error nil))
 					(point)))
-    (when (cedet-called-interactively-p)
+    (when (cedet-called-interactively-p `interactive)
       (message "<Press a key> Pulse line a specific color.")
       (read-char))
     (pulse-momentary-highlight-one-line (point) 'modeline)
-    (when (cedet-called-interactively-p)
+    (when (cedet-called-interactively-p `interactive)
       (message "<Press a key> Pulse a pre-existing overlay.")
       (read-char))
     (let* ((start (point-at-bol))
@@ -244,7 +244,7 @@ When optional NO-ERROR Don't throw an error if we can't run tests."
 	  (pulse-overlay-delete o)
 	(error "Non-temporary overlay was deleted!"))
       )
-    (when (cedet-called-interactively-p)
+    (when (cedet-called-interactively-p `interactive)
       (message "Done!"))))
 
 
@@ -364,33 +364,33 @@ the following hook:
 
 (defadvice goto-line (after pulse-advice activate)
   "Cause the line that is `goto'd to pulse when the cursor gets there."
-  (when (and pulse-command-advice-flag (cedet-called-interactively-p))
+  (when (and pulse-command-advice-flag (cedet-called-interactively-p `interactive))
     (pulse-momentary-highlight-one-line (point))))
 
 (defadvice exchange-point-and-mark (after pulse-advice activate)
   "Cause the line that is `goto'd to pulse when the cursor gets there."
-  (when (and pulse-command-advice-flag (cedet-called-interactively-p)
+  (when (and pulse-command-advice-flag (cedet-called-interactively-p `interactive)
 	     (> (abs (- (point) (mark))) 400))
     (pulse-momentary-highlight-one-line (point))))
 
 (defadvice find-tag (after pulse-advice activate)
   "After going to a tag, pulse the line the cursor lands on."
-  (when (and pulse-command-advice-flag (cedet-called-interactively-p))
+  (when (and pulse-command-advice-flag (cedet-called-interactively-p `interactive))
     (pulse-momentary-highlight-one-line (point))))
 
 (defadvice tags-search (after pulse-advice activate)
   "After going to a hit, pulse the line the cursor lands on."
-  (when (and pulse-command-advice-flag (cedet-called-interactively-p))
+  (when (and pulse-command-advice-flag (cedet-called-interactively-p `interactive))
     (pulse-momentary-highlight-one-line (point))))
 
 (defadvice tags-loop-continue (after pulse-advice activate)
   "After going to a hit, pulse the line the cursor lands on."
-  (when (and pulse-command-advice-flag (cedet-called-interactively-p))
+  (when (and pulse-command-advice-flag (cedet-called-interactively-p `interactive))
     (pulse-momentary-highlight-one-line (point))))
 
 (defadvice pop-tag-mark (after pulse-advice activate)
   "After going to a hit, pulse the line the cursor lands on."
-  (when (and pulse-command-advice-flag (cedet-called-interactively-p))
+  (when (and pulse-command-advice-flag (cedet-called-interactively-p `interactive))
     (pulse-momentary-highlight-one-line (point))))
 
 (defadvice imenu-default-goto-function (after pulse-advice activate)

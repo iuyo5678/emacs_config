@@ -3,7 +3,7 @@
 ;;; Copyright (C) 2007 Daniel Debertin (debertin@gmail.com)
 
 ;; Author:  <zhangguhua@cq01-rdqa-dev042.cq01.baidu.com>
-;; Created: 2014-03-09 11:27:00+0800
+;; Created: 2014-03-09 15:42:17+0800
 ;; Keywords: syntax
 ;; X-RCS: $Id$
 

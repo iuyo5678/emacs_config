@@ -3,7 +3,7 @@
 ;; Copyright (C) 2005, 2007, 2008, 2009, 2010 Eric M. Ludlam
 
 ;; Author:  <zhangguhua@cq01-rdqa-dev042.cq01.baidu.com>
-;; Created: 2014-03-09 11:26:52+0800
+;; Created: 2014-03-09 15:42:10+0800
 ;; Keywords: syntax
 ;; X-RCS: $Id$
 
