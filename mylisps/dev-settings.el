@@ -1,6 +1,6 @@
 ;; -*- Emacs-Lisp -*-
 
-;; Time-stamp: <2014-03-09 15:42:46 Sunday by zhangguhua>
+;; Time-stamp: <2014-03-09 23:33:37 Sunday by zhangguhua>
 
 ;; This  file is free  software; you  can redistribute  it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -50,6 +50,10 @@
 (eal-define-keys
  `(c-mode-base-map awk-mode-map)
  `(("{" skeleton-c-mode-left-brace)))
+
+;;load the yasnippet
+(require 'yasnippet)
+(yas-global-mode 1)
 
 ;; 动态检查语法错误
 (require 'flymake-settings)
