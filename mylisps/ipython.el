@@ -262,8 +262,8 @@ buffer already exists."
 (defadvice py-execute-region (around py-execute-buffer-ensure-process)
   "HACK: if `py-shell' is not active or ASYNC is explicitly desired, fall back
   to python instead of ipython."
-  (let ((py-which-shell (if (and (comint-check-proc "*Python*") (not async))
-			    py-python-command
+  (let ((py-which-shell (if (and (comint-check-proc "*Python*") (not `async))
+                            py-python-command
 			  ipython-backup-of-py-python-command)))
     ad-do-it))
 (ad-activate 'py-execute-region)
