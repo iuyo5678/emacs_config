@@ -1,5 +1,5 @@
 ;; -*- Emacs-Lisp -*-
-;; Time-stamp: <2014-03-09 22:31:39 Sunday by zhangguhua>
+;; Time-stamp: <2014-04-12 12:29:29 Saturday by nilin>
 
 (defconst my-emacs-path           "~/.emacs.d/" "我的emacs相关配置文件的路径")
 (defconst my-emacs-my-lisps-path  (concat my-emacs-path "mylisps/") "我自己写的emacs lisp包的路径")
@@ -234,8 +234,6 @@
     (message "Current buffer does not have an associated file.")))
 
 
-(cua-mode t)
-(cua-mode -1)
 
 
 (require 'session)

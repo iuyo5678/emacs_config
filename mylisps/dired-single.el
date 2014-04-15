@@ -290,7 +290,7 @@ in another window."
 		(let ((eol (point)))
 		  (beginning-of-line)
 		  ;; assume directory if arg passed in
-		  (if (or default-dirname (re-search-forward "^  d" eol t))
+		  (if (or default-dirname (file-directory-p name))
 			  ;; save current buffer's name
 			  (let ((current-buffer-name (buffer-name)))
 				;; go ahead and read in the directory

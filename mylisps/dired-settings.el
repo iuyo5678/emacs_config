@@ -1,10 +1,11 @@
 ;; -*- Emacs-Lisp -*-
 
-;; Time-stamp: <2013-11-29 11:53:31 Friday by zhangguhua>
+;; Time-stamp: <2014-04-12 00:56:04 Saturday by nilin>
 
 (require 'dired-single)
-(add-hook 'dired-load-hook
+(add-hook 'dired-mode-hook
           (lambda ()
+            (require 'dired-sort-menu)
             (define-key dired-mode-map (kbd "RET") 'dired-single-buffer)
             (define-key dired-mode-map (kbd "<mouse-1>") 'dired-single-buffer-mouse)
             (define-key dired-mode-map (kbd "^")
@@ -12,11 +13,22 @@
                 (interactive)
                 (dired-single-buffer "..")))
             (setq dired-single-use-magic-buffer t)
-            (setq dired--single-magic-buffer-name "*dired*")))
+            (setq dired-single-magic-buffer-name "*dired*")))
 (global-set-key (kbd "C-x d")
                 'dired-single-magic-buffer)
 
+(global-set-key (kbd "C-x d")
+                'dired-single-magic-buffer)
+(global-set-key (kbd "C-x 4 d")
+                (lambda (directory)
+                  (interactive "D")
+                  (let ((win-list (window-list)))
+                    (when (null (cdr win-list)) ; only one window
+                      (split-window-vertically))
+                    (other-window 1)
+                    (dired-single-magic-buffer directory))))
 (require 'dired-view)
 (define-key dired-mode-map (kbd ";") 'dired-view-minor-mode-toggle)
+
 
 (provide 'dired-settings)
