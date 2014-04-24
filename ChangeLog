@@ -1,0 +1,5 @@
+Time-stamp: <2014-04-24 20:34:47 Thursday by nilin>
+	2014/04/24 20:32:14
+	修正了剪切时cua判断引起的错误
+	修正了dired-sort-menu.el初次使用可能造成的ls-ignore-case为定义的错误
+	zgh-misc.el添加了两个函数insert-current-time和insert-current-data两个函数，还没有绑定快捷键

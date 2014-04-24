@@ -4,7 +4,7 @@
 
 ;; Author: Francis J. Wright <F.J.Wright@maths.qmw.ac.uk>
 ;; Maintainer: Francis J. Wright <F.J.Wright@maths.qmw.ac.uk>
-;; Time-stamp: <26 July 2001>
+;; Time-stamp: <2014-04-24 20:09:40 Thursday by nilin>
 ;; Version: 2001.07.26
 ;; Package-Requires: ()
 ;; URL: http://centaur.maths.qmw.ac.uk/Emacs/
@@ -111,9 +111,13 @@
 (require 'easymenu)
 ;; Silence compiler:
 (eval-when-compile
-  (defvar ls-lisp-ignore-case)		; not in current standard version
-  (defvar ls-lisp-dirs-first)		; not in current standard version
-  (require 'ange-ftp))
+;;  (defvar ls-lisp-ignore-case)		; not in current standard version
+;;  (defvar ls-lisp-dirs-first)		; not in current standard version
+ (require 'ange-ftp))
+(make-variable-buffer-local
+ (defvar ls-lisp-ignore-case))
+(make-variable-buffer-local
+ (defvar ls-lisp-dirs-first))
 
 (defun dired-sort-menu-remote-p ()
   "Return the host name for a remote ange-ftp directory or nil if local."

@@ -1,6 +1,6 @@
 ;; -*- Emacs-Lisp -*-
 
-;; Time-stamp: <2010-12-03 11:22:54 Friday by taoshanwen>
+;; Time-stamp: <2014-04-24 19:40:49 Thursday by nilin>
 
 (require 'mark-settings)
 

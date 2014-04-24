@@ -3,7 +3,7 @@
 ;; Author: ahei <ahei0802@gmail.com>
 ;; Keywords: 
 ;; URL: http://code.google.com/p/dea/source/browse/trunk/my-lisps/edit-misc.el
-;; Time-stamp: <2014-02-11 16:23:37 Tuesday by zhangguhua>
+;; Time-stamp: <2014-04-24 19:45:35 Thursday by nilin>
 
 ;; This  file is free  software; you  can redistribute  it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -42,7 +42,7 @@
   (if (rm-mark-active)
       (call-interactively 'rm-kill-region)
     (if mark-active
-        (if cua--rectangle
+        (if cua-mode
             (progn
               (cua-cut-rectangle t)
               (cua-cancel))

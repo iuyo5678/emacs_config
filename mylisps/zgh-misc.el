@@ -1,7 +1,7 @@
-;;; ahei-misc.el --- Some basic utility function of ahei
+;;; zgh-misc.el --- Some basic utility function of ahei
 ;; -*- Emacs-Lisp -*-
 
-;; Time-stamp: <2013-09-13 13:35:20 Friday by zhangguhua>
+;; Time-stamp: <2014-04-24 20:30:01 Thursday by nilin>
 
 ;; This  file is free  software; you  can redistribute  it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -94,6 +94,23 @@ See also `with-temp-buffer'."
   "STR1 equal ignore case to STR2 or not."
   (string= (downcase str1) (downcase str2)))
 
-(provide 'ahei-misc)
+;;;###autoload
+(defun insert-current-date ()
+  "Insert the current date"
+  (interactive "*")
+  ;;(insert (format-time-string "%Y/%m/%d %H:%M:%S" (current-time))))
+  (insert (format-time-string "%Y/%m/%d" (current-time))))
+(global-set-key "\C-xd" 'insert-current-date)
 
-;;; ahei-misc.el ends here
+;;;###autoload
+(defun insert-current-time ()
+  "Insert the current time"
+  (interactive "*")
+  (insert (format-time-string "%Y/%m/%d %H:%M:%S" (current-time))))
+  ;;(insert (format-time-string "%H:%M:%S" (current-time))))
+(global-set-key "\C-xt" 'insert-current-time) 
+
+
+(provide 'zgh-misc)
+
+;;; zgh-misc.el ends here

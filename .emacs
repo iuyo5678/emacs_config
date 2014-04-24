@@ -1,5 +1,5 @@
 ;; -*- Emacs-Lisp -*-
-;; Time-stamp: <2014-04-12 12:29:29 Saturday by nilin>
+;; Time-stamp: <2014-04-24 20:18:13 Thursday by nilin>
 
 (defconst my-emacs-path           "~/.emacs.d/" "我的emacs相关配置文件的路径")
 (defconst my-emacs-my-lisps-path  (concat my-emacs-path "mylisps/") "我自己写的emacs lisp包的路径")
@@ -22,7 +22,7 @@
 (define-key ac-mode-map (kbd "M-/") 'auto-complete)
 
 ;; 一些基本的小函数
-(require 'ahei-misc)
+(require 'zgh-misc)
 
 ;; 利用`eval-after-load'加快启动速度的库
 ;; 用eval-after-load避免不必要的elisp包的加载
