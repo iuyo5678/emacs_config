@@ -2,7 +2,7 @@
 
 ;; Author: ahei <ahei0802@gmail.com>
 ;; URL: http://code.google.com/p/dea/source/browse/trunk/my-lisps/python-settings.el
-;; Time-stamp: <2014-03-02 18:45:05 Sunday by nilin>
+;; Time-stamp: <2014-05-23 22:40:30 Friday by zhangguhua>
 ;; Time-stamp: <2013-11-29 18:53:39 Friday by zhangguhua>
 
 ;; This  file is free  software; you  can redistribute  it and/or
@@ -29,17 +29,17 @@
 
 (setq-default py-shell-name "ipython")
 (setq-default py-which-bufname "IPython")
-                                        ; use the wx backend, for both mayavi and matplotlib
+;; use the wx backend, for both mayavi and matplotlib
 (setq py-python-command-args
       '("--gui=wx" "--pylab=wx" "-colors" "Linux"))
 (setq py-force-py-shell-name-p t)
 
-                                        ; switch to the interpreter after executing code
+;; switch to the interpreter after executing code
 (setq py-shell-switch-buffers-on-execute-p t)
 (setq py-switch-buffers-on-execute-p t)
-                                        ; don't split windows
+;; don't split windows
 (setq py-split-windows-on-execute-p nil)
-                                        ; try to automagically figure out indentation
+;; try to automagically figure out indentation
 (setq py-smart-indentation t)
 
 (setq ipython-command "/usr/bin/ipython")

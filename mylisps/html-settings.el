@@ -1,6 +1,7 @@
 ;; -*- Emacs-Lisp -*-
 
-;; Time-stamp: <2014-02-24 21:21:18 Monday by nilin>
+;; Time-stamp: <2014-05-23 22:49:22 Friday by zhangguhua>
+
 (require 'web-mode)
 
 (add-to-list 'auto-mode-alist '("\\.phtml\\'" . web-mode))

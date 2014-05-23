@@ -1,6 +1,6 @@
 ;; -*- Emacs-Lisp -*-
 
-;; Time-stamp: <2014-03-24 19:56:47 Monday by nilin>
+;; Time-stamp: <2014-04-24 18:43:48 Thursday by zhangguhua>
 
 ;; This  file is free  software; you  can redistribute  it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -21,12 +21,12 @@
 (unless is-after-emacs-23
   (require 'mule-gbk "my-mule-gbk"))
 
-;; è®¾ç½®é»˜è®¤ç¼–ç 
+;; ±àÂëÉèÖÃ
 (when (not (and is-after-emacs-23 window-system))
   (set-language-environment "UTF-8"))
 (set-terminal-coding-system 'utf-8)
 (set-keyboard-coding-system 'utf-8)
-(prefer-coding-system 'utf-8)
+(prefer-coding-system 'gbk)
 (setq default-buffer-file-coding-system 'utf-8)
 
 (defun revert-buffer-with-coding-system-no-confirm (coding-system)

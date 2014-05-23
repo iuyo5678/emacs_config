@@ -1,6 +1,6 @@
 ;; -*- Emacs-Lisp -*-
 
-;; Time-stamp: <2014-03-09 23:33:37 Sunday by zhangguhua>
+;; Time-stamp: <2014-05-23 22:17:39 Friday by zhangguhua>
 
 ;; This  file is free  software; you  can redistribute  it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -96,10 +96,6 @@
 
 (require 'autoconf-mode-settings)
 
-;;添加php mode
-(require 'php-mode)
-(add-hook 'php-mode-user-hook 'turn-on-font-lock)
-
 ;; `gdb'
 (require 'gud-settings)
 
@@ -184,10 +180,6 @@
                  hide-region-settings
                  ;; hide lines
                  hide-lines
-                 ;; 把imenu以tree的形式显示出来
-                 ;;imenu-tree-settings
-                 ;; 高亮引用的函数和变量
-                 zjl-hl-settings
                  ;; 把speedbar放到当前frame里面
                  sr-speedbar-settings
                  ;;codepilot-settings
