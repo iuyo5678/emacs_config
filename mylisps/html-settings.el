@@ -1,11 +1,12 @@
 ;; -*- Emacs-Lisp -*-
 
-;; Time-stamp: <2014-05-23 22:49:22 Friday by zhangguhua>
+;; Time-stamp: <2014-05-25 13:04:43 Sunday by zhangguhua>
 
 (require 'web-mode)
 
 (add-to-list 'auto-mode-alist '("\\.phtml\\'" . web-mode))
-(add-to-list 'auto-mode-alist '("\\.tpl\\.php\\'" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.php\\'" . web-mode))
+;;(add-to-list 'magic-mode-alist '("\\.tpl\\.php\\'" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.jsp\\'" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.as[cp]x\\'" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.erb\\'" . web-mode))
