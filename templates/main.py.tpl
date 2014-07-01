@@ -1,12 +1,14 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-# Time-stamp: <2013-09-07 15:47:58 Saturday by zhangguhua>
-
+# Time-stamp: <2014-07-01 11:24:33 Tuesday by zhangguhua>
+############################################################
 # @version 1.0
 # @author (>>>USER_NAME<<<)
 # @email (>>>AUTHOR<<<)
-
+# @usage :
+# @description :
+###########################################################
 def main():
     (>>>POINT<<<)
 
