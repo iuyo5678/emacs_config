@@ -1,22 +1,22 @@
 ;; -*- Emacs-Lisp -*-
 
-;; Time-stamp: <2014-02-11 16:28:19 Tuesday by zhangguhua>
+;; Time-stamp: <2014-08-25 17:25:52 Monday by zhangguhua>
 
 (require 'compile-settings)
 (require 'edit-misc)
 
-;; 鍦ㄨ棣朇-k鏃讹紝鍚屾椂鍒犻櫎璇ヨ
+;; ;; 在行首C-k时，同时删除该行
 (setq-default kill-whole-line t)
 
-;; 缂╄繘璁剧疆
-;; 涓嶇敤TAB瀛楃鏉ndent
+;; 缩进设置
+;; 不用TAB字符来indent
 (setq-default indent-tabs-mode nil)
 (setq default-tab-width 4)
 (setq tab-stop-list nil)
 (loop for x downfrom 40 to 1 do
       (setq tab-stop-list (cons (* x tab-width) tab-stop-list)))
 
-;; 鑷姩鐨勫湪鏂囦欢鏈鍔犱竴鏂拌
+;;  自动的在文件末增加一新行
 (setq require-final-newline t)
 
 (define-key minibuffer-local-completion-map (kbd "C-k") 'kill-line)
@@ -76,7 +76,7 @@
    ("C-x M-w" insert-cur-line)
    ("C-x M-W" insert-cur-sexp)
    ("C-M-w" copy-sentence)
-   ;; 鍒犻櫎鏁磋
+   ;; 删除整行
    ("M-K" kill-line)
    ("C-k" smart-kill)
    ("C-\\" delete-indentation)
