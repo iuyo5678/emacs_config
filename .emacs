@@ -1,5 +1,5 @@
 ;; -*- Emacs-Lisp -*-
-;; Time-stamp: <2014-04-24 20:18:13 Thursday by nilin>
+;; Time-stamp: <2014-09-13 00:05:42 Saturday by nilin>
 
 (defconst my-emacs-path           "~/.emacs.d/" "我的emacs相关配置文件的路径")
 (defconst my-emacs-my-lisps-path  (concat my-emacs-path "mylisps/") "我自己写的emacs lisp包的路径")
@@ -56,15 +56,16 @@
 ;; (unless window-system
 ;;   (menu-bar-mode -1))
 (menu-bar-mode -1)
+;;(tool-bar-mode -1)
 ;; GUI下显示toolbar的话select-buffer会出问题
 (if (fboundp 'tool-bar-mode)
-   (tool-bar-mode -1))
+  (tool-bar-mode -1))
 ;;color theme
 (require 'ahei-face)
 (require 'color-theme-ahei)
 (require 'face-settings)
 (require 'mode-line-settings)
-
+(require 'color-theme-solarized)
 
 (defun visit-.emacs ()
   "访问.emacs文件"

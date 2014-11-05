@@ -2,7 +2,7 @@
 
 ;; Author: ahei <ahei0802@gmail.com>
 ;; URL: http://code.google.com/p/dea/source/browse/trunk/my-lisps/python-settings.el
-;; Time-stamp: <2014-05-23 22:40:30 Friday by zhangguhua>
+;; Time-stamp: <2014-11-06 00:12:19 Thursday by nilin>
 ;; Time-stamp: <2013-11-29 18:53:39 Friday by zhangguhua>
 
 ;; This  file is free  software; you  can redistribute  it and/or
@@ -42,7 +42,7 @@
 ;; try to automagically figure out indentation
 (setq py-smart-indentation t)
 
-(setq ipython-command "/usr/bin/ipython")
+(setq ipython-command "/usr/local/bin/ipython")
 (require 'ipython)
 
 
