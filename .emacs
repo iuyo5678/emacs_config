@@ -1,11 +1,9 @@
 ;; -*- Emacs-Lisp -*-
-;; Time-stamp: <2014-09-13 00:05:42 Saturday by nilin>
-
+;; Time-stamp: <2014-11-06 02:02:31 Thursday by nilin>
 (defconst my-emacs-path           "~/.emacs.d/" "我的emacs相关配置文件的路径")
 (defconst my-emacs-my-lisps-path  (concat my-emacs-path "mylisps/") "我自己写的emacs lisp包的路径")
 (defconst my-emacs-lisps-path     (concat my-emacs-path "lisps/") "我下载的emacs lisp包的路径")
 (defconst my-emacs-templates-path (concat my-emacs-path "templates/") "Path for templates")
-
 
 
 ;; 把`my-emacs-lisps-path'的所有子目录都加到`load-path'里面
@@ -20,6 +18,12 @@
 
 
 (define-key ac-mode-map (kbd "M-/") 'auto-complete)
+
+(require 'exec-path-from-shell) 
+(when (memq window-system '(mac ns))
+  (exec-path-from-shell-initialize)
+  (setq default-directory "~"))
+
 
 ;; 一些基本的小函数
 (require 'zgh-misc)
