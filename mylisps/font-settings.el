@@ -1,6 +1,6 @@
 ;; -*- Emacs-Lisp -*-
 
-;; Time-stamp: <2010-10-11 20:00:55 Monday by taoshanwen>
+;; Time-stamp: <2014-09-12 20:38:35 Friday by nilin>
 
 (when (and window-system is-after-emacs-23)
   (require 'my-fontset-win)
@@ -9,6 +9,6 @@
       (huangq-fontset-consolas 17)
     ;; (huangq-fontset-dejavu 17)))
     ;; (huangq-fontset-fixedsys 17)
-    (set-default-font "Monospace 11")))
+    (set-default-font "Monospace 18")))
 
 (provide 'font-settings)
