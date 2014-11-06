@@ -2,7 +2,7 @@
 
 ;; Author: ahei <ahei0802@gmail.com>
 ;; URL: http://code.google.com/p/dea/source/browse/trunk/my-lisps/python-settings.el
-;; Time-stamp: <2014-11-06 01:38:28 Thursday by nilin>
+;; Time-stamp: <2014-11-06 17:08:01 Thursday by work>
 ;; Time-stamp: <2013-11-29 18:53:39 Friday by zhangguhua>
 
 ;; This  file is free  software; you  can redistribute  it and/or
@@ -24,12 +24,12 @@
 ;;(require 'pydb)
 ;;(setq pydb-many-windows t)
 
-(setq ipython-command "/usr/local/bin/ipython")
-(require 'ipython)
-
 
 (setq py-install-directory (concat my-emacs-lisps-path "python-mode.el-6.1.2/"))
 (require 'python-mode)
+
+(require 'ipython)
+
 
 (setq-default py-shell-name "ipython")
 ;;(setq-default py-which-bufname "IPython")
