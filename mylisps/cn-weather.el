@@ -2582,7 +2582,7 @@
     ("兴城" . "101071404")))
 
 (defconst cn-weather-forecast-url
-  "http://m.weather.com.cn/data/%s.html"
+  "http://www.weather.com.cn/data/cityinfo/%s.html"
   "The base url to retrieve the weather forecast info.")
 
 (defconst cn-weather-realtime-url
@@ -2741,9 +2741,9 @@ error page."
 (defun cn-weather-parse-today-weather-str (str)
   "Parse today's weather info.
 STR is a string containing the weather info."
-  (cn-weather-with-values str (weather1 temp1 wind1)
+  (cn-weather-with-values str (city cityid temp1 temp2 weather)
     (setq cn-weather-today-info
-	  (format "%s, %s, %s" weather1 temp1 wind1))))
+	  (format "最低温度%s度, 最高温度%s度, 天气%s" temp1 temp2 weather))))
 
 (defun cn-weather-parse-future-weather-str (str)
   "Parse the future two days' weather info.
@@ -2759,9 +2759,9 @@ STR is a string containing the weather info."
 (defun cn-weather-parse-realtime-weather-str (str)
   "Parse the realtime weather info.
 STR is a string containing the weather info."
-  (cn-weather-with-values str (city temp WD WS SD)
+  (cn-weather-with-values str (city cityid temp1 WD WS SD)
     (setq cn-weather-realtime-info
-	  (format "%s℃ %s%s 湿度%s" temp WD WS SD))
+          (format "当前温度%s度 %s%s 湿度%s" temp1 WD WS SD))
     (when display-cn-weather-mode
       (setq cn-weather-mode-line-string
 	    (propertize (format "[%s]" cn-weather-realtime-info)
