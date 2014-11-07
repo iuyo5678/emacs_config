@@ -1,4 +1,4 @@
-Time-stamp: <2014-02-11 16:33:50 Tuesday by zhangguhua>
+Time-stamp: <2014-11-08 00:35:39 Saturday by nilin>
 
 emacs_config
 ============
@@ -18,6 +18,9 @@ INSTALL
   open the .emacs file in your home dir  and input "(load-file "~/.emacs.d/.emacs")"
 3: open emacs and enjoy it! :)
 
-
+FIX_LOG
+============
+2014-11-08
+修正了cn_weather插件的错误，原始插件因为中国天气网站改版，解析会出错，已经将查询接口进行改变，由于预报天气需要申请，因此只保留了两个天气函数，一个是weather 出现当前的天气，另外一个是weather-now 查询当前的实时天气。另外原先cn-weather的功能并没有进行大的修改。
 
 1.0版  修正了原来使用autopair在python下会卡死的问题，目前使用electric-pair-mode来自动生成括号

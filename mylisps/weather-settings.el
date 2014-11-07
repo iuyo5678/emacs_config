@@ -1,10 +1,10 @@
 ;; -*- Emacs-Lisp -*-
 
-;; Time-stamp: <2010-04-10 22:37:19 Saturday by ahei>
+;; Time-stamp: <2014-11-08 00:28:11 Saturday by nilin>
 
 (require 'cn-weather)
 
 (defalias 'weather 'cn-weather-today)
-(defalias 'weather-tomorrow 'cn-weather-forecast)
+(defalias 'weather-now 'cn-weather-now)
 
 (provide 'weather-settings)
