@@ -1,6 +1,6 @@
 ;; -*- Emacs-Lisp -*-
 
-;; Time-stamp: <2014-05-23 22:17:39 Friday by zhangguhua>
+;; Time-stamp: <2015-01-15 12:08:32 Thursday by work>
 
 ;; This  file is free  software; you  can redistribute  it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -114,6 +114,7 @@
 ;;
 (require 'json)
 (require 'json-mode)
+(require 'json-reformat)
 (setq my-shebang-patterns
       (list "^#!\\s-*/usr/.*/perl\\(\\( \\)\\|\\( .+ \\)\\)-w *.*"
             "^#!\\s-*/usr/.*/sh"
