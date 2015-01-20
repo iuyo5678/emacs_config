@@ -2735,7 +2735,7 @@ error page."
 STR is a string containing the weather info."
   (cn-weather-with-values str (city cityid temp1 temp2 weather)
     (setq cn-weather-today-info
-	  (format "最低温度%s度, 最高温度%s度, 天气%s" temp1 temp2 weather))))
+	  (format "最高温度%s度, 最低温度%s度, 天气%s" temp1 temp2 weather))))
 
 
 (defun cn-weather-parse-realtime-weather-str (str)

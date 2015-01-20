@@ -1,4 +1,4 @@
-Time-stamp: <2014-11-08 00:38:03 Saturday by nilin>
+Time-stamp: <2015-01-20 19:58:14 Tuesday by nilin>
 
 emacs_config
 ============
@@ -20,8 +20,13 @@ INSTALL
 
 FIX_LOG
 ============
+2015-01-20
+修正了一个cn-weather的一个小bug，将最高气温和最低气温弄反了
+添加了markdown.el在emacs里面可以写wiki文档了，具体使用可以参见[这里](http://wowubuntu.com/markdown/)
+***
 2014-11-08
 修正了cn_weather插件的错误，原始插件因为中国天气网站改版，解析会出错，已经将查询接口进行改变，由于预报天气需要申请，因此只保留了两个天气函数，一个是weather 出现当前的天气，另外一个是weather-now 查询当前的实时天气。另外原先cn-weather的功能并没有进行大的修改。
 目前还遗留bug初次查询会返回nil
-
+***
+2014-01-12
 1.0版  修正了原来使用autopair在python下会卡死的问题，目前使用electric-pair-mode来自动生成括号
