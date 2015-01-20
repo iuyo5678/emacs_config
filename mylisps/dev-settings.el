@@ -1,6 +1,6 @@
 ;; -*- Emacs-Lisp -*-
 
-;; Time-stamp: <2015-01-20 17:56:48 Tuesday by nilin>
+;; Time-stamp: <2015-01-21 00:36:17 Wednesday by nilin>
 
 ;; This  file is free  software; you  can redistribute  it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -212,7 +212,5 @@
 ;; ecb 代码浏览器
 (require 'ecb)
 (setq stack-trace-on-error nil)
-;; doxygen
-(require 'doxymacs-settings)
 
 (provide 'dev-settings)
