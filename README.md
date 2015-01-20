@@ -1,11 +1,9 @@
-Time-stamp: <2015-01-20 19:58:14 Tuesday by nilin>
-
 emacs_config
 ============
 
 我的emacs配置，适合程序开发人员，c，c++，python，php等，基于DEA改进而来，我的emacs版本是24.3.1
 
-dea的介绍主页在  http://emacser.com/dea.htm  感谢dea的作者配置文件中的大部分文件都是从dea的配置文件中copy过来，有些进行了一些
+dea的介绍主页在[这里](http://emacser.com/dea.htm)  感谢dea的作者配置文件中的大部分文件都是从dea的配置文件中copy过来，有些进行了一些
 修改，目的是提供一个简单可用的配置文件。
 
 配置在不定期修改，随着自己的使用发现不合适的地方。
@@ -20,6 +18,10 @@ INSTALL
 
 FIX_LOG
 ============
+2015-01-20
+* 精兵简政，开始删除一些无用的emacs的配置文件，提高性能，现在自己配置的emacs性能有点扛不住了，今晚删除掉了现在还没有用到的doxygen和doxymacs，后续有需要再添加。
+* 另外将python-mode升级至6.20
+***
 2015-01-20
 修正了一个cn-weather的一个小bug，将最高气温和最低气温弄反了
 添加了markdown.el在emacs里面可以写wiki文档了，具体使用可以参见[这里](http://wowubuntu.com/markdown/)

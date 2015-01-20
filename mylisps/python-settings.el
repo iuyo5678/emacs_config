@@ -2,7 +2,7 @@
 
 ;; Author: ahei <ahei0802@gmail.com>
 ;; URL: http://code.google.com/p/dea/source/browse/trunk/my-lisps/python-settings.el
-;; Time-stamp: <2014-11-06 17:08:01 Thursday by work>
+;; Time-stamp: <2015-01-21 01:10:18 Wednesday by nilin>
 ;; Time-stamp: <2013-11-29 18:53:39 Friday by zhangguhua>
 
 ;; This  file is free  software; you  can redistribute  it and/or
@@ -24,39 +24,16 @@
 ;;(require 'pydb)
 ;;(setq pydb-many-windows t)
 
+(when (featurep 'python) (unload-feature 'python t))
 
-(setq py-install-directory (concat my-emacs-lisps-path "python-mode.el-6.1.2/"))
+(setq py-install-directory (concat my-emacs-lisps-path "python-mode/"))
 (require 'python-mode)
-
 (require 'ipython)
 
 
 (setq-default py-shell-name "ipython")
-;;(setq-default py-which-bufname "IPython")
-;; use the wx backend, for both mayavi and matplotlib
 (setq py-python-command-args
       '("--gui=wx" "--pylab=wx" "--colors" "Linux"))
-;;(setq py-force-py-shell-name-p t)
-
-;; switch to the interpreter after executing code
-;;(setq py-shell-switch-buffers-on-execute-p t)
-;;(setq py-switch-buffers-on-execute-p t)
-;; don't split windows
-;; (setq py-split-windows-on-execute-p nil)
-;; try to automagically figure out indentation
-;; (setq py-smart-indentation t)
-
-
-
-;;(when (featurep 'python) (unload-feature 'python t))
-;; (autoload 'pymacs-apply "pymacs")
-;; (autoload 'pymacs-call "pymacs")
-;; (autoload 'pymacs-eval "pymacs" nil t)
-;; (autoload 'pymacs-exec "pymacs" nil t)
-;; (autoload 'pymacs-load "pymacs" nil t)
-
-
-
 
 (when (executable-find "pyflakes")
   (defun flymake-pyflakes-init ()
@@ -68,13 +45,6 @@
       (list "pyflakes" (list local-file))))
   (add-to-list 'flymake-allowed-file-name-masks
                '("\\.py\\'" flymake-pyflakes-init)))
-
-;;(load "python-mode")
-
-
-;;(setq py-load-pymacs-p t)
-
-
 
 
 (provide 'python-settings)
