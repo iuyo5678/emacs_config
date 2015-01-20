@@ -1,5 +1,5 @@
 ;; -*- Emacs-Lisp -*-
-;; Time-stamp: <2014-11-06 02:02:31 Thursday by nilin>
+;; Time-stamp: <2015-01-20 21:42:06 Tuesday by nilin>
 (defconst my-emacs-path           "~/.emacs.d/" "我的emacs相关配置文件的路径")
 (defconst my-emacs-my-lisps-path  (concat my-emacs-path "mylisps/") "我自己写的emacs lisp包的路径")
 (defconst my-emacs-lisps-path     (concat my-emacs-path "lisps/") "我下载的emacs lisp包的路径")
@@ -70,6 +70,7 @@
 (require 'face-settings)
 (require 'mode-line-settings)
 (require 'color-theme-solarized)
+
 
 (defun visit-.emacs ()
   "访问.emacs文件"
