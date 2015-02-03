@@ -1,12 +1,12 @@
 ;; -*- Emacs-Lisp -*-
 
-;; Time-stamp: <2010-11-26 13:49:32 Friday by taoshanwen>
+;; Time-stamp: <2015-01-23 16:08:24 Friday by work>
 
 (require 'ahei-face)
 (require 'color-theme-ahei)
 
 ;; 是否使用黑色背景
-(defvar use-black-background t "*Use black ground or not.")
+(defvar use-black-background nil "*Use black ground or not.")
 
 ;; 基本颜色设置
 (require 'base-face-settings)
