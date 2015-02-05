@@ -1,6 +1,6 @@
 ;; -*- Emacs-Lisp -*-
 
-;; Time-stamp: <2014-04-24 20:05:10 Thursday by nilin>
+;; Time-stamp: <2015-02-06 01:05:49 Friday by work>
 
 (require 'dired-single)
 (add-hook 'dired-mode-hook
@@ -14,8 +14,6 @@
                 (dired-single-buffer "..")))
             (setq dired-single-use-magic-buffer t)
             (setq dired-single-magic-buffer-name "*dired*")))
-(global-set-key (kbd "C-x d")
-                'dired-single-magic-buffer)
 
 (global-set-key (kbd "C-x d")
                 'dired-single-magic-buffer)

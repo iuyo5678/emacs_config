@@ -18,6 +18,10 @@ INSTALL
 
 FIX_LOG
 ============
+2015-02-06
+* 在shell-mode下添加了一个快捷键，C-l 快速清屏，直接调用clear-shell实现
+* 消除了一个dired-mode的一个小bug
+
 2015-01-20
 * 精兵简政，开始删除一些无用的emacs的配置文件，提高性能，现在自己配置的emacs性能有点扛不住了，今晚删除掉了现在还没有用到的doxygen和doxymacs，后续有需要再添加。
 * 另外将python-mode升级至6.20
