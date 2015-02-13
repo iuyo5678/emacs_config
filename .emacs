@@ -1,5 +1,5 @@
 ;; -*- Emacs-Lisp -*-
-;; Time-stamp: <2015-01-23 16:13:21 Friday by work>
+;; Time-stamp: <2015-02-13 12:01:08 Friday by work>
 (defconst my-emacs-path           "~/.emacs.d/" "我的emacs相关配置文件的路径")
 (defconst my-emacs-my-lisps-path  (concat my-emacs-path "mylisps/") "我自己写的emacs lisp包的路径")
 (defconst my-emacs-lisps-path     (concat my-emacs-path "lisps/") "我下载的emacs lisp包的路径")
@@ -238,7 +238,12 @@
     (message "Current buffer does not have an associated file.")))
 
 
-
+;; C-x C-j open the directory of current buffer
+(global-set-key (kbd "C-x C-j")
+                (lambda ()
+                  (interactive)
+                  (if (buffer-file-name)
+                      (dired default-directory))))
 
 (require 'session)
 (add-hook 'after-init-hook 'session-initialize)
