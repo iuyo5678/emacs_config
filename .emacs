@@ -1,5 +1,5 @@
 ;; -*- Emacs-Lisp -*-
-;; Time-stamp: <2015-02-13 12:01:08 Friday by work>
+;; Time-stamp: <2015-02-27 16:48:28 Friday by work>
 (defconst my-emacs-path           "~/.emacs.d/" "我的emacs相关配置文件的路径")
 (defconst my-emacs-my-lisps-path  (concat my-emacs-path "mylisps/") "我自己写的emacs lisp包的路径")
 (defconst my-emacs-lisps-path     (concat my-emacs-path "lisps/") "我下载的emacs lisp包的路径")
@@ -65,6 +65,8 @@
   (tool-bar-mode -1))
 ;;color theme
 (require 'face-settings)
+(require 'color-theme)
+(color-theme-initialize)
 (color-theme-ahei)
 (require 'mode-line-settings)
 
@@ -127,6 +129,9 @@
 ;;(require 'select-buffer)
 (require 'ido-settings)
 
+;;dired模式的一些配置
+(require 'dired-settings)
+
 ;; 可以为重名的buffer在前面加上其父目录的名字来让buffer的名字区分开来，而不是单纯的加一个没有太多意义的序号
 (require 'uniquify)
 (setq uniquify-buffer-name-style 'forward)
@@ -187,6 +192,7 @@
 
 ;;所有开发方面的配置
 (require 'dev-settings)
+
 ;; 方便的切换major mode
 (defvar switch-major-mode-last-mode nil)
 
@@ -207,9 +213,6 @@
     (funcall mode)
     (setq switch-major-mode-last-mode last-mode)))
 (global-set-key (kbd "C-x q") 'switch-major-mode)
-
-;;dired模式的一些配置
-(require 'dired-settings)
 
 
 (defun get-mode-name ()
@@ -248,3 +251,4 @@
 (add-hook 'after-init-hook 'session-initialize)
 (require  'wcy-desktop)
 (wcy-desktop-init)
+(sleep-for 10)

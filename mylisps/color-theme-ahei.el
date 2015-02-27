@@ -4,7 +4,7 @@
 
 ;; Author: ahei <ahei0802@126.com>
 ;; Keywords: color theme ahei
-;; Time-stamp: <2010-04-05 15:56:28 Monday by ahei>
+;; Time-stamp: <2015-02-27 15:47:11 Friday by work>
 
 ;; This file is free software; you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by

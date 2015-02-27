@@ -1,26 +1,26 @@
 ;; -*- Emacs-Lisp -*-
 
-;; Time-stamp: <2015-01-23 16:08:24 Friday by work>
+;; Time-stamp: <2015-02-27 15:30:25 Friday by work>
 
 (require 'ahei-face)
 (require 'color-theme-ahei)
 
-;; æ˜¯å¦ä½¿ç”¨é»‘è‰²èƒŒæ™¯
-(defvar use-black-background nil "*Use black ground or not.")
+;; ÊÇ·ñÊ¹ÓÃºÚÉ«±³¾°
+(defvar use-black-background t "*Use black ground or not.")
 
-;; åŸºæœ¬é¢œè‰²è®¾ç½®
+;; »ù±¾ÑÕÉ«ÉèÖÃ
 (require 'base-face-settings)
 
-;; mode-lineé¢œè‰²è®¾ç½®
+;; mode-lineÑÕÉ«ÉèÖÃ
 (require 'mode-line-face-settings)
 
-;; `which-func'é¢œè‰²è®¾ç½®
+;; `which-func'ÑÕÉ«ÉèÖÃ
 (require 'which-func-face-settings)
 
-;; æ‹¬å·é¢œè‰²è®¾ç½®
+;; À¨ºÅÑÕÉ«ÉèÖÃ
 (require 'paren-face-settings)
 
-;; `isearch'é¢œè‰²è®¾ç½®
+;; `isearch'ÑÕÉ«ÉèÖÃ
 (require 'isearch-face-settings)
 
 (require 'help-mode-face-settings)

@@ -1,7 +1,7 @@
 ;; -*- Emacs-Lisp -*-
 
-;; Time-stamp: <2015-02-06 01:05:49 Friday by work>
-
+;; Time-stamp: <2015-02-27 16:24:18 Friday by work>
+(require 'dired)
 (require 'dired-single)
 (add-hook 'dired-mode-hook
           (lambda ()
@@ -25,9 +25,9 @@
                       (split-window-vertically))
                     (other-window 1)
                     (dired-single-magic-buffer directory))))
+
 (require 'dired-view)
+(add-hook 'dired-mode-hook 'dired-view-minor-mode-on)
 (define-key dired-mode-map (kbd ";") 'dired-view-minor-mode-toggle)
-
-
 
 (provide 'dired-settings)

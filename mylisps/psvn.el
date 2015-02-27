@@ -1930,7 +1930,7 @@ A and B must be line-info's."
   (define-key svn-status-mode-map (kbd "x") 'svn-status-redraw-status-buffer)
   (define-key svn-status-mode-map (kbd "H") 'svn-status-use-history)
   (define-key svn-status-mode-map (kbd "m") 'svn-status-set-user-mark)
-  (define-key svn-status-mode-map (kbd "u") 'svn-status-unset-user-mark)
+  ;;(define-key svn-status-mode-map (kbd "u") 'svn-status-unseAt-user-mark)
   ;; This matches a binding of `dired-unmark-all-files' in `dired-mode-map'
   ;; of both GNU Emacs and XEmacs.  It seems unreachable with XEmacs on
   ;; TTY, but if that's a problem then its Dired needs fixing too.
