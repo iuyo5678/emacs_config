@@ -1,5 +1,5 @@
 ;; -*- Emacs-Lisp -*-
-;; Time-stamp: <2015-02-27 16:48:28 Friday by work>
+;; Time-stamp: <2015-02-27 17:03:34 Friday by nilin>
 (defconst my-emacs-path           "~/.emacs.d/" "我的emacs相关配置文件的路径")
 (defconst my-emacs-my-lisps-path  (concat my-emacs-path "mylisps/") "我自己写的emacs lisp包的路径")
 (defconst my-emacs-lisps-path     (concat my-emacs-path "lisps/") "我下载的emacs lisp包的路径")
@@ -251,4 +251,3 @@
 (add-hook 'after-init-hook 'session-initialize)
 (require  'wcy-desktop)
 (wcy-desktop-init)
-(sleep-for 10)
