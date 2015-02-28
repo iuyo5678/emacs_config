@@ -1,5 +1,5 @@
 ;; -*- Emacs-Lisp -*-
-;; Time-stamp: <2015-02-27 17:03:34 Friday by nilin>
+;; Time-stamp: <2015-02-28 18:23:27 Saturday by nilin>
 (defconst my-emacs-path           "~/.emacs.d/" "我的emacs相关配置文件的路径")
 (defconst my-emacs-my-lisps-path  (concat my-emacs-path "mylisps/") "我自己写的emacs lisp包的路径")
 (defconst my-emacs-lisps-path     (concat my-emacs-path "lisps/") "我下载的emacs lisp包的路径")
@@ -15,8 +15,14 @@
 (require 'auto-complete-config)
 (ac-config-default)
 
-
 (define-key ac-mode-map (kbd "M-/") 'auto-complete)
+
+
+;; slime setup
+(setq inferior-lisp-program "/usr/local/bin/sbcl")
+(require 'slime)
+(slime-setup)
+
 
 (require 'exec-path-from-shell) 
 (when (memq window-system '(mac ns))

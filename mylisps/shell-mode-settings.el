@@ -1,6 +1,6 @@
 ;; -*- Emacs-Lisp -*-
 
-;; Time-stamp: <2015-02-27 16:44:29 Friday by work>
+;; Time-stamp: <2015-02-27 21:20:59 Friday by nilin>
 (require 'shell)
 (when (fboundp 'winner-mode) 
   (winner-mode) 
@@ -11,5 +11,7 @@
     (comint-truncate-buffer)))
 
 (define-key shell-mode-map (kbd "C-l") 'clear-shell)
+
+(add-hook 'shell-mode-hook 'ansi-color-for-comint-mode-on)
 
 (provide 'shell-mode-settings)
