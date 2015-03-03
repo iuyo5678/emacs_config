@@ -1,6 +1,6 @@
 ;; -*- Emacs-Lisp -*-
 
-;; Time-stamp: <2015-01-21 00:36:17 Wednesday by nilin>
+;; Time-stamp: <2015-03-03 19:22:53 Tuesday by zhangguhua>
 
 ;; This  file is free  software; you  can redistribute  it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -188,7 +188,7 @@
                  ;; hide lines
                  hide-lines
                  ;; 把speedbar放到当前frame里面
-                 sr-speedbar-settings
+                 ;;sr-speedbar-settings
                  ;;codepilot-settings
                  ;; 实现程序变量的自动对齐
                  align-settings
