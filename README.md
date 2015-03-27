@@ -21,6 +21,28 @@ FIX_LOG
 
 2015-03-27
 * 修正了python 的自动补全，现在python可以自动补全了.....撒花，
+解决办法
+下载pymacs  地址：https://github.com/pinard/Pymacs
+解压 进入解压目录：
+cd Downloads/Pymacs-master
+安装：
+sudo make install
+拷贝文件：
+cp pymacs.el  ~/.emacs.d/mylisps/
+
+安装rope：
+sudo pip install --upgrade rope
+安装ropemode：
+sudo pip install ropemode
+安装ropemacs
+sudo pip install ropemacs
+
+安装pyflakes
+sudo pip install pyflakes
+
+配置文件参见 python-settings.el
+
+参考：http://www.yilmazhuseyin.com/blog/dev/emacs-setup-python-development/
 
 
 -------------------------------------------------------------------------------
