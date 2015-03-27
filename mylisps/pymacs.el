@@ -124,7 +124,7 @@ When this variable is nil, strings are transmitted as copies, and the
 Python side thus has no way for modifying the original Lisp strings.
 This variable is ignored whenever `forget-mutability' is set.")
 
-(defvar pymacs-timeout-at-start 60
+(defvar pymacs-timeout-at-start 30
   "Maximum reasonable time, in seconds, for starting the Pymacs helper.
 A machine should be pretty loaded before one needs to increment this.")
 
@@ -521,7 +521,7 @@ The timer is used only if `post-gc-hook' is not available.")
                (set-text-properties 0 (length text) nil text)
                (when multibyte
                  (princ "b"))
-               (princ (mapconcat 'identity
+               (princ (mapconcat #'identity
                                  (split-string (prin1-to-string text) "\n")
                                  "\\n"))
                (when multibyte

@@ -2,8 +2,7 @@
 
 ;; Author: ahei <ahei0802@gmail.com>
 ;; URL: http://code.google.com/p/dea/source/browse/trunk/my-lisps/python-settings.el
-;; Time-stamp: <2015-01-23 00:07:59 Friday by nilin>
-;; Time-stamp: <2013-11-29 18:53:39 Friday by zhangguhua>
+;; Time-stamp: <2015-03-27 17:29:24 Friday by zhangguhua>
 
 ;; This  file is free  software; you  can redistribute  it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -20,20 +19,26 @@
 ;; write  to  the Free  Software  Foundation,  Inc., 51  Franklin
 ;; Street, Fifth Floor, Boston, MA 02110-1301, USA.
 
-;;(require 'pdb-settings)
-;;(require 'pydb)
-;;(setq pydb-many-windows t)
+(require 'pdb-settings)
+(require 'pydb)
+(setq pydb-many-windows t)
 
 (when (featurep 'python) (unload-feature 'python t))
 
 (setq py-install-directory (concat my-emacs-lisps-path "python-mode/"))
 (require 'python-mode)
-(require 'ipython)
+(setq py-shell-name "ipython")
 
+(autoload 'pymacs-apply "pymacs")
+(autoload 'pymacs-call "pymacs")
+(autoload 'pymacs-eval "pymacs" nil t)
+(autoload 'pymacs-exec "pymacs" nil t)
+(autoload 'pymacs-load "pymacs" nil t)
+;;(eval-after-load "pymacs"
+;;  '(add-to-list 'pymacs-load-path YOUR-PYMACS-DIRECTORY"))
 
-(setq-default py-shell-name "ipython")
-(setq py-python-command-args
-      '("--gui=wx" "--pylab=wx" "--colors" "Linux"))
+(require 'pymacs)
+(pymacs-load "ropemacs" "rope-")
 
 (when (executable-find "pyflakes")
   (defun flymake-pyflakes-init ()
@@ -46,5 +51,4 @@
   (add-to-list 'flymake-allowed-file-name-masks
                '("\\.py\\'" flymake-pyflakes-init)))
 
-(setq python-indent-guess-indent-offset nil)
 (provide 'python-settings)
