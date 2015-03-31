@@ -1,22 +1,22 @@
 ;; -*- Emacs-Lisp -*-
 
-;; Time-stamp: <2014-08-25 17:25:52 Monday by zhangguhua>
+;; Time-stamp: <2015-03-31 16:25:58 Tuesday by zhangguhua>
 
 (require 'compile-settings)
 (require 'edit-misc)
 
-;; ;; 在行首C-k时，同时删除该行
+;; ;; 鍦ㄨ棣朇-k鏃讹紝鍚屾椂鍒犻櫎璇ヨ
 (setq-default kill-whole-line t)
 
-;; 缩进设置
-;; 不用TAB字符来indent
+;; 缂╄繘璁剧疆
+;; 涓嶇敤TAB瀛楃鏉ndent
 (setq-default indent-tabs-mode nil)
 (setq default-tab-width 4)
 (setq tab-stop-list nil)
 (loop for x downfrom 40 to 1 do
       (setq tab-stop-list (cons (* x tab-width) tab-stop-list)))
 
-;;  自动的在文件末增加一新行
+;;  鑷姩鐨勫湪鏂囦欢鏈鍔犱竴鏂拌
 (setq require-final-newline t)
 
 (define-key minibuffer-local-completion-map (kbd "C-k") 'kill-line)
@@ -45,7 +45,7 @@
 (eal-define-keys
  (append
   makefile-mode-map-list
-  `(c-mode-base-map emacs-lisp-mode-map lisp-interaction-mode-map
+  `(emacs-lisp-mode-map lisp-interaction-mode-map
                     conf-javaprop-mode-map html-mode-map tcl-mode-map
                     autoconf-mode-map perl-mode-map nxml-mode-map
                     graphviz-dot-mode-map sh-mode-map python-mode-map py-mode-map))
@@ -76,7 +76,7 @@
    ("C-x M-w" insert-cur-line)
    ("C-x M-W" insert-cur-sexp)
    ("C-M-w" copy-sentence)
-   ;; 删除整行
+   ;; 鍒犻櫎鏁磋
    ("M-K" kill-line)
    ("C-k" smart-kill)
    ("C-\\" delete-indentation)
