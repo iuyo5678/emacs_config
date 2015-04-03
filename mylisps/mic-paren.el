@@ -1,12 +1,13 @@
 ;;; mic-paren.el --- advanced highlighting of matching parentheses
 
-;;; Copyright (C) 2008 Thien-Thi Nguyen
+;;; Copyright (C) 2008, 2012, 2013 Thien-Thi Nguyen
 ;;; Copyright (C) 1997 Mikael Sjödin (mic@docs.uu.se)
 
-;; Version: 3.8
-;; Released: 2008-04-30
+;; Version: 3.11
+;; Released: 2013-09-20
 ;; Author: Mikael Sjödin (mic@docs.uu.se)
 ;;         Klaus Berndl  <berndl@sdm.de>
+;;         Jonathan Kotta <jpkotta@gmail.com>
 ;; Maintainer: ttn
 ;; Keywords: languages, faces, parenthesis, matching
 ;;
@@ -49,19 +50,24 @@
 ;;
 ;; Some examples to try in your ~/.emacs:
 ;;
-;; (add-hook 'LaTeX-mode-hook
-;;           (function (lambda ()
-;;                       (paren-toggle-matching-quoted-paren 1)
-;;                       (paren-toggle-matching-paired-delimiter 1))))
+;;  (add-hook 'LaTeX-mode-hook
+;;            (function (lambda ()
+;;                        (paren-toggle-matching-quoted-paren 1)
+;;                        (paren-toggle-matching-paired-delimiter 1))))
 ;;
-;; (add-hook 'c-mode-common-hook
-;;           (function (lambda ()
-;;                        (paren-toggle-open-paren-context 1))))
+;;  (add-hook 'c-mode-common-hook
+;;            (function (lambda ()
+;;                         (paren-toggle-open-paren-context 1))))
+;;
+;; If you use CUA mode, these might be useful, too:
+;;
+;;  (put 'paren-forward-sexp 'CUA 'move)
+;;  (put 'paren-backward-sexp 'CUA 'move)
 ;;
 ;; ----------------------------------------------------------------------
 ;; Installation:
 ;;
-;; o Place this file in a directory in your 'load-path and byte-compile
+;; o Place this file in a directory in your `load-path' and byte-compile
 ;;   it.  If there are warnings, please report them to ttn.
 ;; o Put the following in your .emacs file:
 ;;      (require 'mic-paren) ; loading
@@ -86,6 +92,9 @@
 ;;   cursor is between two expressions).
 ;; o Indication of mismatched parentheses.
 ;; o Recognition of "escaped" (also often called "quoted") parentheses.
+;; o Recognition of SML-style "sexp-ish" comment syntax.
+;;   NB: This support is preliminary; there are still problems
+;;       when the parens in the comment span multiple lines, etc.
 ;; o Option to match "escaped" parens too, especially in (La)TeX-mode
 ;;   (e.g., matches expressions like "\(foo bar\)" properly).
 ;; o Offers two functions as replacement for `forward-sexp' and
@@ -130,6 +139,7 @@
 ;; - `paren-message-no-match'
 ;; - `paren-message-show-linenumber'
 ;; - `paren-message-truncate-lines'
+;; - `paren-max-message-length'
 ;; - `paren-ding-unmatched'
 ;; - `paren-delay'
 ;; - `paren-dont-touch-blink'
@@ -167,6 +177,15 @@
 ;;
 ;; ----------------------------------------------------------------------
 ;; Versions:
+;; v3.11   + Added support for recognizing SML-style comments as a sexp.
+;;           Thanks to Leo Liu, Stefan Monnier.
+;;
+;; v3.10   + Added message-length clamping (var `paren-max-message-length').
+;;           Thanks to Jonathan Kotta.
+;;
+;; v3.9    + Fixed XEmacs bug in `define-mic-paren-nolog-message'.
+;;           Thanks to Sivaram Neelakantan.
+;;
 ;; v3.8    + Maintainership (crassly) grabbed by ttn.
 ;;         + License now GPLv3+.
 ;;         + Byte-compiler warnings eliminated; if you see one, tell me!
@@ -191,11 +210,11 @@
 ;;           the computation of the offscreen-message-linenumber.  Either the
 ;;           number of lines between the two matching parens or the absolute
 ;;           linenumber.  (Thank you for the idea and a first implementation
-;;           to Eliyahu Barzilay <eli@cs.bgu.ac.il>.)
+;;           to Eli Barzilay <eli@barzilay.org>.)
 ;;         + New option `paren-message-truncate-lines': If mic-paren messages
 ;;           should be truncated or not (has only an effect in GNU Emacs 21).
-;;           (Thank you for the idea and a first implementation to Eliyahu
-;;           Barzilay <eli@cs.bgu.ac.il>.)
+;;           (Thank you for the idea and a first implementation to Eli
+;;           Barzilay <eli@barzilay.org>.)
 ;;
 ;; v3.4    + Corrected some bugs in the backward-compatibility for older
 ;;           Emacsen.  Thanks to Tetsuo Tsukamoto <czkmt@remus.dti.ne.jp>.
@@ -287,7 +306,7 @@
 ;;
 ;; v1.9    Avoids multiple messages/dings when point has not moved.  Thus,
 ;;         mic-paren no longer overwrites messages in minibuffer.  Inspired by
-;;         the suggestion and code of Barzilay Eliyahu <eli@cs.bgu.ac.il>.
+;;         the suggestion and code of Eli Barzilay <eli@barzilay.org>.
 ;;
 ;; v1.3.1  Some spelling corrected (from Vinicius Jose Latorre
 ;;         <vinicius@cpqd.br> and Steven L Baur <steve@xemacs.org>).
@@ -303,7 +322,7 @@
 
 ;;; Code:
 
-(defvar mic-paren-version "3.8"
+(defvar mic-paren-version "3.11"
   "Version of mic-paren.")
 
 (eval-when-compile (require 'cl))
@@ -449,6 +468,13 @@ absolute -- Display the absolute linenumber of the machting paren computed
   "*Non nil means truncate lines for all messages mic-paren can display.
 This option has only an effect with GNU Emacs 21.x!"
   :type 'boolean
+  :group 'mic-paren-matching)
+
+(defcustom paren-max-message-length 0
+  "*If positive, the max length `mic-paren-nolog-message' should output.
+The length is reduced by removing the middle section of the message.
+A value of zero means do not modify the message."
+  :type 'integer
   :group 'mic-paren-matching)
 
 (defcustom paren-ding-unmatched nil
@@ -663,28 +689,50 @@ mode hook, e.g.:
     (fset 'mic-cancel-timer 'cancel-timer)
     (fset 'mic-run-with-idle-timer 'run-with-idle-timer)))
 
+(defun paren-clamp-string-maybe (str)
+  "Remove the middle of STR if it exceeds `paren-max-message-length'.
+However, if STR is `nil' or `paren-max-message-length' is zero,
+simply return STR."
+  (if (or (not str) (zerop paren-max-message-length))
+      str
+    (let ((len (string-width str)))
+      (if (<= len paren-max-message-length)
+          str
+        (let* ((sep "[...]")
+               (cut (ash (- paren-max-message-length
+                            (string-width sep))
+                         -1)))
+          (concat (substring str 0 cut)
+                  sep
+                  (substring str (- len cut))))))))
+
 (eval-when-compile
   (defmacro define-mic-paren-nolog-message (yes no)
     `(defun mic-paren-nolog-message (&rest args)
-       "Work exactly like `message' but without logging."
-       (let ((msg (cond ((or (null args)
-                             (null (car args)))
-                         nil)
-                        ((null (cdr args))
-                         (car args))
-                        (t
-                         (apply 'format args)))))
+       "Work like `message' but without logging.
+See variable `paren-max-message-length'."
+       (let ((msg (paren-clamp-string-maybe
+                   (cond ((or (null args)
+                              (null (car args)))
+                          nil)
+                         ((null (cdr args))
+                          (car args))
+                         (t
+                          (apply 'format args))))))
          (if msg ,yes ,no)
          msg))))
 
 (eval-and-compile
   (if (and (fboundp 'display-message)
            (fboundp 'clear-message))
-      (define-mic-paren-nolog-message
-        (display-message 'no-log msg)
-        (clear-message 'no-log))
+      ;; Some GNU Emacs versions need the `eval' so as to avoid saying:
+      ;; > the following functions are not known to be defined:
+      ;; >         display-message, clear-message
+      (eval '(define-mic-paren-nolog-message
+               (display-message 'no-log msg)
+               (clear-message 'no-log)))
     (define-mic-paren-nolog-message
-      (message "%s" msg)
+      (let (message-log-max) (message "%s" msg))
       (message nil))))
 
 ;;; ======================================================================
@@ -969,6 +1017,32 @@ This is the main function of mic-paren."
                                  right-prio))
                        (not fcq)))))
 
+           (comment-style
+            ()
+            (or (get major-mode 'mic-paren-comment-style)
+                (put major-mode 'mic-paren-comment-style
+                     ;; Tested (lightly) w/ SML, Modula-2, Pascal.
+                     (flet ((sub (str pos) (condition-case ()
+                                               (aref str (if (> 0 pos)
+                                                             (+ (length str)
+                                                                pos)
+                                                           pos))
+                                             (error 0))))
+                       (if (string= "()" (string (sub comment-start 0)
+                                                 (sub comment-end -1)))
+                           'sexp
+                         'normal)))))
+
+           (sexp-ish-comment-edge
+            (p mult)
+            (and (eq 'sexp (comment-style))
+                 (if (> 0 mult)
+                     (prog1 (nth 8 (syntax-ppss (1- p)))
+                       (forward-char 1))
+                   ;; hmmm
+                   (save-match-data
+                     (looking-at (regexp-quote comment-start))))))
+
            (find-other-paren
             (forwardp)
             (let ((mult (if forwardp 1 -1)))
@@ -985,7 +1059,11 @@ This is the main function of mic-paren."
                                             (min lim (point-max))
                                           (point-max)))))
                   (condition-case ()
-                      (setq opos (scan-sexps (point) mult))
+                      (setq opos (let ((p (point)))
+                                   (if (not (sexp-ish-comment-edge p mult))
+                                       (scan-sexps p mult)
+                                     (forward-comment mult)
+                                     (point))))
                     (error nil))))
               ;; We must call matching-paren because `scan-sexps' doesn't
               ;; care about the kind of paren (e.g., matches '( and '}).
