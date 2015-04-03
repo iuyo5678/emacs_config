@@ -1,6 +1,6 @@
 ;; -*- Emacs-Lisp -*-
 
-;; Time-stamp: <2015-04-01 11:16:47 Wednesday by zhangguhua>
+;; Time-stamp: <2015-04-03 15:48:27 Friday by zhangguhua>
 
 ;; This  file is free  software; you  can redistribute  it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -110,7 +110,8 @@
 
 ;; 版本控制
 (require 'vc-settings)
-
+(require 'git)
+(require 'git-blame)
 
 ;; 所有关于lisp方面的配置
 (require 'all-lisp-settings)
