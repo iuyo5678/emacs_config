@@ -1,6 +1,6 @@
 ;; -*- Emacs-Lisp -*-
 
-;; Time-stamp: <2015-03-31 16:25:58 Tuesday by zhangguhua>
+;; Time-stamp: <2015-04-02 14:45:36 Thursday by zhangguhua>
 
 (require 'compile-settings)
 (require 'edit-misc)
@@ -119,6 +119,7 @@
 (setq auto-indent-on-visit-file t) ;; If you want auto-indent on for files
 (require 'auto-indent-mode)
 (auto-indent-global-mode)
+(setq auto-indent-assign-indent-level 4) ; Changes the indent level to 4
 
 
 (provide 'edit-settings)

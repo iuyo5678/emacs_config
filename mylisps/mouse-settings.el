@@ -1,6 +1,6 @@
 ;; -*- Emacs-Lisp -*-
 
-;; Time-stamp: <2010-04-10 15:55:06 Saturday by ahei>
+;; Time-stamp: <2015-04-03 10:49:21 Friday by zhangguhua>
 
 ;; This file is free software; you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
@@ -24,7 +24,7 @@
 (eal-define-keys-commonly
  global-map
  `(("<S-down-mouse-1>" mouse-drag-drag)
-   ("<down-mouse-1>"  mouse-drag-region-sb)
+   ("<down-mouse-1>"  mouse-drag-region)
    ;; 使终端支持鼠标
    ("C-x T"            xterm-mouse-mode)))
 

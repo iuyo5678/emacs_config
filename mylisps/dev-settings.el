@@ -1,6 +1,6 @@
 ;; -*- Emacs-Lisp -*-
 
-;; Time-stamp: <2015-03-27 16:13:46 Friday by zhangguhua>
+;; Time-stamp: <2015-04-01 11:16:47 Wednesday by zhangguhua>
 
 ;; This  file is free  software; you  can redistribute  it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -47,9 +47,9 @@
 (require 'hs-minor-mode-settings)
 
 ;; 输入左大花扩号自动补齐右大花括号
-(eal-define-keys
- `(c-mode-base-map awk-mode-map)
- `(("{" skeleton-c-mode-left-brace)))
+;;(eal-define-keys
+;; `(c-mode-base-map awk-mode-map)
+;; `(("{" skeleton-c-mode-left-brace)))
 
 ;;load the yasnippet
 (require 'yasnippet)

@@ -2,7 +2,7 @@
 
 ;; Author: ahei <ahei0802@gmail.com>
 ;; URL: http://code.google.com/p/dea/source/browse/trunk/my-lisps/icomplete-settings.el
-;; Time-stamp: <2010-04-10 18:05:02 Saturday by ahei>
+;; Time-stamp: <2015-04-03 11:16:03 Friday by zhangguhua>
 
 ;; This  file is free  software; you  can redistribute  it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -19,7 +19,7 @@
 ;; write  to  the Free  Software  Foundation,  Inc., 51  Franklin
 ;; Street, Fifth Floor, Boston, MA 02110-1301, USA.
 
-(require 'my-icomplete+)
+(require 'icomplete+)
 
 (icomplete-mode 1)
 
