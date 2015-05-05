@@ -1,5 +1,5 @@
 ;; -*- Emacs-Lisp -*-
-;; Time-stamp: <2015-03-27 17:29:58 Friday by zhangguhua>
+;; Time-stamp: <2015-05-05 03:22:40 Tuesday by zhangguhua>
 (defconst my-emacs-path           "~/.emacs.d/" "我的emacs相关配置文件的路径")
 (defconst my-emacs-my-lisps-path  (concat my-emacs-path "mylisps/") "我自己写的emacs lisp包的路径")
 (defconst my-emacs-lisps-path     (concat my-emacs-path "lisps/") "我下载的emacs lisp包的路径")
@@ -58,8 +58,15 @@
 (require 'mark-settings)
 ;; 字体配置
 (require 'font-settings)
+;;xml-rpc配置
+(require 'xml-rpc)
+(require 'org2blog-autoloads)
+(setq org2blog/wp-blog-alist
+      '(("wordpress"
+         :url "http://zghhome.com/xmlrpc.php"
+         :username "iuyo5678"
+        )))
 
-;;
 (require 'fill-column-indicator)
 (define-globalized-minor-mode
   global-fci-mode fci-mode (lambda () (fci-mode 1)))
