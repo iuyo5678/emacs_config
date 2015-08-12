@@ -2,7 +2,7 @@
 
 ;; Author: ahei <ahei0802@gmail.com>
 ;; URL: http://code.google.com/p/dea/source/browse/trunk/my-lisps/python-settings.el
-;; Time-stamp: <2015-03-27 17:29:24 Friday by zhangguhua>
+;; Time-stamp: <2015-08-12 15:08:30 Wednesday by iuyo5678>
 
 ;; This  file is free  software; you  can redistribute  it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -19,8 +19,8 @@
 ;; write  to  the Free  Software  Foundation,  Inc., 51  Franklin
 ;; Street, Fifth Floor, Boston, MA 02110-1301, USA.
 
-(require 'pdb-settings)
-(require 'pydb)
+;;(require 'pdb-settings)
+;;(require 'pydb)
 (setq pydb-many-windows t)
 
 (when (featurep 'python) (unload-feature 'python t))

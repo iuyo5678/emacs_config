@@ -1,12 +1,9 @@
-all: output
+### Makefile.tpl --- (>>>POINT<<<)
 
-clean:
-	rm -rf output
+## Author: (>>>AUTHOR<<<)
+## Version: $Id: (>>>FILE<<<),v 0.0 (>>>VC_DATE<<<) (>>>LOGIN_NAME<<<) Exp $
+## Keywords: (>>>1<<<)
+## X-URL: (>>>2<<<)
 
-init:
-	for i in shell bin conf share; do mkdir -p output/$$i; done
 
-output: init
-(>>>POINT<<<)
-
-.PHONY: init clean output
+### (>>>FILE<<<) ends here

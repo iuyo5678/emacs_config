@@ -1,6 +1,6 @@
 ;; -*- Emacs-Lisp -*-
 
-;; Time-stamp: <2015-08-12 13:37:06 Wednesday by iuyo5678>
+;; Time-stamp: <2015-08-12 14:43:10 Wednesday by iuyo5678>
 
 ;; This  file is free  software; you  can redistribute  it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -187,10 +187,6 @@
 
 (mapc 'require '(;; hide region
                  hide-region-settings
-                 ;; hide lines
-                 hide-lines
-                 ;; 把speedbar放到当前frame里面
-                 ;;sr-speedbar-settings
                  ;;codepilot-settings
                  ;; 实现程序变量的自动对齐
                  align-settings
@@ -201,6 +197,9 @@
                  sed-settings
                  ))
 
+;;hide lines
+(autoload 'hide-lines "hide-lines" "Hide lines based on a regexp" t)
+(global-set-key (kbd "C-c /") 'hide-lines)
 
 ;;阅读代码的配置，cscope
 (require 'xcscope)

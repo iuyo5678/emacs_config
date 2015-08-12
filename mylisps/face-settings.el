@@ -1,26 +1,26 @@
 ;; -*- Emacs-Lisp -*-
 
-;; Time-stamp: <2015-02-27 15:30:25 Friday by work>
+;; Time-stamp: <2010-11-26 13:49:32 Friday by taoshanwen>
 
 (require 'ahei-face)
 (require 'color-theme-ahei)
 
-;; 是否使用黑色背景
+;; 鏄惁浣跨敤榛戣壊鑳屾櫙
 (defvar use-black-background t "*Use black ground or not.")
 
-;; 基本颜色设置
+;; 鍩烘湰棰滆壊璁剧疆
 (require 'base-face-settings)
 
-;; mode-line颜色设置
+;; mode-line棰滆壊璁剧疆
 (require 'mode-line-face-settings)
 
-;; `which-func'颜色设置
+;; `which-func'棰滆壊璁剧疆
 (require 'which-func-face-settings)
 
-;; 括号颜色设置
+;; 鎷彿棰滆壊璁剧疆
 (require 'paren-face-settings)
 
-;; `isearch'颜色设置
+;; `isearch'棰滆壊璁剧疆
 (require 'isearch-face-settings)
 
 (require 'help-mode-face-settings)
