@@ -1,5 +1,5 @@
 ;; -*- Emacs-Lisp -*-
-;; Time-stamp: <2015-07-27 15:47:16 Monday by zhangguhua>
+;; Time-stamp: <2015-08-12 13:09:07 Wednesday by iuyo5678>
 (defconst my-emacs-path           "~/.emacs.d/" "我的emacs相关配置文件的路径")
 (defconst my-emacs-my-lisps-path  (concat my-emacs-path "mylisps/") "我自己写的emacs lisp包的路径")
 (defconst my-emacs-lisps-path     (concat my-emacs-path "lisps/") "我下载的emacs lisp包的路径")
@@ -14,10 +14,12 @@
 (add-to-list 'load-path (concat my-emacs-lisps-path "auto-complete/"))
 (require 'auto-complete-config)
 (ac-config-default)
+
 (ac-ropemacs-initialize)
 (add-hook 'python-mode-hook
           (lambda ()
             (add-to-list 'ac-sources 'ac-source-ropemacs)))
+
 (define-key ac-mode-map (kbd "M-/") 'auto-complete)
 
 
@@ -31,6 +33,7 @@
 (slime-setup '(slime-repl))
 
 (require 'exec-path-from-shell) 
+
 (when (memq window-system '(mac ns))
   (exec-path-from-shell-initialize)
   (setq default-directory "~"))

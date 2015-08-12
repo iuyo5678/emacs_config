@@ -1,6 +1,6 @@
 ;; -*- Emacs-Lisp -*-
 
-;; Time-stamp: <2015-04-03 15:48:27 Friday by zhangguhua>
+;; Time-stamp: <2015-08-12 12:18:38 Wednesday by iuyo5678>
 
 ;; This  file is free  software; you  can redistribute  it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -171,6 +171,10 @@
 
 ;;写html的配置
 (require 'html-settings)
+
+;;写php的配置
+(require 'php-mode)
+
 ;; 回车后indent
 (eal-define-keys
  `(lisp-mode-map emacs-lisp-mode-map lisp-interaction-mode-map sh-mode-map
