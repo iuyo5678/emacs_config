@@ -1,6 +1,6 @@
 ;; -*- Emacs-Lisp -*-
 
-;; Time-stamp: <2015-08-12 13:38:37 Wednesday by iuyo5678>
+;; Time-stamp: <2015-08-12 16:20:10 Wednesday by iuyo5678>
 
 ;; This  file is free  software; you  can redistribute  it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -23,8 +23,6 @@
 ;; 高亮匹配的括号, 很实用
 (require 'highlight-parentheses-settings)
 
-;; 也是关于括号匹配显示的插件
-(require 'mic-paren-settings)
 
 ;;;###autoload
 (defun ywb-indent-accoding-to-paren ()
