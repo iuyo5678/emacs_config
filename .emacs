@@ -1,5 +1,5 @@
 ;; -*- Emacs-Lisp -*-
-;; Time-stamp: <2015-08-12 13:09:07 Wednesday by iuyo5678>
+;; Time-stamp: <2015-08-12 16:00:23 Wednesday by iuyo5678>
 (defconst my-emacs-path           "~/.emacs.d/" "我的emacs相关配置文件的路径")
 (defconst my-emacs-my-lisps-path  (concat my-emacs-path "mylisps/") "我自己写的emacs lisp包的路径")
 (defconst my-emacs-lisps-path     (concat my-emacs-path "lisps/") "我下载的emacs lisp包的路径")
@@ -73,18 +73,16 @@
 (require 'linum-settings)
 
 ;; 不要menu-bar和tool-bar
-;; (unless window-system
-;;   (menu-bar-mode -1))
 (menu-bar-mode -1)
-;;(tool-bar-mode -1)
 ;; GUI下显示toolbar的话select-buffer会出问题
 (if (fboundp 'tool-bar-mode)
   (tool-bar-mode -1))
 ;;color theme
-(require 'face-settings)
 (require 'color-theme)
 (color-theme-initialize)
-(color-theme-ahei)
+
+(require 'face-settings)
+;;(color-theme-ahei)
 (require 'mode-line-settings)
 
 
@@ -120,7 +118,7 @@
 
 ;; 用chrome打开链接
 (if (executable-find "chrome")
-    (setq browse-url-browser-function 'browse-url-generic
+        (setq browse-url-browser-function 'browse-url-generic
           browse-url-generic-program "chrome"))
 ;;输入命令自动补全
 (require 'icomplete-settings)
@@ -238,10 +236,6 @@
   (message "major-mode为%s, mode-name为%s" major-mode mode-name))
 (global-set-key (kbd "C-x m") 'get-mode-name)
 
-;;支持ctrl+tab切换buffer
-(require 'wcy-swbuff)
-(global-set-key (kbd "<C-tab>") 'wcy-switch-buffer-forward)
-(global-set-key (kbd "<C-S-kp-tab>") 'wcy-switch-buffer-backward)
 
 (fset 'kill-head-blank
    "\C-a\C-@\C-[m\C-?\C-n")

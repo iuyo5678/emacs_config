@@ -1,14 +1,11 @@
 ;; -*- Emacs-Lisp -*-
 
-;; Time-stamp: <2010-04-20 00:00:51 Tuesday by ahei>
+;; Time-stamp: <2015-08-12 15:59:09 Wednesday by iuyo5678>
 
 (require 'mode-line-face-settings)
 
 (am-def-active-fun linum-mode linum-mode-active)
 
-;; 在状态栏显示日期时间
-(setq display-time-day-and-date t)
-(display-time)
 
 ;; 在mode-line上用彩色显示当前buffer行数
 (defun get-lines-4-mode-line ()
@@ -93,55 +90,7 @@ mouse-1: Display Line and Column Mode Menu"))))))
                 (propertize " (%l,%c)" 'help-echo ,help-echo)
               (propertize " L%l" 'help-echo ,help-echo))
           (if column-number-mode
-              (propertize " C%c" 'help-echo ,help-echo))))))))
-
-(let* ((help-echo
-        "mouse-1: Select (drag to resize)\n\
-mouse-2: Make current window occupy the whole frame\n\
-mouse-3: Remove current window from display")
-       (recursive-edit-help-echo "Recursive edit, type C-M-c to get out")
-       (standard-mode-line-modes
-        (list
-         " "
-         (propertize "%[" 'help-echo recursive-edit-help-echo)
-         (propertize "(" 'help-echo help-echo)
-         `(:propertize ("" mode-name)
-                       help-echo "Major mode\n\
-mouse-1: Display major mode menu\n\
-mouse-2: Show help for major mode\n\
-mouse-3: Toggle minor modes"
-                       mouse-face mode-line-highlight
-                       local-map ,mode-line-major-mode-keymap)
-         '("" mode-line-process)
-         `(:propertize ("" minor-mode-alist)
-                       mouse-face mode-line-highlight
-                       help-echo "Minor mode\n\
-mouse-1: Display minor mode menu\n\
-mouse-2: Show help for minor mode\n\
-mouse-3: Toggle minor modes"
-                       local-map ,mode-line-minor-mode-keymap)
-         (propertize "%n" 'help-echo "mouse-2: Remove narrowing from the current buffer"
-                     'mouse-face 'mode-line-highlight
-                     'local-map (make-mode-line-mouse-map
-                                 'mouse-1 #'mode-line-widen))
-         (propertize ")" 'help-echo help-echo)
-         (propertize "%]" 'help-echo recursive-edit-help-echo))))
-  (setq-default mode-line-modes standard-mode-line-modes)
-  (setq-default mode-line-format
-                `("%e%t"
-                  mode-line-mule-info
-                  mode-line-client
-                  mode-line-modified
-                  mode-line-remote
-                  " "
-                  mode-line-buffer-identification
-                  ,(propertize " " 'help-echo help-echo)
-                  mode-line-position
-                  (vc-mode vc-mode)
-                  mode-line-modes
-                  (which-func-mode (" " which-func-format))
-                  (working-mode-line-message (" " working-mode-line-message))
-                  ,(propertize "-%-" 'help-echo help-echo))))
+                  (propertize " C%c" 'help-echo ,help-echo))))))))
 
 (setq mode-line-format-bak mode-line-format)
 (setq mode-line t)
@@ -153,6 +102,11 @@ mouse-3: Toggle minor modes"
       (setq-default mode-line-format nil)
     (setq-default mode-line-format mode-line-format-bak))
   (setq mode-line (not mode-line)))
+
+;; 在状态栏显示日期时间
+(setq display-time-day-and-date t)
+(display-time)
+
 
 ;; 在标题栏显示登陆名称和文件名
 (setq frame-title-format
