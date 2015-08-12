@@ -1,6 +1,6 @@
 ;; -*- Emacs-Lisp -*-
 
-;; Time-stamp: <2015-08-12 12:18:38 Wednesday by iuyo5678>
+;; Time-stamp: <2015-08-12 13:37:06 Wednesday by iuyo5678>
 
 ;; This  file is free  software; you  can redistribute  it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -160,9 +160,6 @@
 ;; 显示变量, 函数的声明
 (require 'eldoc-settings)
 
-;; 自动括号配置
-(require 'autopair)
-(autopair-global-mode)
 ;; 方便开发c/c++的配置
 (require 'c-settings)
 

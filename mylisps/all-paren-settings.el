@@ -1,6 +1,6 @@
 ;; -*- Emacs-Lisp -*-
 
-;; Time-stamp: <2013-09-05 18:02:03 Thursday by zhangguhua>
+;; Time-stamp: <2015-08-12 13:38:37 Wednesday by iuyo5678>
 
 ;; This  file is free  software; you  can redistribute  it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -52,5 +52,9 @@
  global-map
  `(("C-M-]" ywb-indent-accoding-to-paren)
    ("\C-]" goto-paren)))
+
+
+;;自动匹配括号
+(electric-pair-mode t)
 
 (provide 'all-paren-settings)

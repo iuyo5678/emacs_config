@@ -3,7 +3,7 @@
 ;; Author: ahei <ahei0802@gmail.com>
 ;; Keywords: eval-after-load, autoload
 ;; URL: http://code.google.com/p/dea/source/browse/trunk/my-lisps/eval-after-load.el
-;; Time-stamp: <2011-04-28 15:41:47 Thursday by taoshanwen>
+;; Time-stamp: <2015-08-12 14:11:44 Wednesday by iuyo5678>
 
 ;; This  file is free  software; you  can redistribute  it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -83,7 +83,6 @@
     "text-mode"
     "color-theme"
     "woman"
-    "doxymacs"
     "grep"
     "view"
     ("hi-lock"         hi-lock-mode           hi-lock-map)
