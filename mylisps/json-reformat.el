@@ -2,7 +2,7 @@
 
 ;; Author: Wataru MIYAGUNI <gonngo@gmail.com>
 ;; URL: https://github.com/gongo/json-reformat
-;; Version: 0.0.2
+;; Version: 0.0.3
 ;; Keywords: json
 
 ;; Copyright (c) 2012 Wataru MIYAGUNI
@@ -31,14 +31,27 @@
 
 ;;; Commentary:
 
-;; json-reformat.el is a reformatting tool for JSON http://en.wikipedia.org/wiki/JavaScript_Object_Notation.
-
-;; Use the command `json-reformat-region'.
+;; json-reformat.el is a reformatting tool for JSON (http://json.org/).
+;;
+;; ## Usage
+;;
+;;   1. Specify region
+;;   2. Call 'M-x json-reformat-region'
+;;
+;; ## Customize
+;;
+;;   - `json-reformat:indent-width'
+;;   - `json-reformat:pretty-string?'
+;;
 
 ;;; Code:
 
 (require 'json)
 (eval-when-compile (require 'cl))
+
+(defconst json-reformat:special-chars-as-pretty-string
+  '((?\" . ?\")
+    (?\\ . ?\\)))
 
 (defcustom json-reformat:indent-width 4
   "How much indentation `json-reformat-region' should do at each level."
@@ -83,9 +96,16 @@ Else t:
         ((equal json-false val) "false")
         (t (symbol-name val))))
 
+(defun json-reformat:encode-char-as-pretty (char)
+  (setq char (json-encode-char0 char 'ucs))
+  (let ((special-char (car (rassoc char json-reformat:special-chars-as-pretty-string))))
+    (if special-char
+        (format "\\%c" special-char)
+      (format "%c" char))))
+
 (defun json-reformat:string-to-string (val)
   (if json-reformat:pretty-string?
-      (format "\"%s\"" (replace-regexp-in-string "\"" "\\\\\"" val))
+      (format "\"%s\"" (mapconcat 'json-reformat:encode-char-as-pretty val ""))
     (json-encode-string val)))
 
 (defun json-reformat:vector-to-string (val level)
@@ -141,20 +161,32 @@ Else t:
 
 ;;;###autoload
 (defun json-reformat-region (begin end)
-  "Reformat the JSON in the region from BEGIN to END."
+  "Reformat the JSON in the specified region.
+
+If you want to customize the reformat style,
+please see the documentation of `json-reformat:indent-width'
+and `json-reformat:pretty-string?'."
   (interactive "r")
-  (save-excursion
-    (save-restriction
-      (narrow-to-region begin end)
-      (goto-char (point-min))
-      (let* ((json-key-type 'string)
-             (json-object-type 'plist)
-             (before (buffer-substring (point-min) (point-max)))
-             (json-tree (json-read-from-string before))
-             after)
-        (setq after (json-reformat:print-node json-tree 0))
-        (delete-region (point-min) (point-max))
-        (insert after)))))
+  (let ((start-line (line-number-at-pos begin))
+        (json-key-type 'string)
+        (json-object-type 'plist))
+    (save-excursion
+      (save-restriction
+        (narrow-to-region begin end)
+        (goto-char (point-min))
+        (let (json-tree reformatted)
+          (condition-case errvar
+              (progn
+                (setq json-tree (json-read))
+                (setq reformatted (json-reformat:print-node json-tree 0))
+                (delete-region (point-min) (point-max))
+                (insert reformatted))
+            (error
+             (message
+              "JSON parse error [Reason] %s [Position] In buffer, line %d (char %d)"
+              (error-message-string errvar)
+              (+ start-line (line-number-at-pos (point)) -1)
+              (point)))))))))
 
 (provide 'json-reformat)
 
