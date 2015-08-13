@@ -1,6 +1,6 @@
 ;; -*- Emacs-Lisp -*-
 
-;; Time-stamp: <2015-08-12 14:43:10 Wednesday by iuyo5678>
+;; Time-stamp: <2015-08-13 12:17:20 Thursday by iuyo5678>
 
 ;; This  file is free  software; you  can redistribute  it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -118,8 +118,8 @@
 
 ;; 开发shell程序的mode配置
 (require 'sh-mode-settings)
-;;
-(require 'json)
+
+;; json的相关处理
 (require 'json-mode)
 (require 'json-reformat)
 (setq my-shebang-patterns

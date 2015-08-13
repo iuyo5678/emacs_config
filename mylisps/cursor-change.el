@@ -1,4 +1,4 @@
-;;; dired-lis.el --- Change cursor smartly
+;;; cursor-change.el --- Change cursor smartly
 
 ;; Copyright (C) 2009 ahei
 

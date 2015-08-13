@@ -1,11 +1,10 @@
 ;; -*- Emacs-Lisp -*-
 
-;; Time-stamp: <2010-08-08 12:04:13 Sunday by taoshanwen>
+;; Time-stamp: <2015-08-13 11:54:41 Thursday by iuyo5678>
 
-(if is-before-emacs-21
-    (require 'ido "ido-for-21"))
+(require 'ido)
 
-(ido-mode 1)
+(ido-mode t)
 
 (defun ido-settings ()
   "settings for `ido'."

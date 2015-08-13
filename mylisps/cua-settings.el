@@ -1,6 +1,6 @@
 ;; -*- Emacs-Lisp -*-
 
-;; Time-stamp: <2014-04-24 19:40:49 Thursday by nilin>
+;; Time-stamp: <2015-08-13 12:09:28 Thursday by iuyo5678>
 
 (require 'mark-settings)
 
@@ -29,7 +29,6 @@
   (apply-args-list-to-fun
    'def-mark-move-command
    `("cua-resize-rectangle-down"
-     "cua-resize-rectangle-up"
      "cua-resize-rectangle-right"
      "cua-resize-rectangle-left"
      "cua-resize-rectangle-top"

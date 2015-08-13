@@ -1,25 +1,26 @@
 ;;; cursor-chg.el --- Change cursor dynamically, depending on the context.
-;; 
+;;
 ;; Filename: cursor-chg.el
 ;; Description: Change cursor dynamically, depending on the context.
 ;; Author: Drew Adams
 ;; Maintainer: Drew Adams
-;; Copyright (C) 2006-2009, Drew Adams, all rights reserved.
+;; Copyright (C) 2006-2015, Drew Adams, all rights reserved.
 ;; Created: Tue Aug 29 11:23:06 2006
-;; Version: 20.1
-;; Last-Updated: Sat Aug  1 15:14:46 2009 (-0700)
+;; Version: 0
+;; Package-Requires: ()
+;; Last-Updated: Thu Jan  1 10:31:13 2015 (-0800)
 ;;           By: dradams
-;;     Update #: 191
-;; URL: http://www.emacswiki.org/cgi-bin/wiki/cursor-chg.el
+;;     Update #: 210
+;; URL: http://www.emacswiki.org/cursor-chg.el
 ;; Keywords: cursor, accessibility
-;; Compatibility: GNU Emacs: 20.x, 21.x, 22.x, 23.x
-;; 
+;; Compatibility: GNU Emacs: 20.x, 21.x, 22.x, 23.x, 24.x, 25.x
+;;
 ;; Features that might be required by this library:
 ;;
 ;;   None
 ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; 
+;;
 ;;; Commentary:
 ;;
 ;;  This library provides three kinds of changes to the text cursor:
@@ -44,7 +45,7 @@
 ;;    (require 'cursor-chg)  ; Load this library
 ;;    (change-cursor-mode 1) ; On for overwrite/read-only/input mode
 ;;    (toggle-cursor-type-when-idle 1) ; On when idle
-;; 
+;;
 ;;  Note: Library `oneonone.el' provides the same functionality as
 ;;  library `cursor-chg.el', and more.  If you use library
 ;;  `oneonone.el', then do NOT also use library `cursor-chg.el'.
@@ -54,7 +55,7 @@
 ;;  idle-cursor change enabled.  If you use Emacs 20, then consider
 ;;  using `toggle-cursor-type-when-idle' to disable idle-cursor change
 ;;  while you use `query-replace'.
-;; 
+;;
 ;;  User options defined here:
 ;;
 ;;    `curchg-change-cursor-on-input-method-flag',
@@ -90,8 +91,10 @@
 ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;
-;;; Change log:
+;;; Change Log:
 ;;
+;; 2011/01/03 dadams
+;;     Added autoload cookies for defcustom and commands.
 ;; 2006/10/28 dadams
 ;;     curchg-default-cursor-color, curchg-input-method-cursor-color:
 ;;       Changed :type to 'color for Emacs 21+.
@@ -105,26 +108,28 @@
 ;;     Created.
 ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; 
+;;
 ;; This program is free software; you can redistribute it and/or
 ;; modify it under the terms of the GNU General Public License as
 ;; published by the Free Software Foundation; either version 2, or
 ;; (at your option) any later version.
-;; 
+;;
 ;; This program is distributed in the hope that it will be useful,
 ;; but WITHOUT ANY WARRANTY; without even the implied warranty of
 ;; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
 ;; General Public License for more details.
-;; 
+;;
 ;; You should have received a copy of the GNU General Public License
 ;; along with this program; see the file COPYING.  If not, write to
 ;; the Free Software Foundation, Inc., 51 Franklin Street, Fifth
 ;; Floor, Boston, MA 02110-1301, USA.
-;; 
+;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; 
+;;
 ;;; Code:
 
+;; Quite the byte-compiler.
+(defvar change-cursor-mode)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -141,31 +146,38 @@ use either \\[customize] or command `change-cursor-mode'."
     :initialize 'custom-initialize-default
     :type 'boolean :group 'cursor :require 'cursor-chg))
 
+;;;###autoload
 (defcustom curchg-change-cursor-on-input-method-flag t
   "*Non-nil means to use a different cursor when using an input method."
   :type 'boolean :group 'cursor)
 
+;;;###autoload
 (defcustom curchg-change-cursor-on-overwrite/read-only-flag t
   "*Non-nil means use a different cursor for overwrite mode or read-only."
   :type 'boolean :group 'cursor)
 
+;;;###autoload
 (defcustom curchg-default-cursor-color (or (cdr (assq 'cursor-color default-frame-alist))
                                            "Red")
   "*Default text cursor color for non-special frames."
   :type (if (>= emacs-major-version 21) 'color 'string) :group 'cursor)
 
+;;;###autoload
 (defcustom curchg-default-cursor-type 'bar "*Default text cursor type."
   :type 'symbol :group 'cursor)
 
+;;;###autoload
 (defcustom curchg-idle-cursor-type 'box
   "*Text cursor type when Emacs is idle."
   :type 'symbol :group 'cursor)
 
+;;;###autoload
 (defcustom curchg-input-method-cursor-color "Orange"
   "*Default cursor color if using an input method.
 This has no effect if `curchg-change-cursor-on-input-method-flag' is nil."
   :type (if (>= emacs-major-version 21) 'color 'string) :group 'cursor)
 
+;;;###autoload
 (defcustom curchg-overwrite/read-only-cursor-type 'box
   "*Default text cursor type for overwrite mode or read-only buffer.
 This applies only to non-special frames.  This has no effect if
@@ -201,6 +213,7 @@ Do NOT change this yourself; instead, use `\\[toggle-cursor-type-when-idle]'.")
 
 (unless (fboundp 'set-cursor-type) (defalias 'set-cursor-type 'curchg-set-cursor-type))
 ;; This is essentially from Juri Linkov <juri@jurta.org>.
+;;;###autoload
 (defun curchg-set-cursor-type (cursor-type)
   "Set the cursor type of the selected frame to CURSOR-TYPE.
 When called interactively, prompt for the type to use.
@@ -210,7 +223,9 @@ To get the frame's current cursor type, use `frame-parameters'."
                                   (mapcar 'list '("box" "hollow" "bar" "hbar" nil))))))
   (modify-frame-parameters (selected-frame) (list (cons 'cursor-type cursor-type))))
 
+;;;###autoload
 (defalias 'toggle-cursor-type-when-idle 'curchg-toggle-cursor-type-when-idle)
+;;;###autoload
 (defun curchg-toggle-cursor-type-when-idle (&optional arg)
 "Turn on or off automatically changing cursor type when Emacs is idle.
 When on, use `curchg-idle-cursor-type' whenever Emacs is idle.
@@ -227,6 +242,7 @@ With prefix argument, turn on if ARG > 0; else turn off."
          (remove-hook 'pre-command-hook 'curchg-change-cursor-to-idle-type-off)
          (message "Turned OFF changing cursor when Emacs is idle."))))
 
+;;;###autoload
 (defun curchg-change-cursor-when-idle-interval (secs)
   "Set wait until automatically change cursor type when Emacs is idle.
 Whenever Emacs is idle for this many seconds, the cursor type will
