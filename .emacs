@@ -1,15 +1,27 @@
 ;; -*- Emacs-Lisp -*-
-;; Time-stamp: <2015-08-13 14:08:31 Thursday by iuyo5678>
+;; Time-stamp: <2016-02-24 23:20:56 Wednesday by zhangguhua>
 (defconst my-emacs-path           "~/.emacs.d/" "我的emacs相关配置文件的路径")
-(defconst my-emacs-my-lisps-path  (concat my-emacs-path "mylisps/") "我自己写的emacs lisp包的路径")
-(defconst my-emacs-lisps-path     (concat my-emacs-path "lisps/") "我下载的emacs lisp包的路径")
-(defconst my-emacs-templates-path (concat my-emacs-path "templates/") "Path for templates")
+(defconst my-emacs-my-lisps-path  (concat my-emacs-path "mylisps/") "我自己找的一些的emacs lisp包的路径")
+(defconst my-emacs-lisps-path     (concat my-emacs-path "lisps/") "一些安装lisp包路径，后面想用elpa升级")
+(defconst my-emacs-templates-path (concat my-emacs-path "templates/") "模板路径")
 
 
 ;; 把`my-emacs-lisps-path'的所有子目录都加到`load-path'里面
 (load (concat my-emacs-my-lisps-path "my-subdirs"))
 (my-add-subdirs-to-load-path my-emacs-lisps-path)
 (my-add-subdirs-to-load-path my-emacs-my-lisps-path)
+
+(require 'package)
+
+;;; Standard package repositories
+
+;; We include the org repository for completeness, but don't normally
+;; use it.
+(add-to-list 'package-archives '("org" . "http://orgmode.org/elpa/"))
+
+;;; Also use Melpa for most packages
+(add-to-list 'package-archives '("melpa-stable" . "http://melpa-stable.milkbox.net/packages/"))
+
 
 (add-to-list 'load-path (concat my-emacs-lisps-path "auto-complete/"))
 (require 'auto-complete-config)
