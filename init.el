@@ -1,5 +1,5 @@
 ;; -*- Emacs-Lisp -*-
-;; Time-stamp: <2016-02-24 23:20:56 Wednesday by zhangguhua>
+;; Time-stamp: <2016-02-25 17:57:45 Thursday by zhangguhua>
 (defconst my-emacs-path           "~/.emacs.d/" "我的emacs相关配置文件的路径")
 (defconst my-emacs-my-lisps-path  (concat my-emacs-path "mylisps/") "我自己找的一些的emacs lisp包的路径")
 (defconst my-emacs-lisps-path     (concat my-emacs-path "lisps/") "一些安装lisp包路径，后面想用elpa升级")
@@ -101,7 +101,7 @@
 (defun visit-.emacs ()
   "访问.emacs文件"
   (interactive)
-  (find-file (concat my-emacs-path ".emacs")))
+  (find-file (concat my-emacs-path "init.el")))
 (global-set-key (kbd "C-x E") 'visit-.emacs)
  
 
