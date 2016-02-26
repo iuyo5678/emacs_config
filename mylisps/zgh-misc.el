@@ -1,7 +1,7 @@
 ;;; zgh-misc.el --- Some basic utility function of ahei
 ;; -*- Emacs-Lisp -*-
 
-;; Time-stamp: <2014-04-24 20:30:01 Thursday by nilin>
+;; Time-stamp: <2016-02-26 22:23:09 Friday by zhangguhua>
 
 ;; This  file is free  software; you  can redistribute  it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -100,7 +100,6 @@ See also `with-temp-buffer'."
   (interactive "*")
   ;;(insert (format-time-string "%Y/%m/%d %H:%M:%S" (current-time))))
   (insert (format-time-string "%Y/%m/%d" (current-time))))
-(global-set-key "\C-xd" 'insert-current-date)
 
 ;;;###autoload
 (defun insert-current-time ()
@@ -108,7 +107,6 @@ See also `with-temp-buffer'."
   (interactive "*")
   (insert (format-time-string "%Y/%m/%d %H:%M:%S" (current-time))))
   ;;(insert (format-time-string "%H:%M:%S" (current-time))))
-(global-set-key "\C-xt" 'insert-current-time) 
 
 
 (provide 'zgh-misc)

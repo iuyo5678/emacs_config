@@ -3,7 +3,7 @@
 ;; Author: ahei <ahei0802@gmail.com>
 ;; Keywords: 
 ;; URL: http://code.google.com/p/dea/source/browse/trunk/my-lisps/edit-misc.el
-;; Time-stamp: <2014-04-24 19:45:35 Thursday by nilin>
+;; Time-stamp: <2016-02-26 22:05:54 Friday by zhangguhua>
 
 ;; This  file is free  software; you  can redistribute  it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -370,6 +370,41 @@ otherwise call `move-beginning-of-line'."
 (defun insert-time ()
   (interactive)
   (insert "Time-stamp: <>\n"))
+
+
+;;显示当前buffer或region或函数的行数和字符数，绑定到按键C-x l
+(defun count-brf-lines (&optional is-fun)
+    "显示当前buffer或region或函数的行数和字符数"
+    (interactive "P")
+    (let (min max)
+        (if is-fun
+                (save-excursion
+                    (beginning-of-defun) (setq min (point))
+                    (end-of-defun) (setq max (point))
+                    (message "当前函数%s内共有%d行, %d个字符" (which-function) (count-lines min max) (- max min)))
+            (if mark-active
+                    (progn
+                        (setq min (min (point) (mark)))
+                        (setq max (max (point) (mark))))
+                (setq min (point-min))
+                (setq max (point-max)))
+            (if (or (= 1 (point-min)) mark-active)
+                    (if mark-active
+                            (message "当前region内共有%d行, %d个字符" (count-lines min max) (- max min))
+                        (message "当前buffer内共有%d行, %d个字符" (count-lines min max) (- max min)))
+                (let ((nmin min) (nmax max))
+                    (save-excursion
+                        (save-restriction
+                            (widen)
+                            (setq min (point-min))
+                            (setq max (point-max))))
+                    (message "narrow下buffer内共有%d行, %d个字符, 非narrow下buffer内共有%d行, %d个字符"
+                             (count-lines nmin nmax) (- nmax nmin) (count-lines min max) (- max min)))))))
+(eal-define-keys-commonly
+ global-map
+ `(("C-x l" count-brf-lines)
+   ))
+
 
 (provide 'edit-misc)
 

@@ -24,9 +24,20 @@
 ;;; Commentary:
 ;;; 我的个人站点的配置信息，不上传
 
+
+(provide 'wordpress-setting)
+(eval-when-compile
+    (require 'cl))
+
+
 ;;;;##########################################################################
 ;;;;  User Options, Variables
 ;;;;##########################################################################
 
+(setq org2blog/wp-blog-alist
+      '(("wordpress"
+         :url "https://wordpress/xmlrpc.php"
+         :username "account_name"
+         ))
 
 ;;; wordpress-setting.el ends here
