@@ -1,5 +1,5 @@
 ;; -*- Emacs-Lisp -*-
-;; Time-stamp: <2016-02-26 15:12:09 Friday by zhangguhua>
+;; Time-stamp: <2016-02-26 17:02:08 Friday by zhangguhua>
 ;; zgh的emacs配置启动文件
 
 ;; 定义相关的路径，
@@ -91,6 +91,11 @@
 
 ;; 显示行号
 (require 'linum-settings)
+
+;; 高亮显示光标的字符
+(require 'feng-highlight)
+;; 绑定在快捷键M-i上
+(global-set-key (kbd "M-i") 'feng-highlight-at-point)
 
 ;; 不要menu-bar和tool-bar
 (menu-bar-mode -1)
