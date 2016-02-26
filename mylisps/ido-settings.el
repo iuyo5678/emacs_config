@@ -1,10 +1,11 @@
 ;; -*- Emacs-Lisp -*-
 
-;; Time-stamp: <2015-08-13 11:54:41 Thursday by iuyo5678>
+;; Time-stamp: <2016-02-26 15:31:33 Friday by zhangguhua>
 
 (require 'ido)
 
 (ido-mode t)
+(ido-everywhere t)
 
 (defun ido-settings ()
   "settings for `ido'."
@@ -81,5 +82,13 @@
 
 (eval-after-load 'ido
   `(ido-settings))
+
+(require 'ido-ubiquitous)
+(ido-ubiquitous-mode 1)
+
+(global-set-key (kbd "M-x") 'smex)
+(global-set-key (kbd "M-X") 'smex-major-mode-commands)
+;; This is your old M-x.
+(global-set-key (kbd "C-c C-c M-x") 'execute-extended-command)
 
 (provide 'ido-settings)

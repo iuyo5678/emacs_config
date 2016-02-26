@@ -1,6 +1,6 @@
 ;; -*- Emacs-Lisp -*-
 
-;; Time-stamp: <2015-08-13 12:17:20 Thursday by iuyo5678>
+;; Time-stamp: <2016-02-26 15:47:10 Friday by zhangguhua>
 
 ;; This  file is free  software; you  can redistribute  it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -46,14 +46,6 @@
 ;; hs-minor-mode,折叠代码
 (require 'hs-minor-mode-settings)
 
-;; 输入左大花扩号自动补齐右大花括号
-;;(eal-define-keys
-;; `(c-mode-base-map awk-mode-map)
-;; `(("{" skeleton-c-mode-left-brace)))
-
-;;load the yasnippet
-(require 'yasnippet)
-(yas-global-mode 1)
 
 ;; 动态检查语法错误
 (require 'flymake-settings)
@@ -105,13 +97,15 @@
 ;; `gdb'
 (require 'gud-settings)
 
-;; subversion
-(require 'svn-settings)
-
 ;; 版本控制
 (require 'vc-settings)
-(require 'git)
-(require 'git-blame)
+
+;; subversion
+(require 'svn-settings)
+;; magit按键配置
+(global-set-key (kbd "C-x g") 'magit-status)
+(global-set-key (kbd "C-x M-g") 'magit-dispatch-popup)
+
 
 ;; 所有关于lisp方面的配置
 (require 'all-lisp-settings)
@@ -169,8 +163,6 @@
 ;;写html的配置
 (require 'html-settings)
 
-;;写php的配置
-(require 'php-mode)
 
 ;; 回车后indent
 (eal-define-keys

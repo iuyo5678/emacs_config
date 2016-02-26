@@ -1,8 +1,11 @@
 ;; -*- Emacs-Lisp -*-
-;; Time-stamp: <2016-02-25 17:57:45 Thursday by zhangguhua>
+;; Time-stamp: <2016-02-26 15:12:09 Friday by zhangguhua>
+;; zgh的emacs配置启动文件
+
+;; 定义相关的路径，
 (defconst my-emacs-path           "~/.emacs.d/" "我的emacs相关配置文件的路径")
 (defconst my-emacs-my-lisps-path  (concat my-emacs-path "mylisps/") "我自己找的一些的emacs lisp包的路径")
-(defconst my-emacs-lisps-path     (concat my-emacs-path "lisps/") "一些安装lisp包路径，后面想用elpa升级")
+(defconst my-emacs-lisps-path     (concat my-emacs-path "elpa/") "一些安装lisp包路径，后面想用elpa升级")
 (defconst my-emacs-templates-path (concat my-emacs-path "templates/") "模板路径")
 
 
@@ -11,28 +14,27 @@
 (my-add-subdirs-to-load-path my-emacs-lisps-path)
 (my-add-subdirs-to-load-path my-emacs-my-lisps-path)
 
-(require 'package)
+;;初始化配置elpa
+(require 'init-elpa)
 
-;;; Standard package repositories
-
-;; We include the org repository for completeness, but don't normally
-;; use it.
-(add-to-list 'package-archives '("org" . "http://orgmode.org/elpa/"))
-
-;;; Also use Melpa for most packages
-(add-to-list 'package-archives '("melpa-stable" . "http://melpa-stable.milkbox.net/packages/"))
+;;color theme
+(require-package 'color-theme)
+(setq color-theme-initialize t)
+;;主题配置
+(require 'face-settings)
+(require 'color-theme-ahei)
 
 
-(add-to-list 'load-path (concat my-emacs-lisps-path "auto-complete/"))
+;;auto-complete配置
 (require 'auto-complete-config)
 (ac-config-default)
 
 (ac-ropemacs-initialize)
 (add-hook 'python-mode-hook
           (lambda ()
-            (add-to-list 'ac-sources 'ac-source-ropemacs)))
+              (add-to-list 'ac-sources 'ac-source-ropemacs)))
 
-(define-key ac-mode-map (kbd "M-/") 'auto-complete)
+;;(define-key ac-mode-map (kbd "M-/") 'auto-complete)
 
 
 ;; slime setup
@@ -50,6 +52,9 @@
   (exec-path-from-shell-initialize)
   (setq default-directory "~"))
 
+;; 配置yasnippet
+(require 'yasnippet)
+(yas-global-mode 1)
 
 ;; 一些基本的小函数
 (require 'zgh-misc)
@@ -64,6 +69,9 @@
 ;; 一些Emacs的小设置
 (require 'misc-settings)
 
+(require 'mode-line-settings)
+
+
 ;; 编码设置
 (require 'coding-settings)
 
@@ -75,7 +83,7 @@
 (require 'font-settings)
 ;;xml-rpc配置
 (require 'xml-rpc)
-(require 'org2blog-autoloads)
+
 
 (require 'fill-column-indicator)
 (define-globalized-minor-mode
@@ -89,13 +97,6 @@
 ;; GUI下显示toolbar的话select-buffer会出问题
 (if (fboundp 'tool-bar-mode)
   (tool-bar-mode -1))
-;;color theme
-(require 'color-theme)
-(color-theme-initialize)
-
-(require 'face-settings)
-(color-theme-ahei)
-(require 'mode-line-settings)
 
 
 (defun visit-.emacs ()

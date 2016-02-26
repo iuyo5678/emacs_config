@@ -26,7 +26,7 @@
        '(completions-first-difference
          ((((class color) (background dark)) (:foreground "red")))))
       (set-face-foreground 'completions-common-part "yellow")))
-  (am-add-hooks 'completion-setup-hook 'completion-faces))
+  (add-hook 'completion-setup-hook 'completion-faces))
 
 (eval-after-load "minibuffer"
   `(minibuffer-face-settings))

@@ -80,7 +80,7 @@
                (concat "#" (mapconcat (lambda (c) (format "%04X" c)) my-color ""))))))))
   (defun color-theme-adjust-hl-line-face()))
 
-(eval-when-compile (require 'color-theme-autoloads))
+;;(eval-when-compile (require 'color-theme-autoloads))
 (defun color-theme-ahei ()
   "Color theme by ahei, created 2009-11-20."
   (interactive)

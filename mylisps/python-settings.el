@@ -2,7 +2,7 @@
 
 ;; Author: ahei <ahei0802@gmail.com>
 ;; URL: http://code.google.com/p/dea/source/browse/trunk/my-lisps/python-settings.el
-;; Time-stamp: <2015-08-12 15:08:30 Wednesday by iuyo5678>
+;; Time-stamp: <2016-02-26 15:08:46 Friday by zhangguhua>
 
 ;; This  file is free  software; you  can redistribute  it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -25,7 +25,6 @@
 
 (when (featurep 'python) (unload-feature 'python t))
 
-(setq py-install-directory (concat my-emacs-lisps-path "python-mode/"))
 (require 'python-mode)
 (setq py-shell-name "ipython")
 
