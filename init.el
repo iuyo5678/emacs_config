@@ -1,5 +1,5 @@
 ;; -*- Emacs-Lisp -*-
-;; Time-stamp: <2016-02-26 17:02:08 Friday by zhangguhua>
+;; Time-stamp: <2016-02-26 18:09:42 Friday by zhangguhua>
 ;; zgh的emacs配置启动文件
 
 ;; 定义相关的路径，
@@ -81,9 +81,6 @@
 (require 'mark-settings)
 ;; 字体配置
 (require 'font-settings)
-;;xml-rpc配置
-(require 'xml-rpc)
-
 
 (require 'fill-column-indicator)
 (define-globalized-minor-mode

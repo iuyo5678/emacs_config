@@ -8,13 +8,14 @@
 
 ;; Author: Mark A. Hershberger <mah@everybody.org>
 ;; Original Author: Daniel Lundin <daniel@codefactory.se>
-;; Version: 1.6.8
+;; Version: 1.6.11
+;; Package-Version: 20150902.1827
 ;; Created: May 13 2001
 ;; Keywords: xml rpc network
-;; URL: http://launchpad.net/xml-rpc-el
-;; Last Modified: <2010-03-05 13:41:20 mah>
+;; URL: http://github.com/hexmode/xml-rpc-el
+;; Last Modified: <2015-05-29 11:32:09 mah>
 
-(defconst xml-rpc-version "1.6.8"
+(defconst xml-rpc-version "1.6.11"
   "Current version of xml-rpc.el")
 
 ;; This file is NOT (yet) part of GNU Emacs.
@@ -73,9 +74,10 @@
 ;;          int:  42
 ;; float/double:  42.0
 ;;       string:  "foo"
-;;        array:  '(1 2 3 4)   '(1 2 3 (4.1 4.2))
+;;       base64:  (list :base64 (base64-encode-string "hello" t)) '(:base64 "aGVsbG8=")
+;;        array:  '(1 2 3 4)   '(1 2 3 (4.1 4.2))  [ ]  '(:array (("not" "a") ("struct" "!")))
 ;;       struct:  '(("name" . "daniel") ("height" . 6.1))
-;;    dateTime:   (:datetime (1234 124))
+;;     dateTime:  '(:datetime (1234 124))
 
 
 ;;; Examples
@@ -123,6 +125,25 @@
 
 
 ;;; History:
+
+;; 1.6.11  - Add a way (xml-rpc-request-headers) for clients to add extra headers.
+
+;; 1.6.10.1 - removed extra HTTP header "Connection: close" and re-enabled keep-alive
+;;            to work with long-lived connections when large data is transmitted (LTC)
+
+;; 1.6.10  - Improve detection of structs with a patch from Jos'h Fuller.
+
+;; 1.6.9   - Add support for the i8 type (64 bit integers)
+;;         - Quote lambda with #' instead of ' to silence byte compiler
+
+;; 1.6.8.3 - [linda] Support for explicitly passing 'base64 data types.
+
+;; 1.6.8.2 - [linda] Fixed bug that empty values were translated into a boolean (nil)
+;;           instead of an empty string "" when turning XML into an Emacs list.
+
+;; 1.6.8.1 - [linda] Fixed bugs to be able to use empty lists and lists of lists
+;;           of strings as XML parameters.
+;;           (Bugs reported to web site with patches in Dec-2010.)
 
 ;; 1.6.8   - Add a report-xml-rpc-bug function
 ;;           Eliminate unused xml-rpc-get-temp-buffer-name
@@ -220,13 +241,31 @@ utf-8 coding system."
 (defcustom xml-rpc-debug 0
   "Set this to 1 or greater to avoid killing temporary buffers.
 Set it higher to get some info in the *Messages* buffer"
-  :type 'integerp :group 'xml-rpc)
+  :type 'integer :group 'xml-rpc)
 
 (defvar xml-rpc-fault-string nil
   "Contains the fault string if a fault is returned")
 
 (defvar xml-rpc-fault-code nil
   "Contains the fault code if a fault is returned")
+
+(defvar xml-rpc-request-extra-headers nil
+  "A list of extra headers to send with the next request.
+Should be an assoc list of headers/contents.  See `url-request-extra-headers'")
+
+(defsubst xml-rpc-valuep (value)
+  "Return t if VALUE is any sort of xml-rpc structure.
+
+Return nil otherwise."
+  (or (xml-rpc-value-intp value)
+      (xml-rpc-value-doublep value)
+      (xml-rpc-value-stringp value)
+      (xml-rpc-value-structp value)
+      (xml-rpc-value-arrayp value)
+      (xml-rpc-value-vectorp value)
+      (xml-rpc-value-booleanp value)
+      (xml-rpc-value-datetimep value)
+      (xml-rpc-value-base64p value)))
 
 ;;
 ;; Value type handling functions
@@ -256,16 +295,26 @@ Set it higher to get some info in the *Messages* buffer"
            (setq result (and
                          (setq curval (car-safe vals))
                          (consp curval)
-                         (stringp (car-safe curval))))
+                         (stringp (car-safe curval))
+                         (xml-rpc-valuep (cdr curval))))
            (setq vals (cdr-safe vals)))
          result)))
 
 ;; A somewhat lazy predicate for arrays
 (defsubst xml-rpc-value-arrayp (value)
-  "Return t if VALUE is an XML-RPC struct."
+  "Return t if VALUE is an XML-RPC array - specified by keyword :array or
+a list that is not datetime, base64 or struct."
   (and (listp value)
-       (not (xml-rpc-value-datetimep value))
-       (not (xml-rpc-value-structp value))))
+       (or
+	(eq (car value) :array)
+	(and
+	 (not (xml-rpc-value-datetimep value))
+	 (not (xml-rpc-value-base64p value))
+	 (not (xml-rpc-value-structp value))))))
+
+(defsubst xml-rpc-value-vectorp (value)
+  "Return t if VALUE is a vector - used to pass in empty lists"
+  (vectorp value))
 
 (defun xml-rpc-submit-bug-report ()
  "Submit a bug report on xml-rpc."
@@ -300,12 +349,23 @@ time, or it will be confused for a list."
   (and (listp value)
        (eq (car value) :datetime)))
 
+(defun xml-rpc-value-base64p (value)
+  "Return t if VALUE is a base64 byte array.  For Emacs XML-RPC
+implementation, you must put keyword :base64 before the
+sequence, or it will be confused for a list."
+  (and (listp value)
+       (eq (car value) :base64)))
+
 (defun xml-rpc-string-to-boolean (value)
   "Return t if VALUE is a boolean"
   (or (string-equal value "true") (string-equal value "1")))
 
 (defun xml-rpc-caddar-safe (list)
-  (car-safe (cdr-safe (cdr-safe (car-safe list)))))
+  "Assume that LIST is '((value nil REST)) and return REST.  If REST is nil, then return \"\""
+  (let ((rest (car-safe (cdr-safe (cdr-safe (car-safe list))))))
+    (if rest
+	rest
+      "")))
 
 (defun xml-rpc-xml-list-to-value (xml-list)
   "Convert an XML-RPC structure in an xml.el style XML-LIST to an elisp list, \
@@ -313,16 +373,13 @@ interpreting and simplifying it while retaining its structure."
   (let (valtype valvalue)
     (cond
      ((and (xml-rpc-caddar-safe xml-list)
-           (listp (car-safe (cdr-safe (cdr-safe (car-safe xml-list))))))
-
+           (listp (xml-rpc-caddar-safe xml-list)))
       (setq valtype (car (caddar xml-list))
             valvalue (caddr (caddar xml-list)))
       (cond
        ;; Base64
        ((eq valtype 'base64)
-        (if xml-rpc-base64-decode-unicode
-            (decode-coding-string (base64-decode-string valvalue) 'utf-8)
-          (base64-decode-string valvalue)))
+        (list :base64 (base64-decode-string valvalue))) ; for some reason, Emacs wraps this in a second encoding
        ;; Boolean
        ((eq valtype 'boolean)
         (xml-rpc-string-to-boolean valvalue))
@@ -330,11 +387,11 @@ interpreting and simplifying it while retaining its structure."
        ((eq valtype 'string)
         valvalue)
        ;; Integer
-       ((or (eq valtype 'int) (eq valtype 'i4))
+       ((or (eq valtype 'int) (eq valtype 'i4) (eq valtype 'i8))
         (string-to-number (or valvalue "0")))
        ;; Double/float
        ((eq valtype 'double)
-        (string-to-number valvalue))
+        (string-to-number (or valvalue "0.0")))
        ;; Struct
        ((eq valtype 'struct)
         (mapcar (lambda (member)
@@ -358,7 +415,8 @@ interpreting and simplifying it while retaining its structure."
         (mapcar (lambda (arrval)
                   (xml-rpc-xml-list-to-value (list arrval)))
                 (cddr valvalue)))))
-     ((xml-rpc-caddar-safe xml-list)))))
+     (t
+      (xml-rpc-caddar-safe xml-list)))))
 
 (defun xml-rpc-boolean-to-string (value)
   "Convert a boolean value to a string"
@@ -374,15 +432,26 @@ interpreting and simplifying it while retaining its structure."
   "Return XML representation of VALUE properly formatted for use with the  \
 functions in xml.el."
   (cond
-   ;;   ((not value)
-   ;;    nil)
+   ;; boolean
    ((xml-rpc-value-booleanp value)
     `((value nil (boolean nil ,(xml-rpc-boolean-to-string value)))))
    ;; Date
    ((xml-rpc-value-datetimep value)
     `((value nil (dateTime.iso8601 nil ,(xml-rpc-datetime-to-string value)))))
-   ;; list
+   ;; base64 (explicit)
+   ((xml-rpc-value-base64p value)
+    `((value nil (base64 nil ,(base64-encode-string (cadr value)))))) ; strip keyword; for some reason, Emacs decodes this twice
+   ;; array as vector (for empty lists)
+   ((xml-rpc-value-vectorp value)
+    (let ((result nil)
+          (xmlval nil))
+      (dotimes (i (length value))
+	(setq xmlval (xml-rpc-value-to-xml-list (elt value i))
+	      result (if result (append result xmlval) xmlval)))
+      `((value nil (array nil ,(append '(data nil) result))))))
+   ;; array as list
    ((xml-rpc-value-arrayp value)
+    (setq value (if (eq (car value) :array) (cadr value) value)) ; strip keyword if any
     (let ((result nil)
           (xmlval nil))
       (while (setq xmlval (xml-rpc-value-to-xml-list (car value))
@@ -410,7 +479,7 @@ functions in xml.el."
                    (eq 'ascii (car charset-list)))
               (not xml-rpc-base64-encode-unicode))
           `((value nil (string nil ,value)))
-        `((value nil (base64 nil ,(if xml-rpc-base64-encode-unicode
+        `((value nil (string nil ,(if xml-rpc-base64-encode-unicode
                                       (base64-encode-string
                                        (encode-coding-string
                                         value xml-rpc-use-coding-system))
@@ -418,7 +487,7 @@ functions in xml.el."
    ((xml-rpc-value-doublep value)
     `((value nil (double nil ,(number-to-string value)))))
    (t
-    `((value nil (base64 nil ,(base64-encode-string value)))))))
+    `((value nil (string nil ,(base64-encode-string value)))))))
 
 (defun xml-rpc-xml-to-string (xml)
   "Return a string representation of the XML tree as valid XML markup."
@@ -511,11 +580,13 @@ or nil if called with ASYNC-CALLBACK-FUNCTION."
                                         "\n"))
               (url-mime-charset-string "utf-8;q=1, iso-8859-1;q=0.5")
               (url-request-coding-system xml-rpc-use-coding-system)
-              (url-http-attempt-keepalives nil)
-              (url-request-extra-headers (list
-                                          (cons "Connection" "close")
-                                          (cons "Content-Type"
-                                                "text/xml; charset=utf-8"))))
+              (url-http-attempt-keepalives t)
+              (url-request-extra-headers (append
+                                          (list
+                                           (cons "Connection" "close")
+                                           (cons "Content-Type"
+                                                 "text/xml; charset=utf-8"))
+                                          xml-rpc-request-extra-headers)))
           (when (> xml-rpc-debug 1)
             (print url-request-data (create-file-buffer "request-data")))
 
@@ -538,7 +609,9 @@ or nil if called with ASYNC-CALLBACK-FUNCTION."
                      result)))
                 (t                      ; Post emacs20 w3-el
                  (if async-callback-function
-                     (url-retrieve server-url async-callback-function)
+                     (let ((cbargs (list async-callback-function)))
+                       (url-retrieve server-url
+                                     'xml-new-rpc-request-callback-handler cbargs))
                    (let ((buffer (url-retrieve-synchronously server-url)))
                      (with-current-buffer buffer
                        (when (not (numberp url-http-response-status))
@@ -640,6 +713,12 @@ handled from XML-BUFFER."
     (funcall callback-fun (xml-rpc-xml-to-response xml-response))))
 
 
+(defun xml-new-rpc-request-callback-handler (status callback-fun)
+  "Handle a new style `url-retrieve' callback passing `STATUS' and `CALLBACK-FUN'."
+  (let ((xml-buffer (current-buffer)))
+    (xml-rpc-request-callback-handler callback-fun xml-buffer)))
+
+
 (defun xml-rpc-method-call-async (async-callback-func server-url method
                                                       &rest params)
   "Call an XML-RPC method asynchronously at SERVER-URL named METHOD with \
@@ -648,9 +727,9 @@ called with the result as parameter."
   (let* ((m-name (if (stringp method)
                      method
                    (symbol-name method)))
-         (m-params (mapcar '(lambda (p)
-                              `(param nil ,(car (xml-rpc-value-to-xml-list
-                                                 p))))
+         (m-params (mapcar #'(lambda (p)
+                               `(param nil ,(car (xml-rpc-value-to-xml-list
+                                                  p))))
                            (if async-callback-func
                                params
                              (car-safe params))))
