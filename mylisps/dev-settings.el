@@ -1,6 +1,6 @@
 ;; -*- Emacs-Lisp -*-
 
-;; Time-stamp: <2016-02-26 15:47:10 Friday by zhangguhua>
+;; Time-stamp: <2016-03-01 16:12:39 Tuesday by zhangguhua>
 
 ;; This  file is free  software; you  can redistribute  it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -99,6 +99,12 @@
 
 ;; 版本控制
 (require 'vc-settings)
+
+;; 写配置文件时的mode，ini文件conf文件
+(require 'any-ini-mode)
+(add-to-list 'auto-mode-alist '(".*\\.ini$" . any-ini-mode))
+(add-to-list 'auto-mode-alist '(".*\\.conf$" . any-ini-mode))
+
 
 ;; subversion
 (require 'svn-settings)

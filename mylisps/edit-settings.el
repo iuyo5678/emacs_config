@@ -1,6 +1,6 @@
 ;; -*- Emacs-Lisp -*-
 
-;; Time-stamp: <2015-04-02 14:45:36 Thursday by zhangguhua>
+;; Time-stamp: <2016-03-01 17:44:58 Tuesday by zhangguhua>
 
 (require 'compile-settings)
 (require 'edit-misc)
@@ -121,5 +121,10 @@
 (auto-indent-global-mode)
 (setq auto-indent-assign-indent-level 4) ; Changes the indent level to 4
 
-
+;;设置自动换行
+(setq truncate-partial-width-windows nil) 
+;;org-mode 设置自动换行
+(add-hook 'org-mode-hook (lambda() (setq truncate-lines nil)))
+;;设置orgmode中图片默认宽度为500
+(setq org-image-actual-width '(500)) 
 (provide 'edit-settings)

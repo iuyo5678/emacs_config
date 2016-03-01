@@ -1,5 +1,5 @@
 ;; -*- Emacs-Lisp -*-
-;; Time-stamp: <2016-02-26 22:55:43 Friday by zhangguhua>
+;; Time-stamp: <2016-03-01 16:06:38 Tuesday by zhangguhua>
 ;; zgh的emacs配置启动文件
 
 ;; 定义相关的路径，
