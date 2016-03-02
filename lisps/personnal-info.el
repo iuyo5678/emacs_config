@@ -40,12 +40,19 @@
 ;;;;##########################################################################
 
 ;; 个人信息
-(setq user-mail-address "youremail@baidu.com")
+(setq user-mail-address "youremail@host.com")
 (setq user-full-name    "your name")
-
 (setq-default default-directory "~")
 
+;; 代理信息
 
 
+;; 配置自己的站点信息，可以使用emacs直接写wordpress文章
+
+(setq org2blog/wp-blog-alist
+      '(("wordpress_name"
+         :url "http://wordpress_site_place.com/xmlrpc.php"
+         :username "wordpress_username"
+         )))
 
 ;;; personnal-info.el ends here

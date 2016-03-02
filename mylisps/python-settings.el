@@ -2,7 +2,7 @@
 
 ;; Author: ahei <ahei0802@gmail.com>
 ;; URL: http://code.google.com/p/dea/source/browse/trunk/my-lisps/python-settings.el
-;; Time-stamp: <2016-02-26 15:08:46 Friday by zhangguhua>
+;; Time-stamp: <2016-03-02 15:47:55 Wednesday by zhangguhua>
 
 ;; This  file is free  software; you  can redistribute  it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -19,8 +19,6 @@
 ;; write  to  the Free  Software  Foundation,  Inc., 51  Franklin
 ;; Street, Fifth Floor, Boston, MA 02110-1301, USA.
 
-;;(require 'pdb-settings)
-;;(require 'pydb)
 (setq pydb-many-windows t)
 
 (when (featurep 'python) (unload-feature 'python t))
@@ -28,16 +26,8 @@
 (require 'python-mode)
 (setq py-shell-name "ipython")
 
-(autoload 'pymacs-apply "pymacs")
-(autoload 'pymacs-call "pymacs")
-(autoload 'pymacs-eval "pymacs" nil t)
-(autoload 'pymacs-exec "pymacs" nil t)
-(autoload 'pymacs-load "pymacs" nil t)
-;;(eval-after-load "pymacs"
-;;  '(add-to-list 'pymacs-load-path YOUR-PYMACS-DIRECTORY"))
-
-(require 'pymacs)
-(pymacs-load "ropemacs" "rope-")
+(add-hook 'python-mode-hook 'jedi:setup)
+(setq jedi:complete-on-dot t)
 
 (when (executable-find "pyflakes")
   (defun flymake-pyflakes-init ()
