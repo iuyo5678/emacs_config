@@ -30,7 +30,7 @@
 
 ;;; Code:
 
-(provide 'personnal-info)
+(provide 'personal-info)
 (eval-when-compile
   (require 'cl))
 
@@ -55,4 +55,4 @@
          :username "wordpress_username"
          )))
 
-;;; personnal-info.el ends here
+;;; personal-info.el ends here

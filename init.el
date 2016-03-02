@@ -1,5 +1,5 @@
 ;; -*- Emacs-Lisp -*-
-;; Time-stamp: <2016-03-01 16:06:38 Tuesday by zhangguhua>
+;; Time-stamp: <2016-03-02 16:08:07 Wednesday by zhangguhua>
 ;; zgh的emacs配置启动文件
 
 ;; 定义相关的路径，
@@ -74,7 +74,7 @@
 (require 'mode-line-settings)
 
 ;;个人信息的设置
-(require 'personnal-info)
+(require 'personal-info)
 
 ;; 编码设置
 (require 'coding-settings)
@@ -192,8 +192,6 @@
 
 ;;所有开发方面的配置
 (require 'dev-settings)
-;;自己的wordpress站点配置
-(require 'wordpress-setting)
 
 
 ;; 方便的切换major mode
