@@ -17,6 +17,7 @@ INSTALL
 FIX_LOG
 ============
 2016-03-02
+* 使用jedi完成python代码补全
 * 更改了配置文件的安装方式，直接clone下来，然后即可使用
 
 -------------------------------------------------------------------------------
@@ -32,36 +33,11 @@ FIX_LOG
 -------------------------------------------------------------------------------
 2015-03-27
 * 修正了python 的自动补全，现在python可以自动补全了.....撒花，
-解决办法
-下载pymacs  地址：https://github.com/pinard/Pymacs
-解压 进入解压目录：
-cd Downloads/Pymacs-master
-安装：
-sudo make install
-拷贝文件：
-cp pymacs.el  ~/.emacs.d/mylisps/
-
-安装rope：
-sudo pip install --upgrade rope
-安装ropemode：
-sudo pip install ropemode
-安装ropemacs
-sudo pip install ropemacs
-
-安装pyflakes
-sudo pip install pyflakes
-
-配置文件参见 python-settings.el
-
-参考：http://www.yilmazhuseyin.com/blog/dev/emacs-setup-python-development/
-
 
 -------------------------------------------------------------------------------
 
 2015-02-13
 * 添加了一个功能打开文件的所在目录，快捷键为 C-x C-j
-
-
 2015-02-06
 * 在shell-mode下添加了一个快捷键，C-l 快速清屏，直接调用clear-shell实现
 * 消除了一个dired-mode的一个小bug
