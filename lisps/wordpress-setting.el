@@ -35,9 +35,9 @@
 ;;;;##########################################################################
 
 (setq org2blog/wp-blog-alist
-      '(("wordpress"
-         :url "https://wordpress/xmlrpc.php"
-         :username "account_name"
-         ))
+      '(("wordpress_name"
+         :url "http://wordpress_site_place.com/xmlrpc.php"
+         :username "wordpress_username"
+         )))
 
 ;;; wordpress-setting.el ends here

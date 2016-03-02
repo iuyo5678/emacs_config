@@ -12,12 +12,15 @@ INSTALL
 ============
 1: download the config file from the github
   git clone https://github.com/iuyo5678/emacs_config.git  ~/.emacs.d
-2: use the config file
-  open the .emacs file in your home dir  and input "(load-file "~/.emacs.d/.emacs")"
-3: open emacs and enjoy it! :)
+2: open emacs and hope you enjoy it! :)
 
 FIX_LOG
 ============
+2016-03-02
+* 更改了配置文件的安装方式，直接clone下来，然后即可使用
+
+-------------------------------------------------------------------------------
+
 2015-04-03
 * 修正了一些bug，在gui下使用鼠标会出现一个错误，升级了icomplete+，修正了一些小bug
 
