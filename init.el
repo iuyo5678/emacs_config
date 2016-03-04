@@ -30,12 +30,6 @@
 ;;auto-complete配置
 (require 'auto-complete-config)
 (ac-config-default)
-
-(ac-ropemacs-initialize)
-(add-hook 'python-mode-hook
-          (lambda ()
-              (add-to-list 'ac-sources 'ac-source-ropemacs)))
-
 (define-key ac-mode-map (kbd "M-/") 'auto-complete)
 
 
