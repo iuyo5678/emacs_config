@@ -1,4 +1,4 @@
-;;; personnal-info.el --- 
+;;; personal-info.el --- 
 
 ;; Copyright 2016 zhangguhua
 ;;
@@ -50,9 +50,9 @@
 ;; 配置自己的站点信息，可以使用emacs直接写wordpress文章
 
 (setq org2blog/wp-blog-alist
-      '(("wordpress_name"
-         :url "http://wordpress_site_place.com/xmlrpc.php"
-         :username "wordpress_username"
+      '(("zgh-home"
+         :url "http://zghhome.com/xmlrpc.php"
+         :username "iuyo5678"
          )))
 
 ;;; personal-info.el ends here
