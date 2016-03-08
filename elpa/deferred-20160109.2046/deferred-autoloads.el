@@ -1,11 +1,15 @@
-;;; php-mode-autoloads.el --- automatically extracted autoloads
+;;; deferred-autoloads.el --- automatically extracted autoloads
 ;;
 ;;; Code:
 (add-to-list 'load-path (or (file-name-directory #$) (car load-path)))
+
+;;;### (autoloads nil nil ("deferred.el") (22238 63884 867618 0))
+
+;;;***
 
 ;; Local Variables:
 ;; version-control: never
 ;; no-byte-compile: t
 ;; no-update-autoloads: t
 ;; End:
-;;; php-mode-autoloads.el ends here
+;;; deferred-autoloads.el ends here
