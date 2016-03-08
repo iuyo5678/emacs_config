@@ -1,5 +1,5 @@
 ;; -*- Emacs-Lisp -*-
-;; Time-stamp: <2016-03-02 16:08:07 Wednesday by zhangguhua>
+;; Time-stamp: <2016-03-08 23:16:57 Tuesday by zhangguhua>
 ;; zgh的emacs配置启动文件
 
 ;; 定义相关的路径，
@@ -220,23 +220,6 @@
 (fset 'kill-head-blank
    "\C-a\C-@\C-[m\C-?\C-n")
 (require 'shell-mode-settings)
-
-(defun edit-current-file-as-root ()
-  "Edit the file that is associated with the current buffer as root"
-  (interactive)
-  (if (buffer-file-name)
-      (progn
-        (setq file (concat "/sudo:root@localhost:" (buffer-file-name)))
-        (find-file file))
-    (message "Current buffer does not have an associated file.")))
-
-
-;; C-x C-j open the directory of current buffer
-(global-set-key (kbd "C-x C-j")
-                (lambda ()
-                  (interactive)
-                  (if (buffer-file-name)
-                      (dired default-directory))))
 
 (require 'session)
 (add-hook 'after-init-hook 'session-initialize)

@@ -3,7 +3,7 @@
 ;; Author: ahei <ahei0802@gmail.com>
 ;; Keywords: 
 ;; URL: http://code.google.com/p/dea/source/browse/trunk/my-lisps/edit-misc.el
-;; Time-stamp: <2016-02-26 22:05:54 Friday by zhangguhua>
+;; Time-stamp: <2016-03-08 23:16:48 Tuesday by zhangguhua>
 
 ;; This  file is free  software; you  can redistribute  it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -404,6 +404,25 @@ otherwise call `move-beginning-of-line'."
  global-map
  `(("C-x l" count-brf-lines)
    ))
+
+
+
+(defun edit-current-file-as-root ()
+    "Edit the file that is associated with the current buffer as root"
+    (interactive)
+    (if (buffer-file-name)
+            (progn
+                (setq file (concat "/sudo:root@localhost:" (buffer-file-name)))
+                (find-file file))
+        (message "Current buffer does not have an associated file.")))
+
+
+;; C-x C-j open the directory of current buffer
+(global-set-key (kbd "C-x C-j")
+                (lambda ()
+                    (interactive)
+                    (if (buffer-file-name)
+                            (dired default-directory))))
 
 
 (provide 'edit-misc)

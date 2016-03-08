@@ -1,6 +1,6 @@
 ;; -*- Emacs-Lisp -*-
 
-;; Time-stamp: <2016-03-01 17:44:58 Tuesday by zhangguhua>
+;; Time-stamp: <2016-03-08 23:24:38 Tuesday by zhangguhua>
 
 (require 'compile-settings)
 (require 'edit-misc)
@@ -126,5 +126,18 @@
 ;;org-mode 设置自动换行
 (add-hook 'org-mode-hook (lambda() (setq truncate-lines nil)))
 ;;设置orgmode中图片默认宽度为500
-(setq org-image-actual-width '(500)) 
+(setq org-image-actual-width '(500))
+
+;; ace-jump-mode 配置，快速查找
+(autoload 'ace-jump-mode "ace-jump-mode" t)
+(eval-after-load "ace-jump-mode"
+    '(ace-jump-mode-enable-mark-sync))
+
+(define-key global-map (kbd "C-c SPC") 'ace-jump-mode)
+(define-key global-map (kbd "C-x SPC") 'ace-jump-mode-pop-mark)
+
+;; switch-window 快速切换窗口
+(require 'switch-window)
+(global-set-key (kbd "C-x o") 'switch-window)
+
 (provide 'edit-settings)
