@@ -23,6 +23,9 @@ slime
 smex
 yasnippet
 color-theme
+ace-auto-jump
+switch-window
+helm
 
 required
 ============

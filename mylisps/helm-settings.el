@@ -39,16 +39,34 @@
 ;;;;  User Options, Variables
 ;;;;##########################################################################
 
+
+(setq helm-adaptive-history-file             "~/.emacs.d/helm-history"
+      helm-move-to-line-cycle-in-source      t
+      helm-buffers-fuzzy-matching            t
+      helm-ff-auto-update-initial-value      t)
+
+
+(add-hook 'eshell-mode-hook
+          #'(lambda ()
+                (define-key eshell-mode-map (kbd "TAB")     'helm-esh-pcomplete)
+                (define-key eshell-mode-map (kbd "C-c C-l") 'helm-eshell-history)))
+
+(global-set-key (kbd "C-x b")   #'helm-mini)
+(global-set-key (kbd "C-x C-b") #'helm-buffers-list)
+(global-set-key (kbd "M-x") #'helm-M-x)
+(global-set-key (kbd "C-x C-f") #'helm-find-files)
+(global-set-key (kbd "C-x C-r") #'helm-recentf)
+(global-set-key (kbd "C-x r l") #'helm-filtered-bookmarks)
+(global-set-key (kbd "M-y")     #'helm-show-kill-ring)
+
 (require 'helm)
 (require 'helm-config)
+(helm-adaptive-mode t)
 
-;; M-x 绑定到helm-M-x 上，感觉比smex使用舒服一些
-(global-set-key (kbd "M-x") 'helm-M-x)
-;; 开启helm的模糊匹配
-(setq helm-M-x-fuzzy-match t)
-(global-set-key (kbd "M-y") 'helm-show-kill-ring)
-(global-set-key (kbd "C-x b") 'helm-mini)
-(global-set-key (kbd "C-x C-f") 'helm-find-files)
+
+(define-key helm-map (kbd "M-o") 'helm-previous-source)
+
+(global-set-key (kbd "M-s s")   'helm-ag)
 
 
 (when (executable-find "curl")
