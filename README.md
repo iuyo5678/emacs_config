@@ -1,18 +1,50 @@
 emacs_config
 ============
 
-我的emacs配置，适合程序开发人员，c，c++，python，php等，基于DEA改进而来，我的emacs版本是24.3.1
+我的emacs配置，适合程序开发人员python，php等，基于DEA改进而来，我的emacs版本是24.5.1,要求emacs的版本是24.4以上，我没有在emacs 24.5之前的版本使用过。
 
 dea的介绍主页在[这里](http://emacser.com/dea.htm)  感谢dea的作者配置文件中的大部分文件都是从dea的配置文件中copy过来，有些进行了一些
 修改，目的是提供一个简单可用的配置文件。
 
-配置在不定期修改，随着自己的使用发现不合适的地方。
+配置会随时更新，我在使用中使用发现不合适的地方也会修正bug，如果你在使用种有任何问题，欢迎发邮件：iuyo5678@gmail.com,或者到[这个帖子](http://zghhome.com/?p=166)下面进行回复，看到会及时响应的。
 
-INSTALL
+
+
+使用的插件
+============
+auto-complete
+jedi
+magit
+metaweblog
+org2blog
+php-mode
+python-mode
+slime
+smex
+yasnippet
+color-theme
+
+required
+============
+由于使用了python的自动补全插件：jedi 需要提前安装python的包virtualenv，
+
+安装
 ============
 1: download the config file from the github
   git clone https://github.com/iuyo5678/emacs_config.git  ~/.emacs.d
 2: open emacs and hope you enjoy it! :)
+
+各个文件夹介绍
+===========
+init.el    配置文件的入口文件，编辑该文件的快捷键是C-x E可以快速打开该文件
+mylisps/   该文件夹下存储着自己找的一些配置文件，后续会将里面的文件慢慢替代成elpa库中的文件，打开该文件夹的快捷键是C-x G m
+elpa/      该文件夹是所有用elap安装的插件文件，为了方便开箱可用，所以完整的保存下来，打开该文件夹的快捷键是 C-x G l
+templates/ 该文件夹是模板文件夹，里面存储了新建各种文件的个人模板配置。
+
+使用前的准备工作
+=============
+使用前需要简单的配置一下你的个人信息，即可使用。个人信息配置在文件在lisps/personal-info.el中，需要配置你的邮箱和用户名，如果你有个人的wordpress博客，你也可以配置个人的博客的地址，否则可以不用管，或是注释掉。
+
 
 FIX_LOG
 ============
@@ -66,5 +98,5 @@ FIX_LOG
 
 How to use it
 ============
-像使用正常的emacs一样正常使用它，我会在这块地方不定时添加一些使用技巧，现在你先去发掘吧....
+像使用正常的emacs一样正常使用它，我会在这块地方不定时添加一些使用技巧，使用中去发掘吧....
 
