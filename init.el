@@ -1,5 +1,5 @@
 ;; -*- Emacs-Lisp -*-
-;; Time-stamp: <2016-03-08 23:16:57 Tuesday by zhangguhua>
+;; Time-stamp: <2016-03-09 10:36:25 Wednesday by zhangguhua>
 ;; zgh的emacs配置启动文件
 
 ;; 定义相关的路径，
@@ -154,7 +154,8 @@
 
 ;;(require 'select-buffer)
 (require 'ido-settings)
-
+;;
+(require 'helm-settings)
 ;;dired模式的一些配置
 (require 'dired-settings)
 
