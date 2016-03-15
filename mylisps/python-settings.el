@@ -2,7 +2,7 @@
 
 ;; Author: ahei <ahei0802@gmail.com>
 ;; URL: http://code.google.com/p/dea/source/browse/trunk/my-lisps/python-settings.el
-;; Time-stamp: <2016-03-02 15:47:55 Wednesday by zhangguhua>
+;; Time-stamp: <2016-03-15 15:57:18 Tuesday by iuyo5678>
 
 ;; This  file is free  software; you  can redistribute  it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -23,7 +23,7 @@
 
 (when (featurep 'python) (unload-feature 'python t))
 
-(require 'python-mode)
+;;(require 'python-mode)
 (setq py-shell-name "ipython")
 
 (add-hook 'python-mode-hook 'jedi:setup)
