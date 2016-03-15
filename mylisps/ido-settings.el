@@ -1,6 +1,6 @@
 ;; -*- Emacs-Lisp -*-
 
-;; Time-stamp: <2016-03-09 11:10:34 Wednesday by zhangguhua>
+;; Time-stamp: <2016-03-10 17:29:26 Thursday by iuyo5678>
 
 (require 'ido)
 
@@ -86,8 +86,8 @@
 (require 'ido-ubiquitous)
 (ido-ubiquitous-mode 1)
 
-;;(global-set-key (kbd "M-x") 'smex)
-;;(global-set-key (kbd "M-X") 'smex-major-mode-commands)
+(global-set-key (kbd "M-x") 'smex)
+(global-set-key (kbd "M-X") 'smex-major-mode-commands)
 
 ;; This is your old M-x.
 (global-set-key (kbd "C-c C-c M-x") 'execute-extended-command)
