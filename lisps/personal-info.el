@@ -50,9 +50,9 @@
 ;; 配置自己的站点信息，可以使用emacs直接写wordpress文章
 
 (setq org2blog/wp-blog-alist
-      '(("zgh-home"
-         :url "http://zghhome.com/xmlrpc.php"
-         :username "iuyo5678"
+      '(("site_name"
+         :url "http://site_address/xmlrpc.php"
+         :username "user_name"
          )))
 
 ;;; personal-info.el ends here

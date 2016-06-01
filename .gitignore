@@ -5,3 +5,8 @@
 /ido.last
 /places
 /smex-items
+eshell/history
+helm-history
+recentf
+session.*
+auto-save-list/*
