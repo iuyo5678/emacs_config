@@ -5,8 +5,11 @@
 /ido.last
 /places
 /smex-items
-eshell/history
 helm-history
 recentf
 session.*
 auto-save-list/*
+eshell/*
+lisps/personal-info.el
+elpa/archives/org/archive-contents
+elpa/archives/marmalade/archive-contents
