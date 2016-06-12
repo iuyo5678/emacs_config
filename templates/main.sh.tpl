@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Time-stamp: <2014-09-03 17:03:59 Wednesday by zhangguhua>
+# Time-stamp: <2016-06-01 17:42:12 Wednesday by zhangguhua>
 ################################################################################
 #                                  _ooOoo_
 #                                 o8888888o
@@ -31,9 +31,8 @@
 readonly PROGRAM_NAME="(>>>FILE<<<)"
 readonly PROGRAM_VERSION="1.0.0"
 
-home=`cd $(dirname "$0") && pwd`
+HOME=`cd $(dirname "$0") && pwd`
 
-. "$home"/common.sh
 
 usage()
 {
