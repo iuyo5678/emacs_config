@@ -1,10 +1,10 @@
 ;;; switch-window-autoloads.el --- automatically extracted autoloads
 ;;
 ;;; Code:
-(add-to-list 'load-path (or (file-name-directory #$) (car load-path)))
+(add-to-list 'load-path (directory-file-name (or (file-name-directory #$) (car load-path))))
 
-;;;### (autoloads nil "switch-window" "switch-window.el" (22247 47590
-;;;;;;  605795 15000))
+;;;### (autoloads nil "switch-window" "switch-window.el" (22388 59378
+;;;;;;  559419 703000))
 ;;; Generated autoloads from switch-window.el
 
 (autoload 'switch-window-then-delete "switch-window" "\

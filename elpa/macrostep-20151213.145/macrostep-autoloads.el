@@ -1,10 +1,10 @@
 ;;; macrostep-autoloads.el --- automatically extracted autoloads
 ;;
 ;;; Code:
-(add-to-list 'load-path (or (file-name-directory #$) (car load-path)))
+(add-to-list 'load-path (directory-file-name (or (file-name-directory #$) (car load-path))))
 
-;;;### (autoloads nil "macrostep" "macrostep.el" (22247 46546 570138
-;;;;;;  444000))
+;;;### (autoloads nil "macrostep" "macrostep.el" (22388 59501 212809
+;;;;;;  220000))
 ;;; Generated autoloads from macrostep.el
 
 (autoload 'macrostep-mode "macrostep" "\
@@ -36,8 +36,8 @@ behaviors.
 
 ;;;***
 
-;;;### (autoloads nil "macrostep-c" "macrostep-c.el" (22247 46546
-;;;;;;  565138 326000))
+;;;### (autoloads nil "macrostep-c" "macrostep-c.el" (22388 59501
+;;;;;;  208809 207000))
 ;;; Generated autoloads from macrostep-c.el
 
 (autoload 'macrostep-c-mode-hook "macrostep-c" "\
@@ -49,8 +49,8 @@ behaviors.
 
 ;;;***
 
-;;;### (autoloads nil nil ("macrostep-pkg.el") (22247 46546 584310
-;;;;;;  734000))
+;;;### (autoloads nil nil ("macrostep-pkg.el") (22388 59501 194809
+;;;;;;  163000))
 
 ;;;***
 
