@@ -41,7 +41,7 @@
     :group 'feng-highlight)
 
 (defvar current-highlighted nil)
-(defvar highlighted-history-length 2)
+(defvar highlighted-history-length 1)
 (defvar highlighted-history '())
 
 (make-variable-buffer-local 'current-highlighted)
@@ -103,8 +103,6 @@
            (target (symbol-name target-symbol)))
         (when target-symbol
             (setq current-highlighted target)
-            (if (= arg 1)
-                    (feng-highlight-add-to-hisotry target))
             (save-excursion
                 (goto-char (point-min))
                 (let* ((regexp (feng-highlight-regex target))
