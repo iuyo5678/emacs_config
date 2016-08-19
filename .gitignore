@@ -15,3 +15,4 @@ eshell/*
 network-security.data
 lisps/personal-info.el
 elpa/archives/*
+/url/*
