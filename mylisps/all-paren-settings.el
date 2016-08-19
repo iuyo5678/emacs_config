@@ -1,6 +1,6 @@
 ;; -*- Emacs-Lisp -*-
 
-;; Time-stamp: <2015-08-12 16:20:10 Wednesday by iuyo5678>
+;; Time-stamp: <2016-08-19 19:18:14 Friday by zhangguhua>
 
 ;; This  file is free  software; you  can redistribute  it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -43,7 +43,7 @@
   (interactive)
   (cond
    ((looking-at "[ \t]*[[\"({]") (forward-sexp) (backward-char))
-    ((or (looking-at "[]\")}]") (looking-back "[]\")}][ \t]*")) (if (< (point) (point-max)) (forward-char)) (backward-sexp))
+    ((or (looking-at "[]\")}]") (looking-back "[]\")}][ \t]*" 1)) (if (< (point) (point-max)) (forward-char)) (backward-sexp))
    (t (message "找不到匹配的括号"))))
 
 (eal-define-keys-commonly

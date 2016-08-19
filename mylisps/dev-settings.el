@@ -1,6 +1,6 @@
 ;; -*- Emacs-Lisp -*-
 
-;; Time-stamp: <2016-03-23 15:52:46 Wednesday by zhangguhua>
+;; Time-stamp: <2016-08-19 18:27:58 Friday by zhangguhua>
 
 ;; This  file is free  software; you  can redistribute  it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -119,8 +119,6 @@
 ;; 开发shell程序的mode配置
 (require 'sh-mode-settings)
 
-;; 开发go语言方面的配置
-(require 'go-mode-autoloads)
 ;; json的相关处理
 (require 'json-mode)
 (require 'json-reformat)
