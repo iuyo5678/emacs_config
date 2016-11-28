@@ -12,6 +12,7 @@ session.*
 auto-save-list/*
 eshell/*
 *~
+*.elc
 network-security.data
 lisps/personal-info.el
 elpa/archives/*
