@@ -1,5 +1,5 @@
 ;; -*- Emacs-Lisp -*-
-;; Time-stamp: <2016-08-19 19:16:19 Friday by zhangguhua>
+;; Time-stamp: <2016-11-29 18:32:05 Tuesday by wls81>
 ;; zgh的emacs配置启动文件
 
 ;; 定义相关的路径，
@@ -26,14 +26,9 @@
 ;;初始化配置elpa
 (require 'init-elpa)
 
-;;color theme
-(require-package 'color-theme)
-(setq color-theme-initialize t)
 ;;主题配置
 (require 'face-settings)
-(require 'color-theme-ahei)
-
-
+(color-theme-colorful-obsolescence)
 ;;auto-complete配置
 (require 'auto-complete-config)
 (ac-config-default)

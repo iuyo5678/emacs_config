@@ -1,10 +1,10 @@
 ;; -*- Emacs-Lisp -*-
 
-;; Time-stamp: <2010-11-26 13:49:32 Friday by taoshanwen>
+;; Time-stamp: <2016-11-29 18:28:53 Tuesday by wls81>
 
 (require 'ahei-face)
 (require 'color-theme-ahei)
-
+(color-theme-initialize)
 ;; 是否使用黑色背景
 (defvar use-black-background t "*Use black ground or not.")
 
@@ -52,7 +52,11 @@
 (require 'highlight-tail-face-settings)
 (require 'eldoc-face-settings)
 (require 'zjl-hl-face-settings)
-
+(require 'color-theme-solarized)
+(require 'color-theme-tango)
+(require 'color-theme-colorful-obsolescence)
+(require 'color-theme-folio)
+(require 'color-theme-tangotango)
 (mapc 'require '(pulse-face-settings hs-minor-mode-face-settings perl-face-settings))
 
 (when (fboundp 'color-theme-adjust-hl-line-face)
