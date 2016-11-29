@@ -1,6 +1,6 @@
 ;; -*- Emacs-Lisp -*-
 
-;; Time-stamp: <2016-11-29 18:28:53 Tuesday by wls81>
+;; Time-stamp: <2016-11-29 23:13:58 Tuesday by zhangguhua>
 
 (require 'ahei-face)
 (require 'color-theme-ahei)
@@ -52,11 +52,6 @@
 (require 'highlight-tail-face-settings)
 (require 'eldoc-face-settings)
 (require 'zjl-hl-face-settings)
-(require 'color-theme-solarized)
-(require 'color-theme-tango)
-(require 'color-theme-colorful-obsolescence)
-(require 'color-theme-folio)
-(require 'color-theme-tangotango)
 (mapc 'require '(pulse-face-settings hs-minor-mode-face-settings perl-face-settings))
 
 (when (fboundp 'color-theme-adjust-hl-line-face)

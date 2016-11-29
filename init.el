@@ -1,5 +1,5 @@
 ;; -*- Emacs-Lisp -*-
-;; Time-stamp: <2016-11-29 18:32:05 Tuesday by wls81>
+;; Time-stamp: <2016-11-29 23:34:34 Tuesday by zhangguhua>
 ;; zgh的emacs配置启动文件
 
 ;; 定义相关的路径，
@@ -28,7 +28,14 @@
 
 ;;主题配置
 (require 'face-settings)
-(color-theme-colorful-obsolescence)
+(require 'color-theme-solarized)
+(require 'color-theme-tango)
+(require 'color-theme-colorful-obsolescence)
+(require 'color-theme-folio)
+(require 'color-theme-tangotango)
+(require 'tomorrow-night-bright-theme)
+
+;;(color-theme-colorful-obsolescence)
 ;;auto-complete配置
 (require 'auto-complete-config)
 (ac-config-default)
@@ -228,56 +235,3 @@
 (add-hook 'after-init-hook 'session-initialize)
 (require  'wcy-desktop)
 (wcy-desktop-init)
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(package-selected-packages
-   (quote
-    (web-mode yasnippet switch-window sr-speedbar smex slime org markdown-mode magit jedi ido-ubiquitous helm color-theme)))
- '(template-use-package t nil (template)))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(compilation-info ((((type tty)) :bold t :foreground "green") (t :foreground "green")))
- '(compilation-warning ((((class color)) :foreground "red" :bold nil)))
- '(completions-first-difference ((((class color) (background dark)) (:foreground "red"))))
- '(diff-added ((((type tty pc)) :foreground "yellow") (t :foreground "aquamarine")))
- '(diff-changed ((((type tty pc)) :foreground "red" :background "blue") (t :foreground "deep pink")))
- '(diff-context ((((class grayscale) (background light)) (:foreground "LightGray" :weight bold)) (((class grayscale) (background dark)) (:foreground "DimGray" :weight bold)) (((class color) (min-colors 88) (background light)) (:foreground "Orchid")) (((class color) (min-colors 88) (background dark)) (:foreground "cornflower blue")) (((class color) (min-colors 16) (background light)) (:foreground "Orchid")) (((class color) (min-colors 16) (background dark)) (:foreground "LightSteelBlue")) (((class color) (min-colors 8)) (:foreground "blue" :weight bold)) (t (:weight bold))))
- '(diff-file-header ((((class color)) :foreground "magenta")))
- '(diff-header ((((class color)) :foreground "green")))
- '(diff-hunk-header ((((type tty pc)) :bold t :foreground "green") (t :foreground "OliveDrab1")))
- '(diff-index ((((class color)) :foreground "cyan")))
- '(diff-indicator-added ((((type tty pc)) :foreground "red" :background "white") (t :foreground "red" :background "white")))
- '(diff-indicator-removed ((((type tty pc)) :foreground "yellow" :background "red") (t :foreground "yellow" :background "red")))
- '(diff-refine-changed ((((type tty pc)) :foreground "white" :background "blue") (t :foreground "dark orchid")))
- '(diff-removed ((((class color)) :foreground "red")))
- '(eldoc-highlight-function-argument ((((type tty)) :bold t :foreground "green") (t :bold nil :foreground "green")))
- '(font-lock-comment-delimiter-face ((((type tty)) :bold t :foreground "red") (t :foreground "chocolate1")))
- '(font-lock-constant-face ((((type tty)) :bold t :background "white" :foreground "blue") (t :background "darkslateblue" :foreground "chartreuse")))
- '(font-lock-doc-face ((((type tty)) :foreground "green") (t (:foreground "maroon1"))))
- '(font-lock-function-name-face ((((type tty)) :bold t :background "yellow" :foreground "blue") (t :background "#45D463DD4FF8" :foreground "yellow")))
- '(font-lock-regexp-grouping-backslash ((((type tty)) :foreground "red") (t (:foreground "red"))))
- '(font-lock-regexp-grouping-construct ((((type tty)) :foreground "yellow") (t (:foreground "yellow"))))
- '(font-lock-type-face ((((type tty)) :bold t :foreground "green") (t (:foreground "green"))))
- '(font-lock-warning-face ((t (:background "red" :foreground "white"))))
- '(header-line ((default :inherit mode-line) (((type tty)) :foreground "black" :background "yellow" :inverse-video nil) (((class color grayscale) (background light)) :background "grey90" :foreground "grey20" :box nil) (((class color grayscale) (background dark)) :background "#D58EFFFFFC18" :foreground "blue") (((class mono) (background light)) :background "white" :foreground "black" :inverse-video nil :box nil :underline t) (((class mono) (background dark)) :background "black" :foreground "white" :inverse-video nil :box nil :underline t)))
- '(ido-first-match ((((type tty pc)) :foreground "yellow") (t :bold nil :foreground "yellow")))
- '(ido-only-match ((((class color)) (:bold nil :foreground "green"))))
- '(info-header-node ((((class color) (background dark)) (:foreground "red"))))
- '(info-menu-header ((((type tty pc)) :underline t :weight bold) (t :inherit nil :foreground "coral2" :bold nil)))
- '(info-title-1 ((((type tty pc) (class color) (background dark)) :foreground "yellow" :weight bold) (t :foreground "yellow")))
- '(info-title-2 ((((type tty pc) (class color) (background dark)) :foreground "yellow" :weight bold) (t :foreground "lightblue")))
- '(info-title-3 ((((type tty pc) (class color) (background dark)) :foreground "yellow" :weight bold) (t :foreground "violetred1")))
- '(info-title-4 ((((type tty pc) (class color) (background dark)) :foreground "yellow" :weight bold) (t :foreground "green")))
- '(info-xref ((((type tty)) :inherit link) (t :foreground "#165ACBD1FFFF" :underline t)))
- '(isearch-fail ((((class color)) (:background "red"))))
- '(linum ((((background dark)) :foreground "cyan") (t :foreground "gray")))
- '(match ((((class color) (min-colors 88) (background light)) :background "yellow1") (((class color) (min-colors 88) (background dark)) :background "RoyalBlue3" :foreground "cyan") (((class color) (min-colors 8) (background light)) :background "yellow" :foreground "black") (((class color) (min-colors 8) (background dark)) :background "blue" :foreground "white") (((type tty) (class mono)) :inverse-video t) (t :background "gray")))
- '(mode-line-buffer-id ((((class grayscale) (background light)) (:foreground "LightGray" :background "yellow" :weight bold)) (((class grayscale) (background dark)) (:foreground "DimGray" :background "yellow" :weight bold)) (((class color) (min-colors 88) (background light)) (:foreground "Orchid" :background "yellow")) (((class color) (min-colors 88) (background dark)) (:foreground "yellow" :background "HotPink3")) (((class color) (min-colors 16) (background light)) (:foreground "Orchid" :background "yellow")) (((class color) (min-colors 16) (background dark)) (:foreground "LightSteelBlue" :background "yellow")) (((class color) (min-colors 8)) (:foreground "blue" :background "yellow" :weight bold)) (t (:weight bold))))
- '(region ((((class color) (min-colors 88) (background dark)) :background "#4CAA4CAA4CAA") (((class color) (min-colors 88) (background light)) :background "lightgoldenrod2") (((class color) (min-colors 16) (background dark)) :background "wheat") (((class color) (min-colors 16) (background light)) :background "lightgoldenrod2") (((class color) (min-colors 8)) :background "blue" :foreground "red") (((type tty) (class mono)) :inverse-video t) (t :background "gray")))
- '(svn-status-filename-face ((((type tty)) :bold t :foreground "yellow") (t :foreground "yellow"))))
