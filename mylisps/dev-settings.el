@@ -1,6 +1,6 @@
 ;; -*- Emacs-Lisp -*-
 
-;; Time-stamp: <2016-12-12 22:42:03 Monday by zhangguhua>
+;; Time-stamp: <2016-12-14 23:11:43 Wednesday by zhangguhua>
 
 ;; This  file is free  software; you  can redistribute  it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -105,8 +105,6 @@
 (add-to-list 'auto-mode-alist '(".*\\.ini$" . any-ini-mode))
 (add-to-list 'auto-mode-alist '(".*\\.conf$" . any-ini-mode))
 
-;;go mode  auto-complete 自动补全
-(require 'go-autocomplete)
 ;; subversion
 (require 'svn-settings)
 ;; magit按键配置
