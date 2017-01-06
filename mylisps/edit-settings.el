@@ -124,6 +124,7 @@
 ;;设置自动换行
 (setq truncate-partial-width-windows nil) 
 ;;org-mode 设置自动换行
+(require 'org-settings)
 (add-hook 'org-mode-hook (lambda() (setq truncate-lines nil)))
 ;;设置orgmode中图片默认宽度为500
 (setq org-image-actual-width '(500))
