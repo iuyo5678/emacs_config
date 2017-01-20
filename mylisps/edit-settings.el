@@ -1,6 +1,6 @@
 ;; -*- Emacs-Lisp -*-
 
-;; Time-stamp: <2016-07-01 11:36:12 Friday by zhangguhua>
+;; Time-stamp: <2016-12-05 15:48:22 Monday by wls81>
 
 (require 'compile-settings)
 (require 'edit-misc)
