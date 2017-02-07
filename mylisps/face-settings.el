@@ -1,10 +1,9 @@
 ;; -*- Emacs-Lisp -*-
 
 ;; Time-stamp: <2016-11-29 23:13:58 Tuesday by zhangguhua>
-
 (require 'ahei-face)
 (require 'color-theme-ahei)
-(color-theme-initialize)
+;;(color-theme-initialize)
 ;; 是否使用黑色背景
 (defvar use-black-background t "*Use black ground or not.")
 

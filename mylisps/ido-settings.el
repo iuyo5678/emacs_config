@@ -1,6 +1,6 @@
 ;; -*- Emacs-Lisp -*-
 
-;; Time-stamp: <2016-03-10 17:29:26 Thursday by iuyo5678>
+;; Time-stamp: <2017-02-07 12:11:54 Tuesday by wls81>
 
 (require 'ido)
 
