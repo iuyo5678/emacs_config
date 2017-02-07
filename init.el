@@ -1,5 +1,5 @@
 ;; -*- Emacs-Lisp -*-
-;; Time-stamp: <2017-02-07 11:00:52 Tuesday by wls81>
+;; Time-stamp: <2017-02-07 16:27:26 Tuesday by wls81>
 ;; zgh的emacs配置启动文件
 
 ;; 定义相关的路径，
@@ -28,13 +28,9 @@
 
 ;;主题配置
 (require 'color-theme)
+(color-theme-initialize)
+
 (require 'face-settings)
-(require 'color-theme-solarized)
-(require 'color-theme-tango)
-(require 'color-theme-colorful-obsolescence)
-(require 'color-theme-folio)
-(require 'color-theme-tangotango)
-(require 'tomorrow-night-theme)
 
 ;;(color-theme-colorful-obsolescence)
 ;;auto-complete配置

@@ -1,6 +1,6 @@
 ;; -*- Emacs-Lisp -*-
 
-;; Time-stamp: <2016-11-29 23:13:58 Tuesday by zhangguhua>
+;; Time-stamp: <2017-02-07 15:03:16 Tuesday by wls81>
 (require 'ahei-face)
 (require 'color-theme-ahei)
 ;;(color-theme-initialize)
@@ -60,5 +60,12 @@
   '((((type tty)))
     (t :background "AntiqueWhite4" :inverse-video nil))
   "`hl-line-face' without `underline'.")
+
+(require 'color-theme-solarized)
+(require 'color-theme-tango)
+(require 'color-theme-colorful-obsolescence)
+(require 'color-theme-folio)
+(require 'color-theme-tangotango)
+(require 'tomorrow-night-theme)
 
 (provide 'face-settings)

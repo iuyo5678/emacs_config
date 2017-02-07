@@ -40,8 +40,8 @@
 ;;;;##########################################################################
 
 ;; 个人信息
-(setq user-mail-address "youremail@host.com")
-(setq user-full-name    "your name")
+(setq user-mail-address "iuyo5678@gmail.com")
+(setq user-full-name    "Zhang Guhua")
 (setq-default default-directory "~")
 
 ;; 代理信息

@@ -2,7 +2,7 @@
 
 ;; Author: ahei <ahei0802@gmail.com>
 ;; URL: http://code.google.com/p/dea/source/browse/trunk/my-lisps/python-settings.el
-;; Time-stamp: <2017-01-06 16:00:54 Friday by wls81>
+;; Time-stamp: <2017-02-07 16:19:09 Tuesday by wls81>
 
 ;; This  file is free  software; you  can redistribute  it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -21,27 +21,13 @@
 
 (setq pydb-many-windows t)
 
-(when (featurep 'python) (unload-feature 'python t))
-
-;;(require 'python-mode)
-(setq py-shell-name "ipython")
-
-(add-hook 'python-mode-hook 'jedi:setup)
-(setq jedi:complete-on-dot t)
-
-(when (executable-find "pyflakes")
-  (defun flymake-pyflakes-init ()
-    (let* ((temp-file (flymake-init-create-temp-buffer-copy
-                       'flymake-create-temp-inplace))
-           (local-file (file-relative-name
-                        temp-file
-                        (file-name-directory buffer-file-name))))
-      (list "pyflakes" (list local-file))))
-  (add-to-list 'flymake-allowed-file-name-masks
-               '("\\.py\\'" flymake-pyflakes-init)))
-
+(elpy-enable)
 ;; 增加python doc的配置
 (add-hook 'python-mode-hook (lambda ()
                                 (require 'sphinx-doc)
                                 (sphinx-doc-mode t)))
+
+(require 'py-autopep8)
+(add-hook 'elpy-mode-hook 'py-autopep8-enable-on-save)
+
 (provide 'python-settings)
