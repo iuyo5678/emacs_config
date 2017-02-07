@@ -319,7 +319,7 @@
      (woman-italic ((t (:italic t :underline t :slant italic))))
      (woman-symbol ((t (nil))))
      (woman-unknown ((t (:foreground "cyan1")))))))
-(add-to-list 'color-themes '(color-theme-colorful-obsolescence  "Colorful Obsolescence" "Scott Jaderholm <scott@jaderholm.com>"))
+(eval-after-load "color-theme" `(add-to-list 'color-themes '(color-theme-colorful-obsolescence  "Colorful Obsolescence" "Scott Jaderholm <scott@jaderholm.com>")))
 
 (provide 'color-theme-colorful-obsolescence)
 ;;; color-theme-colorful-obsolescence.el ends here

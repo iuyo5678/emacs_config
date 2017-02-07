@@ -1,8 +1,15 @@
 ;; -*- Emacs-Lisp -*-
 
-;; Time-stamp: <2017-02-07 15:03:16 Tuesday by wls81>
+;; Time-stamp: <2017-02-07 22:28:20 Tuesday by zhangguhua>
 (require 'ahei-face)
 (require 'color-theme-ahei)
+(require 'color-theme-solarized)
+(require 'color-theme-tango)
+(require 'color-theme-colorful-obsolescence)
+(require 'color-theme-folio)
+(require 'color-theme-tangotango)
+(require 'tomorrow-night-theme)
+
 ;;(color-theme-initialize)
 ;; 是否使用黑色背景
 (defvar use-black-background t "*Use black ground or not.")
@@ -61,11 +68,5 @@
     (t :background "AntiqueWhite4" :inverse-video nil))
   "`hl-line-face' without `underline'.")
 
-(require 'color-theme-solarized)
-(require 'color-theme-tango)
-(require 'color-theme-colorful-obsolescence)
-(require 'color-theme-folio)
-(require 'color-theme-tangotango)
-(require 'tomorrow-night-theme)
 
 (provide 'face-settings)
