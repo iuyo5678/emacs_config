@@ -13,6 +13,9 @@ auto-save-list/*
 eshell/*
 *~
 *.elc
+*.pyc
+request/
+tramp
 network-security.data
 lisps/personal-info.el
 elpa/archives/*
