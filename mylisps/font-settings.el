@@ -1,6 +1,6 @@
 ;; -*- Emacs-Lisp -*-
 
-;; Time-stamp: <2017-02-15 14:43:54 Wednesday by wls81>
+;; Time-stamp: <2017-02-21 14:33:37 Tuesday by wls81>
 
 ;; Fonts setting
 ;; 设置两个字体变量，一个中文的一个英文的
@@ -9,16 +9,16 @@
 (setq ansi-font-size 18)
 
 (defun set-font()
-(interactive)
-(create-fontset-from-fontset-spec
-(concat
-"-*-fixed-medium-r-normal-*-*-*-*-*-*-*-fontset-myfontset," 
-(format "ascii:-outline-Consolas-normal-normal-normal-mono-%d-*-*-*-c-*-iso8859-1," ansi-font-size)
-(format "unicode:-microsoft-Microsoft YaHei-normal-normal-normal-*-%d-*-*-*-*-0-iso8859-1," cjk-font-size)
-(format "chinese-gb2312:-microsoft-Microsoft YaHei-normal-normal-normal-*-%d-*-*-*-*-0-iso8859-1," cjk-font-size)
-;; (format "unicode:-outline-文泉驿等宽微米黑-normal-normal-normal-sans-*-*-*-*-p-*-gb2312.1980-0," cjk-font-size)
-;; (format "chinese-gb2312:-outline-文泉驿等宽微米黑-normal-normal-normal-sans-*-*-*-*-p-*-gb2312.1980-0," cjk-font-size)
-)))
+    (interactive)
+    (create-fontset-from-fontset-spec
+     (concat
+      "-*-fixed-medium-r-normal-*-*-*-*-*-*-*-fontset-myfontset,"
+      (format "ascii:-outline-Consolas-normal-normal-normal-mono-%d-*-*-*-c-*-iso8859-1," ansi-font-size)
+      (format "unicode:-microsoft-Microsoft YaHei-normal-normal-normal-*-%d-*-*-*-*-0-iso8859-1," cjk-font-size)
+      (format "chinese-gb2312:-microsoft-Microsoft YaHei-normal-normal-normal-*-%d-*-*-*-*-0-iso8859-1," cjk-font-size)
+      ;; (format "unicode:-outline-文泉驿等宽微米黑-normal-normal-normal-sans-*-*-*-*-p-*-gb2312.1980-0," cjk-font-size)
+      ;; (format "chinese-gb2312:-outline-文泉驿等宽微米黑-normal-normal-normal-sans-*-*-*-*-p-*-gb2312.1980-0," cjk-font-size)
+      )))
 
 
 ;; 函数字体增大，每次增加2个字号，最大48号
