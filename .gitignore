@@ -21,3 +21,4 @@ lisps/personal-info.el
 elpa/archives/*
 /url/*
 \#*\#
+semanticdb/
