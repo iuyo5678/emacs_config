@@ -1,9 +1,9 @@
 ;; -*- Emacs-Lisp -*-
 
-;; Time-stamp: <2010-09-18 23:42:19 Saturday by taoshanwen>
+;; Time-stamp: <2017-03-24 13:55:58 Friday by zhangguhua>
 
 (am-add-hooks
- `(c-mode-common-hook lisp-mode-hook emacs-lisp-mode-hook java-mode-hook)
+ `(c-mode-common-hook lisp-mode-hook emacs-lisp-mode-hook java-mode-hook python-mode-hook)
  'hs-minor-mode)
 
 (defun hs-minor-mode-settings ()

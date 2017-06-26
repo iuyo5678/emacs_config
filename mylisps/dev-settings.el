@@ -1,6 +1,6 @@
 ;; -*- Emacs-Lisp -*-
 
-;; Time-stamp: <2016-12-14 23:11:43 Wednesday by zhangguhua>
+;; Time-stamp: <2017-05-15 17:23:27 Monday by zhangguhua>
 
 ;; This  file is free  software; you  can redistribute  it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -205,10 +205,8 @@
 ;; cedet 强大的开发工具, 包括代码浏览, 补全, 类图生成
 ;; 用CEDET浏览和编辑C++代码 http://emacser.com/cedet.htm
 ;; Emacs才是世界上最强大的IDE － cedet的安装 http://emacser.com/install-cedet.htm
-;;(require 'cedet-settings)
-
-;; ecb 代码浏览器
-;;(require 'ecb)
-;;(setq stack-trace-on-error nil)
+(require 'cedet)
+(global-ede-mode t)
+(semantic-mode t)
 
 (provide 'dev-settings)
