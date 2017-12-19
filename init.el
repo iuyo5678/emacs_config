@@ -1,5 +1,5 @@
 ;; -*- Emacs-Lisp -*-
-;; Time-stamp: <2017-03-23 10:14:38 Thursday by zhangguhua>
+;; Time-stamp: <2017-12-19 20:48:53 Tuesday by zhangguhua>
 ;; zgh的emacs配置启动文件
 
 ;; 定义相关的路径，
@@ -39,11 +39,11 @@
 (define-key ac-mode-map (kbd "M-/") 'auto-complete)
 
 ;; slime setup
-(setq inferior-lisp-program "/usr/local/bin/sbcl")
-(require 'slime)
-(add-hook 'lisp-mode-hook (lambda () (slime-mode t)))
-(add-hook 'emacs-lisp-mode-hook (lambda () (slime-mode t)))
-(add-hook 'inferior-lisp-mode-hook (lambda () (inferior-slime-mode t)))
+;;(setq inferior-lisp-program "/usr/local/bin/sbcl")
+;;(require 'slime)
+;;(add-hook 'lisp-mode-hook (lambda () (slime-mode t)))
+;;(add-hook 'emacs-lisp-mode-hook (lambda () (slime-mode t)))
+;;(add-hook 'inferior-lisp-mode-hook (lambda () (inferior-slime-mode t)))
 
 (require 'exec-path-from-shell) 
 
@@ -81,7 +81,7 @@
 (require 'mouse-settings)
 (require 'mark-settings)
 ;; 字体配置
-(require 'font-settings)
+;;(require 'font-settings)
 
 (require 'fill-column-indicator)
 (define-globalized-minor-mode
@@ -236,7 +236,7 @@
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (sr-speedbar web-mode switch-window sphinx-mode sphinx-doc smex slime py-autopep8 org2blog markdown-mode magit jedi ido-ubiquitous helm go-mode elpy ein)))
+    (go-mode web-mode switch-window sphinx-mode sphinx-doc smex slime py-autopep8 org2blog markdown-mode magit jedi ido-ubiquitous helm go-autocomplete elpy ein ac-php)))
  '(template-use-package t nil (template)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
@@ -245,7 +245,6 @@
  ;; If there is more than one, they won't work right.
  '(compilation-info ((((type tty)) :bold t :foreground "green") (t :foreground "green")))
  '(compilation-warning ((((class color)) :foreground "red" :bold nil)))
- '(completions-first-difference ((((class color) (background dark)) (:foreground "red"))))
  '(diff-added ((((type tty pc)) :foreground "yellow") (t :foreground "aquamarine")))
  '(diff-changed ((((type tty pc)) :foreground "red" :background "blue") (t :foreground "deep pink")))
  '(diff-context ((((class grayscale) (background light)) (:foreground "LightGray" :weight bold)) (((class grayscale) (background dark)) (:foreground "DimGray" :weight bold)) (((class color) (min-colors 88) (background light)) (:foreground "Orchid")) (((class color) (min-colors 88) (background dark)) (:foreground "cornflower blue")) (((class color) (min-colors 16) (background light)) (:foreground "Orchid")) (((class color) (min-colors 16) (background dark)) (:foreground "LightSteelBlue")) (((class color) (min-colors 8)) (:foreground "blue" :weight bold)) (t (:weight bold))))

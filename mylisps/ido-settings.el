@@ -83,9 +83,6 @@
 (eval-after-load 'ido
   `(ido-settings))
 
-(require 'ido-ubiquitous)
-(ido-ubiquitous-mode 1)
-
 (global-set-key (kbd "M-x") 'smex)
 (global-set-key (kbd "M-X") 'smex-major-mode-commands)
 

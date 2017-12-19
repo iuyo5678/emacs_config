@@ -1,6 +1,6 @@
 ;; -*- Emacs-Lisp -*-
 
-;; Time-stamp: <2017-05-15 17:23:27 Monday by zhangguhua>
+;; Time-stamp: <2017-12-19 20:44:45 Tuesday by zhangguhua>
 
 ;; This  file is free  software; you  can redistribute  it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -114,7 +114,7 @@
 
 ;; 所有关于lisp方面的配置
 (require 'all-lisp-settings)
-
+(require 'go-settings)
 ;; 开发shell程序的mode配置
 (require 'sh-mode-settings)
 
@@ -160,7 +160,7 @@
 (require 'eldoc-settings)
 
 ;; 方便开发c/c++的配置
-(require 'c-settings)
+;;(require 'c-settings)
 
 ;; 放在kde-emacs后面
 (require 'compile-settings)
@@ -193,6 +193,16 @@
                  python-settings
                  sed-settings
                  ))
+
+(add-hook 'php-mode-hook '(lambda ()
+                              (auto-complete-mode t)
+                              (require 'ac-php)
+                              (setq ac-sources  '(ac-source-php ) )
+                              (yas-global-mode 1)
+
+                              (define-key php-mode-map  (kbd "C-]") 'ac-php-find-symbol-at-point)   ;goto define
+                              (define-key php-mode-map  (kbd "C-t") 'ac-php-location-stack-back   ) ;go back
+                              ))
 
 ;;hide lines
 (autoload 'hide-lines "hide-lines" "Hide lines based on a regexp" t)

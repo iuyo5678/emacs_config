@@ -2,7 +2,7 @@
 
 ;; Author: ahei <ahei0802@gmail.com>
 ;; URL: http://code.google.com/p/dea/source/browse/trunk/my-lisps/python-settings.el
-;; Time-stamp: <2017-02-07 16:19:09 Tuesday by wls81>
+;; Time-stamp: <2017-12-19 18:20:32 Tuesday by zhangguhua>
 
 ;; This  file is free  software; you  can redistribute  it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -27,7 +27,7 @@
                                 (require 'sphinx-doc)
                                 (sphinx-doc-mode t)))
 
-(require 'py-autopep8)
-(add-hook 'elpy-mode-hook 'py-autopep8-enable-on-save)
+                                        ;;(require 'py-autopep8)
+                                        ;;(add-hook 'elpy-mode-hook 'py-autopep8-enable-on-save)
 
 (provide 'python-settings)
