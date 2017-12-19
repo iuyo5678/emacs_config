@@ -46,13 +46,4 @@
 
 ;; 代理信息
 
-
-;; 配置自己的站点信息，可以使用emacs直接写wordpress文章
-
-(setq org2blog/wp-blog-alist
-      '(("zghhome"
-         :url "https://www.zghhome.cn/xmlrpc.php"
-         :username "iuyo5678"
-         )))
-
 ;;; personal-info.el ends here
