@@ -1,6 +1,6 @@
 1;; -*- Emacs-Lisp -*-
 
-;; Time-stamp: <2017-02-21 14:33:37 Tuesday by wls81>
+;; Time-stamp: <2017-12-22 10:24:37 Friday by zhangguhua>
 
 ;; Fonts setting
 ;; 设置两个字体变量，一个中文的一个英文的
@@ -12,14 +12,14 @@
     (interactive)
     (create-fontset-from-fontset-spec
      (concat
-      "-*-fixed-medium-r-normal-*-*-*-*-*-*-*-fontset-myfontset,"
-;;      (format "ascii:-outline-Consolas-normal-normal-normal-mono-%d-*-*-*-c-*-iso8859-1," ansi-font-size)
-;;      (format "unicode:-microsoft-Microsoft YaHei-normal-normal-normal-*-%d-*-*-*-*-0-iso8859-1," cjk-font-size)
-;;      (format "chinese-gb2312:-microsoft-Microsoft YaHei-normal-normal-normal-*-%d-*-*-*-*-0-iso8859-1," cjk-font-size)
-      ;; (format "unicode:-outline-文泉驿等宽微米黑-normal-normal-normal-sans-*-*-*-*-p-*-gb2312.1980-0," cjk-font-size)
-      ;; (format "chinese-gb2312:-outline-文泉驿等宽微米黑-normal-normal-normal-sans-*-*-*-*-p-*-gb2312.1980-0," cjk-font-size)
-      )))
-
+      "-*-courier-medium-r-normal-*-14-*-*-*-*-*-fontset-courier,"
+      "chinese-gb2312:-*-simsun-medium-r-*-*-14-*-*-*-c-*-gb2312*-*,"
+      "mule-unicode-0100-24ff:-*-simsun-medium-r-*-*-14-*-*-*-c-*-iso10646*-*,"
+      "korean-ksc5601:-*-*-medium-r-*-*-14-*-*-*-*-*-ksc5601*-*,"
+      "chinese-cns11643-5:-*-simsun-medium-r-*-*-14-*-*-*-c-*-gbk*-*,"
+      "chinese-cns11643-6:-*-simsun-medium-r-*-*-14-*-*-*-c-*-gbk*-*,"
+      "chinese-cns11643-7:-*-simsun-medium-r-*-*-14-*-*-*-c-*-gbk*-*"))
+    )
 
 ;; 函数字体增大，每次增加2个字号，最大48号
 (defun increase-font-size()

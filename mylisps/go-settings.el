@@ -43,7 +43,8 @@
 
 (with-eval-after-load 'go-mode
     (require 'go-autocomplete)
-    (require 'go-guru))
+    (require 'go-guru)
+    (require 'godoctor))
 
 (add-hook 'before-save-hook 'gofmt-before-save)
 

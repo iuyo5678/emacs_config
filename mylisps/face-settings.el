@@ -1,13 +1,8 @@
 ;; -*- Emacs-Lisp -*-
 
-;; Time-stamp: <2017-02-07 22:28:20 Tuesday by zhangguhua>
+;; Time-stamp: <2017-12-21 22:27:24 Thursday by zhangguhua>
 (require 'ahei-face)
 (require 'color-theme-ahei)
-(require 'color-theme-solarized)
-(require 'color-theme-tango)
-(require 'color-theme-colorful-obsolescence)
-(require 'color-theme-folio)
-(require 'color-theme-tangotango)
 (require 'tomorrow-night-theme)
 
 ;;(color-theme-initialize)
