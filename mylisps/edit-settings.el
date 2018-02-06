@@ -1,6 +1,6 @@
 ;; -*- Emacs-Lisp -*-
 
-;; Time-stamp: <2016-12-05 15:48:22 Monday by wls81>
+;; Time-stamp: <2018-02-06 18:49:55 Tuesday by zhangguhua>
 
 (require 'compile-settings)
 (require 'edit-misc)
@@ -47,7 +47,7 @@
   makefile-mode-map-list
   `(emacs-lisp-mode-map lisp-interaction-mode-map
                     conf-javaprop-mode-map html-mode-map tcl-mode-map
-                    autoconf-mode-map perl-mode-map nxml-mode-map
+                    autoconf-mode-map perl-mode-map nxml-mode-map 
                     graphviz-dot-mode-map sh-mode-map python-mode-map py-mode-map))
  `(("C-c c" comment)
    ("C-c x" uncomment)))
@@ -130,14 +130,15 @@
 (setq org-image-actual-width '(500))
 
 ;; ace-jump-mode 配置，快速查找
-(autoload 'ace-jump-mode "ace-jump-mode" t)
-(eval-after-load "ace-jump-mode"
-    '(ace-jump-mode-enable-mark-sync))
-
+(autoload
+    'ace-jump-mode
+    "ace-jump-mode"
+    "Emacs quick move minor mode"
+    t)
 (define-key global-map (kbd "C-c SPC") 'ace-jump-mode)
 (define-key global-map (kbd "C-x SPC") 'ace-jump-mode-pop-mark)
 
-;; switch-window 快速切换窗口
+;;switch-window 快速切换窗口
 (require 'switch-window)
 (global-set-key (kbd "C-x o") 'switch-window)
 

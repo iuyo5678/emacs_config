@@ -66,9 +66,6 @@
 
 (define-key helm-map (kbd "M-o") 'helm-previous-source)
 
-(global-set-key (kbd "M-s s")   'helm-ag)
-
-
 (when (executable-find "curl")
     (setq helm-google-suggest-use-curl-p t))
 

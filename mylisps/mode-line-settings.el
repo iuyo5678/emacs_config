@@ -2,8 +2,6 @@
 
 ;; Time-stamp: <2015-08-12 15:59:09 Wednesday by iuyo5678>
 
-(require 'mode-line-face-settings)
-
 (am-def-active-fun linum-mode linum-mode-active)
 
 
