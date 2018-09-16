@@ -2,7 +2,7 @@
 
 ;; Author: ahei <ahei0802@gmail.com>
 ;; URL: http://code.google.com/p/dea/source/browse/trunk/my-lisps/flymake-settings.el
-;; Time-stamp: <2013-12-05 00:31:20 Thursday by nilin>
+;; Time-stamp: <2018-09-13 15:17:45 Thursday by drakezhang>
 
 ;; This  file is free  software; you  can redistribute  it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -19,5 +19,4 @@
 ;; write  to  the Free  Software  Foundation,  Inc., 51  Franklin
 ;; Street, Fifth Floor, Boston, MA 02110-1301, USA.
 
-(flymake-mode t)
 (provide 'flymake-settings)

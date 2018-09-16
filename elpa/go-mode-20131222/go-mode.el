@@ -53,7 +53,7 @@
   ;; not modify the kill ring. This solution does depend on the
   ;; implementation of kill-line, but it's the only viable solution
   ;; that does not require to write kill-line from scratch.
-  (flet ((kill-region (beg end)
+    (cl-flet ((kill-region (beg end)
                       (delete-region beg end))
          (kill-new (s) ()))
     (go--kill-whole-line arg)))

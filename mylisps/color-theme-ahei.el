@@ -4,7 +4,7 @@
 
 ;; Author: ahei <ahei0802@126.com>
 ;; Keywords: color theme ahei
-;; Time-stamp: <2015-02-27 15:47:11 Friday by work>
+;; Time-stamp: <2018-09-13 19:25:18 Thursday by drakezhang>
 
 ;; This file is free software; you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
@@ -499,7 +499,6 @@
      (mode-line-emphasis ((t (:bold t :weight bold))))
      (mode-line-highlight ((t (:box (:line-width 2 :color "grey40" :style released-button)))))
      (mode-line-inactive ((t (:background "white" :foreground "black" :box (:line-width -1 :color "grey40" :style nil) :weight light))))
-     (mode-line-lines-face ((t (:background "dark slate blue" :foreground "yellow"))))
      (mouse ((t (nil))))
      (black-red-face ((t (:background "red" :foreground "black"))))
      (blue-face ((t (:foreground "blue"))))

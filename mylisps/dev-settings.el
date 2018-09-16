@@ -1,6 +1,6 @@
 ;; -*- Emacs-Lisp -*-
 
-;; Time-stamp: <2017-12-19 20:44:45 Tuesday by zhangguhua>
+;; Time-stamp: <2018-09-16 21:33:53 Sunday by drakezhang>
 
 ;; This  file is free  software; you  can redistribute  it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -118,6 +118,10 @@
 ;; 开发shell程序的mode配置
 (require 'sh-mode-settings)
 
+;; protobuffer mode
+(require 'protobuf-mode)
+(setq auto-mode-alist (cons '("\\.proto$" . protobuf-mode) auto-mode-alist))
+
 ;; json的相关处理
 (require 'json-mode)
 (require 'json-reformat)
@@ -160,7 +164,7 @@
 (require 'eldoc-settings)
 
 ;; 方便开发c/c++的配置
-;;(require 'c-settings)
+(require 'c-settings)
 
 ;; 放在kde-emacs后面
 (require 'compile-settings)
@@ -184,7 +188,6 @@
 
 (mapc 'require '(;; hide region
                  hide-region-settings
-                 ;;codepilot-settings
                  ;; 实现程序变量的自动对齐
                  align-settings
                  ;; 生成c程序调用图

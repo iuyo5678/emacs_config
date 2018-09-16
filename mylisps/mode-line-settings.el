@@ -1,6 +1,6 @@
 ;; -*- Emacs-Lisp -*-
 
-;; Time-stamp: <2015-08-12 15:59:09 Wednesday by iuyo5678>
+;; Time-stamp: <2018-09-13 19:25:13 Thursday by drakezhang>
 
 (am-def-active-fun linum-mode linum-mode-active)
 
@@ -11,8 +11,6 @@
     (concat (propertize
              (format "%dL" lines)
              'mouse-face 'mode-line-highlight
-             ;; 加上颜色
-             'face 'mode-line-lines-face
              'help-echo (format "%d lines" lines)) " ")))
 
 (defun get-size-indication-format ()
