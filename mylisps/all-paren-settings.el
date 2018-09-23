@@ -1,6 +1,6 @@
 ;; -*- Emacs-Lisp -*-
 
-;; Time-stamp: <2016-08-19 19:18:14 Friday by zhangguhua>
+;; Time-stamp: <2018-09-22 12:42:06 Saturday by drakezhang>
 
 ;; This  file is free  software; you  can redistribute  it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -18,7 +18,7 @@
 ;; Street, Fifth Floor, Boston, MA 02110-1301, USA.
 
 ;; 显示匹配的括号
-(require 'paren-settings)
+(show-paren-mode 1)
 
 ;; 高亮匹配的括号, 很实用
 (require 'highlight-parentheses-settings)

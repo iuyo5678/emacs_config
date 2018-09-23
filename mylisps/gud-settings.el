@@ -1,6 +1,6 @@
 ;; -*- Emacs-Lisp -*-
 
-;; Time-stamp: <2011-03-20 23:26:43 Sunday by taoshanwen>
+;; Time-stamp: <2018-09-21 22:21:04 Friday by drakezhang>
 
 (require 'util)
 
@@ -9,6 +9,13 @@
  `(("C-c g" gdb)
    ("C-c b" gud-break)
    ("C-c B" gud-remove)))
+
+(setq
+ ;; use gdb-many-windows by default
+ gdb-many-windows t
+ ;; Non-nil means display source file containing the main routine at startup
+ gdb-show-main t
+ )
 
 (defun gud-settings ()
   "Settings for `gud'."

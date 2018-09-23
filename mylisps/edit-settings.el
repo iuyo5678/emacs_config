@@ -1,6 +1,6 @@
 ;; -*- Emacs-Lisp -*-
 
-;; Time-stamp: <2018-02-06 18:49:55 Tuesday by zhangguhua>
+;; Time-stamp: <2018-09-23 12:35:42 Sunday by drakezhang>
 
 (require 'compile-settings)
 (require 'edit-misc)
@@ -129,6 +129,16 @@
 ;;设置orgmode中图片默认宽度为500
 (setq org-image-actual-width '(500))
 
+
+;; Package: ws-butler
+(require 'ws-butler)
+(add-hook 'c-mode-common-hook 'ws-butler-mode)
+(add-hook 'prog-mode-hook 'ws-butler-mode)
+(add-hook 'text-mode 'ws-butler-mode)
+(add-hook 'fundamental-mode 'ws-butler-mode)
+
+(require 'undo-tree)
+(global-undo-tree-mode 1)
 ;; ace-jump-mode 配置，快速查找
 (autoload
     'ace-jump-mode

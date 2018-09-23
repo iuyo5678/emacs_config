@@ -1,5 +1,5 @@
 ;; -*- Emacs-Lisp -*-
-;; Time-stamp: <2018-02-06 19:01:58 Tuesday by zhangguhua>
+;; Time-stamp: <2018-09-23 13:09:29 Sunday by drakezhang>
 ;; zgh的emacs配置启动文件
 
 ;; 定义相关的路径，
@@ -29,17 +29,10 @@
 ;;主题配置
 (require 'face-settings)
 
-;;auto-complete配置
-(require 'auto-complete-config)
-(ac-config-default)
-(define-key ac-mode-map (kbd "M-/") 'auto-complete)
-
-;; slime setup
-;;(setq inferior-lisp-program "/usr/local/bin/sbcl")
-;;(require 'slime)
-;;(add-hook 'lisp-mode-hook (lambda () (slime-mode t)))
-;;(add-hook 'emacs-lisp-mode-hook (lambda () (slime-mode t)))
-;;(add-hook 'inferior-lisp-mode-hook (lambda () (inferior-slime-mode t)))
+;; company
+(require 'company)
+(global-company-mode 1)
+(delete 'company-semantic company-backends)
 
 (require 'exec-path-from-shell) 
 
@@ -85,11 +78,10 @@
 
 ;; 显示行号
 (require 'linum-settings)
-
-;; 高亮显示光标的字符
-(require 'feng-highlight)
-;; 绑定在快捷键M-i上
-(global-set-key (kbd "M-i") 'feng-highlight-at-point)
+(require 'anzu)
+(global-anzu-mode)
+(global-set-key (kbd "M-%") 'anzu-query-replace)
+(global-set-key (kbd "C-M-%") 'anzu-query-replace-regexp)
 
 ;; 不要menu-bar和tool-bar
 (menu-bar-mode -1)
@@ -225,3 +217,18 @@
 (add-hook 'after-init-hook 'session-initialize)
 (require  'wcy-desktop)
 (wcy-desktop-init)
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(package-selected-packages
+   (quote
+    (anzu undo-tree stickyfunc-enhance ws-butler company-c-headers sr-speedbar helm-gtags yaml-mode web-mode switch-window sphinx-mode sphinx-doc smex org2blog markdown-mode magit helm go-mode elpy)))
+ '(template-use-package t nil (template)))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )

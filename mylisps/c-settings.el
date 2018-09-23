@@ -1,6 +1,6 @@
 ;; -*- Emacs-Lisp -*-
 
-;; Time-stamp: <2013-09-03 23:30:26 Tuesday by nilin>
+;; Time-stamp: <2018-09-23 13:42:27 Sunday by drakezhang>
 
 ;; This  file is free  software; you  can redistribute  it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -30,6 +30,35 @@
    ("C-c M-e" end-of-defun)
    ("C-c M-F" copy-current-fun-name)))
 
+;; Enable helm-gtags-mode
+(add-hook 'c-mode-hook 'helm-gtags-mode)
+(add-hook 'c++-mode-hook 'helm-gtags-mode)
+(add-hook 'asm-mode-hook 'helm-gtags-mode)
+(add-hook 'java-mode-hook 'helm-gtags-mode)
+
+;; Set key bindings
+(eval-after-load "helm-gtags"
+    '(progn
+         
+         (setq helm-gtags-ignore-case t
+               helm-gtags-auto-update t
+               helm-gtags-use-input-at-cursor t
+               helm-gtags-pulse-at-cursor t
+               helm-gtags-prefix-key "\C-cg"
+               helm-gtags-suggested-key-mapping t)
+
+         (define-key helm-gtags-mode-map (kbd "M-t") 'helm-gtags-find-tag)
+         (define-key helm-gtags-mode-map (kbd "M-r") 'helm-gtags-find-rtag)
+         (define-key helm-gtags-mode-map (kbd "M-s") 'helm-gtags-find-symbol)
+         (define-key helm-gtags-mode-map (kbd "M-g M-p") 'helm-gtags-parse-file)
+         (define-key helm-gtags-mode-map (kbd "C-c <") 'helm-gtags-previous-history)
+         (define-key helm-gtags-mode-map (kbd "C-c >") 'helm-gtags-next-history)
+         (define-key helm-gtags-mode-map (kbd "C-c g a") 'helm-gtags-tags-in-this-function)
+         (define-key helm-gtags-mode-map (kbd "C-j") 'helm-gtags-select)
+         (define-key helm-gtags-mode-map (kbd "M-.") 'helm-gtags-dwim)
+         (define-key helm-gtags-mode-map (kbd "M-,") 'helm-gtags-pop-stack)))
+
+
 (defun cc-mode-settings ()
   "Settings for `cc-mode'."
   (defun c-mode-common-hook-settings ()
@@ -43,9 +72,6 @@
   (add-hook 'c-mode-common-hook 'c-mode-common-hook-settings)
 
   (add-to-list 'auto-mode-alist '("\\.h$" . c++-mode))
-
-  ;; kde-emacs 一个方便开发c的工具
-  ;;(require 'kde-emacs-settings)
 
   ;; 高亮显示C/C++中的可能的错误(CWarn mode)
   (global-cwarn-mode 1)
@@ -105,9 +131,45 @@
   ;; 为不同层次的ifdef着色
   (require 'ifdef-settings)
 
+  ;; cedet 强大的开发工具, 包括代码浏览, 补全, 类图生成
+  ;; 用CEDET浏览和编辑C++代码 http://emacser.com/cedet.htm
+  (require 'cc-mode)
+  (require 'semantic)
+
+  (global-semanticdb-minor-mode 1)
+  (global-semantic-idle-scheduler-mode 1)
+  ;;(global-semantic-stickyfunc-mode 1)
+  (global-semantic-idle-summary-mode 1)
+  
+  (semantic-mode 1)
+
+  (defun alexott/cedet-hook ()
+      (local-set-key "\C-c\C-j" 'semantic-ia-fast-jump)
+      (local-set-key "\C-c\C-s" 'semantic-ia-show-summary))
+
+  (add-hook 'c-mode-common-hook 'alexott/cedet-hook)
+  (add-hook 'c-mode-hook 'alexott/cedet-hook)
+  (add-hook 'c++-mode-hook 'alexott/cedet-hook)
+
+  (require 'ede)
+  (global-ede-mode)
+  (require 'company-c-headers)
+  (add-to-list 'company-backends 'company-c-headers)
+
+  (define-key c-mode-map  [(tab)] 'company-complete)
+  (define-key c++-mode-map  [(tab)] 'company-complete)
+
+
   (defalias 'cpp-mode 'c++-mode))
+
+;;在第一行显示函数名称
+;;(add-to-list 'semantic-default-submodes 'global-semantic-stickyfunc-mode)
+;;(require 'stickyfunc-enhance)
+
 
 (eval-after-load "cc-mode"
   `(cc-mode-settings))
+
+
 
 (provide 'c-settings)

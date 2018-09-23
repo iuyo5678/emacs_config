@@ -1,6 +1,6 @@
 ;; -*- Emacs-Lisp -*-
 
-;; Time-stamp: <2018-09-16 21:33:53 Sunday by drakezhang>
+;; Time-stamp: <2018-09-22 12:15:50 Saturday by drakezhang>
 
 ;; This  file is free  software; you  can redistribute  it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -165,13 +165,11 @@
 
 ;; 方便开发c/c++的配置
 (require 'c-settings)
-
 ;; 放在kde-emacs后面
 (require 'compile-settings)
 
 ;;写html的配置
 (require 'html-settings)
-
 
 ;; 回车后indent
 (eal-define-keys
@@ -213,13 +211,5 @@
 
 ;;阅读代码的配置，cscope
 (require 'xcscope)
-
-
-;; cedet 强大的开发工具, 包括代码浏览, 补全, 类图生成
-;; 用CEDET浏览和编辑C++代码 http://emacser.com/cedet.htm
-;; Emacs才是世界上最强大的IDE － cedet的安装 http://emacser.com/install-cedet.htm
-(require 'cedet)
-(global-ede-mode t)
-(semantic-mode t)
 
 (provide 'dev-settings)
