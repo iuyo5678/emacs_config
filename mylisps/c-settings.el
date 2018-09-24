@@ -1,6 +1,6 @@
 ;; -*- Emacs-Lisp -*-
 
-;; Time-stamp: <2018-09-23 13:42:27 Sunday by drakezhang>
+;; Time-stamp: <2018-09-24 11:38:08 Monday by drakezhang>
 
 ;; This  file is free  software; you  can redistribute  it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -127,9 +127,6 @@
 
   ;; c中隐藏ifdef
   (require 'hide-ifdef-settings)
-
-  ;; 为不同层次的ifdef着色
-  (require 'ifdef-settings)
 
   ;; cedet 强大的开发工具, 包括代码浏览, 补全, 类图生成
   ;; 用CEDET浏览和编辑C++代码 http://emacser.com/cedet.htm

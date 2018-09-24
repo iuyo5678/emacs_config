@@ -1,6 +1,6 @@
 ;; -*- Emacs-Lisp -*-
 
-;; Time-stamp: <2017-03-24 13:55:58 Friday by zhangguhua>
+;; Time-stamp: <2018-09-23 20:35:28 Sunday by drakezhang>
 
 (am-add-hooks
  `(c-mode-common-hook lisp-mode-hook emacs-lisp-mode-hook java-mode-hook python-mode-hook)
@@ -36,7 +36,6 @@
     (let* ((start (overlay-start ov))
            (end (overlay-end ov))
            (str (format "<%d lines>" (count-lines start end))) text)
-      (setq text (propertize str 'face 'hs-block-flag-face 'help-echo (buffer-substring (1+ start) end)))
       (overlay-put ov 'display text)
       (overlay-put ov 'pointer 'hand)
       (overlay-put ov 'keymap hs-overlay-map)))

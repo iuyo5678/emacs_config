@@ -1,6 +1,6 @@
 ;; -*- Emacs-Lisp -*-
 
-;; Time-stamp: <2018-09-22 12:15:50 Saturday by drakezhang>
+;; Time-stamp: <2018-09-24 20:00:45 Monday by drakezhang>
 
 ;; This  file is free  software; you  can redistribute  it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -32,52 +32,8 @@
      ("<\\|>" . cyan-face)
      ("{\\|}" . green-face))))
 
-(defun generate-tag-table ()
-  "Generate tag tables under current directory(Linux)."
-  (interactive)
-  (let ((exp "") (dir ""))
-    (setq dir (read-from-minibuffer "generate tags in: " default-directory)
-          exp (read-from-minibuffer "suffix: "))
-    (with-temp-buffer
-      (shell-command
-       (concat "find " dir " -name \"" exp "\" | xargs etags ")
-       (buffer-name)))))
-
 ;; hs-minor-mode,折叠代码
 (require 'hs-minor-mode-settings)
-
-
-;; 动态检查语法错误
-(require 'flymake-settings)
-
-(defun skeleton-c-mode-left-brace (arg)
-  (interactive "P")
-  (if  (c-in-literal (c-most-enclosing-brace (c-parse-state)))
-      (self-insert-command 1)
-    ;; auto insert complex things.
-    (let* ((current-line (delete-and-extract-region (line-beginning-position) (line-end-position)))
-           (lines (and arg (mark t) (delete-and-extract-region (mark t) (point))))
-           (after-point (make-marker)))
-       ;;; delete extra blank begin and after the LINES
-      (setq lines (and lines
-                       (with-temp-buffer
-                         (insert lines)
-                         (beginning-of-buffer)
-                         (delete-blank-lines)
-                         (delete-blank-lines)
-                         (end-of-buffer)
-                         (delete-blank-lines)
-                         (delete-blank-lines)
-                         (buffer-string))))
-      (save-excursion
-        (let* ((old-point (point)))
-          (insert (if current-line current-line "")  "{\n")
-          (and lines (insert lines))
-          (move-marker after-point (point))
-          (insert "\n}")
-          (indent-region old-point (point) nil)))
-      (goto-char after-point)
-      (c-indent-line))))
 
 ;; 所有关于括号的配置
 (require 'all-paren-settings)
@@ -90,9 +46,6 @@
 (add-to-list 'auto-mode-alist '("\\.text\\'" . markdown-mode))
 (add-to-list 'auto-mode-alist '("\\.markdown\\'" . markdown-mode))
 (add-to-list 'auto-mode-alist '("\\.md\\'" . markdown-mode))
-
-
-(require 'autoconf-mode-settings)
 
 ;; `gdb'
 (require 'gud-settings)
@@ -115,6 +68,7 @@
 ;; 所有关于lisp方面的配置
 (require 'all-lisp-settings)
 (require 'go-settings)
+
 ;; 开发shell程序的mode配置
 (require 'sh-mode-settings)
 
@@ -125,51 +79,22 @@
 ;; json的相关处理
 (require 'json-mode)
 (require 'json-reformat)
-(setq my-shebang-patterns
-      (list "^#!\\s-*/usr/.*/perl\\(\\( \\)\\|\\( .+ \\)\\)-w *.*"
-            "^#!\\s-*/usr/.*/sh"
-            "^#!\\s-*/usr/.*/bash"
-            "^#!\\s-*/bin/sh"
-            "^#!\\s-*/.*/perl"
-            "^#!\\s-*/.*/awk"
-            "^#!\\s-*/.*/sed"
-            "^#!\\s-*/.*/tclsh$"
-            "^#!\\s-*/.*/expect$"
-            "^#!\\s-*/bin/bash"))
-(add-hook
- 'after-save-hook
- (lambda ()
-   (if (not (= (shell-command (concat "test -x " (buffer-file-name))) 0))
-       (progn
-         ;; This puts message in *Message* twice, but minibuffer
-         ;; output looks better.
-         (message (concat "Wrote " (buffer-file-name)))
-         (save-excursion
-           (goto-char (point-min))
-           ;; Always checks every pattern even after
-           ;; match.  Inefficient but easy.
-           (dolist (my-shebang-pat my-shebang-patterns)
-             (if (looking-at my-shebang-pat)
-                 (if (= (shell-command
-                         (concat "chmod u+x " (buffer-file-name)))
-                        0)
-                     (message (concat
-                               "Wrote and made executable "
-                               (buffer-file-name))))))))
-     ;; This puts message in *Message* twice, but minibuffer output
-     ;; looks better.
-     (message (concat "Wrote " (buffer-file-name))))))
 
 ;; 显示变量, 函数的声明
 (require 'eldoc-settings)
 
 ;; 方便开发c/c++的配置
 (require 'c-settings)
+
 ;; 放在kde-emacs后面
 (require 'compile-settings)
 
 ;;写html的配置
 (require 'html-settings)
+
+(require 'python-settings)
+
+(require 'sed-settings)
 
 ;; 回车后indent
 (eal-define-keys
@@ -184,32 +109,8 @@
   (interactive)
   (kill-new (which-function)))
 
-(mapc 'require '(;; hide region
-                 hide-region-settings
-                 ;; 实现程序变量的自动对齐
-                 align-settings
-                 ;; 生成c程序调用图
-                 ;; http://emacser.com/emacs-cflow.htm
-                 cflow-mode-settings
-                 python-settings
-                 sed-settings
-                 ))
-
-(add-hook 'php-mode-hook '(lambda ()
-                              (auto-complete-mode t)
-                              (require 'ac-php)
-                              (setq ac-sources  '(ac-source-php ) )
-                              (yas-global-mode 1)
-
-                              (define-key php-mode-map  (kbd "C-]") 'ac-php-find-symbol-at-point)   ;goto define
-                              (define-key php-mode-map  (kbd "C-t") 'ac-php-location-stack-back   ) ;go back
-                              ))
-
 ;;hide lines
 (autoload 'hide-lines "hide-lines" "Hide lines based on a regexp" t)
 (global-set-key (kbd "C-c /") 'hide-lines)
-
-;;阅读代码的配置，cscope
-(require 'xcscope)
 
 (provide 'dev-settings)

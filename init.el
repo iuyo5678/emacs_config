@@ -1,5 +1,5 @@
 ;; -*- Emacs-Lisp -*-
-;; Time-stamp: <2018-09-23 13:09:29 Sunday by drakezhang>
+;; Time-stamp: <2018-09-24 12:41:23 Monday by drakezhang>
 ;; zgh的emacs配置启动文件
 
 ;; 定义相关的路径，
@@ -224,7 +224,7 @@
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (anzu undo-tree stickyfunc-enhance ws-butler company-c-headers sr-speedbar helm-gtags yaml-mode web-mode switch-window sphinx-mode sphinx-doc smex org2blog markdown-mode magit helm go-mode elpy)))
+    (company-shell company-php anzu undo-tree stickyfunc-enhance ws-butler company-c-headers sr-speedbar helm-gtags yaml-mode web-mode switch-window sphinx-mode sphinx-doc smex org2blog markdown-mode magit helm go-mode elpy)))
  '(template-use-package t nil (template)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.

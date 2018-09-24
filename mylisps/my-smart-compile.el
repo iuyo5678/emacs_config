@@ -65,6 +65,7 @@
   ("\\.mp\\'"         . "mptopdf %f")
   ("\\.pl\\'"         . "perl -cw %f")
   ("\\.rb\\'"         . "ruby -cw %f")
+  ("\\.go\\'"         . "go build")
 )  "List of compile commands. In argument,
 some keywords beginning with '%' will be replaced by:
 
