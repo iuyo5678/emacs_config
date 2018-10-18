@@ -1,6 +1,6 @@
 ;; -*- Emacs-Lisp -*-
 
-;; Time-stamp: <2018-09-24 11:38:08 Monday by drakezhang>
+;; Time-stamp: <2018-10-10 21:05:34 Wednesday by zhangguhua>
 
 ;; This  file is free  software; you  can redistribute  it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -59,6 +59,13 @@
          (define-key helm-gtags-mode-map (kbd "M-,") 'helm-gtags-pop-stack)))
 
 
+(defvar buffer-size-threshold (* 1024 300)
+    "Delta in size over which the user will be warned when saving.")
+(defun check-buffer-too-large ()
+    "Warn user if buffer has changed by more than CHECK-BUFFER-SIZE-DELTA since last save"
+        (if (> (buffer-size) buffer-size-threshold)
+                (auto-indent-mode nil)))
+
 (defun cc-mode-settings ()
   "Settings for `cc-mode'."
   (defun c-mode-common-hook-settings ()
@@ -104,7 +111,6 @@
       c/c++-hightligh-included-files-key-map
       `(("<RET>"    find-file-at-point)
         ("<return>" find-file-at-point))))
-
   (defun c/c++-hightligh-included-files ()
     (interactive)
     (when (or (eq major-mode 'c-mode)
@@ -124,7 +130,6 @@
             (overlay-put ov 'face 'underline))))))
   ;; 这不是一个好办法，也可以把它加载到c-mode-hook or c++-mode-hook中
   (setq c/c++-hightligh-included-files-timer (run-with-idle-timer 0.5 t 'c/c++-hightligh-included-files))
-
   ;; c中隐藏ifdef
   (require 'hide-ifdef-settings)
 
@@ -135,7 +140,6 @@
 
   (global-semanticdb-minor-mode 1)
   (global-semantic-idle-scheduler-mode 1)
-  ;;(global-semantic-stickyfunc-mode 1)
   (global-semantic-idle-summary-mode 1)
   
   (semantic-mode 1)
@@ -148,15 +152,17 @@
   (add-hook 'c-mode-hook 'alexott/cedet-hook)
   (add-hook 'c++-mode-hook 'alexott/cedet-hook)
 
+  (add-hook 'c-mode-hook 'check-buffer-too-large)
+  (add-hook 'c++-mode-hook 'check-buffer-too-large)
+
+
   (require 'ede)
   (global-ede-mode)
   (require 'company-c-headers)
   (add-to-list 'company-backends 'company-c-headers)
-
   (define-key c-mode-map  [(tab)] 'company-complete)
   (define-key c++-mode-map  [(tab)] 'company-complete)
-
-
+  (add-hook 'c-mode-common-hook 'check-buffer-too-large)
   (defalias 'cpp-mode 'c++-mode))
 
 ;;在第一行显示函数名称

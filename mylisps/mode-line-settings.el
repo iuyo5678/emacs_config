@@ -1,6 +1,6 @@
 ;; -*- Emacs-Lisp -*-
 
-;; Time-stamp: <2018-09-13 19:25:13 Thursday by drakezhang>
+;; Time-stamp: <2018-10-10 20:20:13 Wednesday by zhangguhua>
 
 (am-def-active-fun linum-mode linum-mode-active)
 
@@ -98,6 +98,34 @@ mouse-1: Display Line and Column Mode Menu"))))))
       (setq-default mode-line-format nil)
     (setq-default mode-line-format mode-line-format-bak))
   (setq mode-line (not mode-line)))
+
+;; 方便的切换major mode
+(defvar switch-major-mode-last-mode nil)
+
+(defun major-mode-heuristic (symbol)
+  (and (fboundp symbol)
+       (string-match ".*-mode$" (symbol-name symbol))))
+
+(defun switch-major-mode (mode)
+  "切换major mode"
+  (interactive
+   (let ((fn switch-major-mode-last-mode) val)
+     (setq val
+           (completing-read
+            (if fn (format "切换major-mode为(缺省为%s): " fn) "切换major mode为: ")
+            obarray 'major-mode-heuristic t nil nil (symbol-name fn)))
+     (list (intern val))))
+  (let ((last-mode major-mode))
+    (funcall mode)
+    (setq switch-major-mode-last-mode last-mode)))
+(global-set-key (kbd "C-x q") 'switch-major-mode)
+
+
+(defun get-mode-name ()
+  "显示`major-mode'及`mode-name'"
+  (interactive)
+  (message "major-mode为%s, mode-name为%s" major-mode mode-name))
+(global-set-key (kbd "C-x m") 'get-mode-name)
 
 ;; 在状态栏显示日期时间
 (setq display-time-day-and-date t)

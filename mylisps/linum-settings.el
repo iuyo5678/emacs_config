@@ -1,9 +1,7 @@
 ;; -*- Emacs-Lisp -*-
 
-;; Time-stamp: <2012-01-01 19:30:32 Sunday by taoshanwen>
+;; Time-stamp: <2018-09-27 13:50:14 Thursday by zhangguhua>
 
-(unless is-after-emacs-23
-  (require 'linum "linum-for-22"))
 
 (global-set-key (kbd "C-x N") 'linum-mode)
 

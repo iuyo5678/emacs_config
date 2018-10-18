@@ -1,5 +1,5 @@
 ;; -*- Emacs-Lisp -*-
-;; Time-stamp: <2018-09-24 12:41:23 Monday by drakezhang>
+;; Time-stamp: <2018-10-18 16:18:59 Thursday by zhangguhua>
 ;; zgh的emacs配置启动文件
 
 ;; 定义相关的路径，
@@ -179,38 +179,6 @@
 ;;所有开发方面的配置
 (require 'dev-settings)
 
-
-;; 方便的切换major mode
-(defvar switch-major-mode-last-mode nil)
-
-(defun major-mode-heuristic (symbol)
-  (and (fboundp symbol)
-       (string-match ".*-mode$" (symbol-name symbol))))
-
-(defun switch-major-mode (mode)
-  "切换major mode"
-  (interactive
-   (let ((fn switch-major-mode-last-mode) val)
-     (setq val
-           (completing-read
-            (if fn (format "切换major-mode为(缺省为%s): " fn) "切换major mode为: ")
-            obarray 'major-mode-heuristic t nil nil (symbol-name fn)))
-     (list (intern val))))
-  (let ((last-mode major-mode))
-    (funcall mode)
-    (setq switch-major-mode-last-mode last-mode)))
-(global-set-key (kbd "C-x q") 'switch-major-mode)
-
-
-(defun get-mode-name ()
-  "显示`major-mode'及`mode-name'"
-  (interactive)
-  (message "major-mode为%s, mode-name为%s" major-mode mode-name))
-(global-set-key (kbd "C-x m") 'get-mode-name)
-
-
-(fset 'kill-head-blank
-   "\C-a\C-@\C-[m\C-?\C-n")
 (require 'shell-mode-settings)
 
 (require 'session)
@@ -224,7 +192,7 @@
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (company-shell company-php anzu undo-tree stickyfunc-enhance ws-butler company-c-headers sr-speedbar helm-gtags yaml-mode web-mode switch-window sphinx-mode sphinx-doc smex org2blog markdown-mode magit helm go-mode elpy)))
+    (godoctor go-guru company-shell company-php anzu undo-tree stickyfunc-enhance ws-butler company-c-headers sr-speedbar helm-gtags yaml-mode web-mode switch-window sphinx-mode sphinx-doc smex org2blog markdown-mode magit helm go-mode elpy)))
  '(template-use-package t nil (template)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
