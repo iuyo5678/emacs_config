@@ -88,7 +88,7 @@
       helm-buffers-fuzzy-matching t ; fuzzy matching buffer names when non-nil
                                         ; useful in helm-mini that lists buffers
       helm-org-headings-fontify t
-      ;; helm-find-files-sort-directories t
+      helm-find-files-sort-directories t
       ;; ido-use-virtual-buffers t
       helm-semantic-fuzzy-match t
       helm-M-x-fuzzy-match t
@@ -118,6 +118,7 @@
 (define-key helm-grep-mode-map (kbd "p")  'helm-grep-mode-jump-other-window-backward)
 
 (global-set-key (kbd "C-x b")   #'helm-mini)
+(global-set-key (kbd "C-x M-f")   #'helm-find-files)
 (global-set-key (kbd "C-x C-b") #'helm-buffers-list)
 (global-set-key (kbd "C-c M-x") #'helm-M-x)
 (global-set-key (kbd "C-x C-r") #'helm-recentf)
