@@ -1,6 +1,6 @@
 ;; -*- Emacs-Lisp -*-
 
-;; Time-stamp: <2018-09-27 13:50:14 Thursday by zhangguhua>
+;; Time-stamp: <2018-10-24 00:14:35 Wednesday by zhangguhua>
 
 
 (global-set-key (kbd "C-x N") 'linum-mode)

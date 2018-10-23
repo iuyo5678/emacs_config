@@ -5,7 +5,7 @@
 ;; Author: ahei <ahei0802@gmail.com>
 ;; Keywords: line number
 ;; URL: http://code.google.com/p/dea/source/browse/trunk/my-lisps/linum%2B.el
-;; Time-stamp: <2010-04-08 10:55:43 Thursday by ahei>
+;; Time-stamp: <2018-10-24 00:31:55 Wednesday by zhangguhua>
 
 ;; This  file is free  software; you  can redistribute  it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -53,7 +53,7 @@
 
 ;;; Code:
 
-(require 'linum)
+(require 'nlinum)
 
 (defgroup linum+ nil
   "Extension of `linum-mode'."
