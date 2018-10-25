@@ -1,6 +1,6 @@
 ;; -*- Emacs-Lisp -*-
 
-;; Time-stamp: <2018-09-23 12:35:42 Sunday by drakezhang>
+;; Time-stamp: <2018-10-25 23:43:47 Thursday by zhangguhua>
 
 (require 'compile-settings)
 (require 'edit-misc)
@@ -116,10 +116,6 @@
    ("C-c C" comment-function)
    ("C-c X" uncomment-function)))
 
-(setq auto-indent-on-visit-file t) ;; If you want auto-indent on for files
-(require 'auto-indent-mode)
-(auto-indent-global-mode)
-(setq auto-indent-assign-indent-level 4) ; Changes the indent level to 4
 
 ;;设置自动换行
 (setq truncate-partial-width-windows nil) 
