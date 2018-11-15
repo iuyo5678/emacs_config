@@ -1,10 +1,6 @@
 ;; -*- Emacs-Lisp -*-
 
-<<<<<<< HEAD
-;; Time-stamp: <2018-11-16 00:33:01 Friday by zhangguhua>
-=======
-;; Time-stamp: <2018-10-29 14:04:59 Monday by zhangguhua>
->>>>>>> 444f262c167dd23e9e69aa19c93680ec7f11b3a5
+;; Time-stamp: <2018-11-16 00:34:27 Friday by zhangguhua>
 
 ;; This  file is free  software; you  can redistribute  it and/or
 ;; modify it under the terms of the GNU General Public License as
