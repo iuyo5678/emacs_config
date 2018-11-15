@@ -288,7 +288,7 @@ Only works right if point is at BOL."
     (setq nlinum--line-number-cache (cons (point) pos))
     pos))
 
-(defcustom nlinum-format "%d"
+(defcustom nlinum-format "%d|"
   "Format of the line numbers.
 Used by the default `nlinum-format-function'."
   :type 'string

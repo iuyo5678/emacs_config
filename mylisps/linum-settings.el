@@ -1,12 +1,9 @@
 ;; -*- Emacs-Lisp -*-
 
-;; Time-stamp: <2018-10-24 00:14:35 Wednesday by zhangguhua>
+;; Time-stamp: <2018-11-16 00:26:45 Friday by zhangguhua>
 
-
-(global-set-key (kbd "C-x N") 'linum-mode)
-
-;; http://emacser.com/linum-plus.htm
-(require 'linum+)
+(require 'nlinum)
+(global-set-key (kbd "C-x N") 'nlinum-mode)
 
 (am-add-hooks
  `(find-file-hook help-mode-hook Man-mode-hook log-view-mode-hook chart-mode-hook
@@ -19,7 +16,7 @@
                   semantic-symref-results-mode-hook sh-mode-hook groovy-mode-hook  comint-mode-hook)
  (lambda()
    (unless (eq major-mode 'image-mode)
-     (linum-mode 1))))
+     (nlinum-mode 1))))
 
 (defun linum-settings ()
   "settings for `linum'.")

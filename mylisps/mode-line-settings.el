@@ -1,6 +1,6 @@
 ;; -*- Emacs-Lisp -*-
 
-;; Time-stamp: <2018-10-10 20:20:13 Wednesday by zhangguhua>
+;; Time-stamp: <2018-11-15 23:46:55 Thursday by zhangguhua>
 
 (am-def-active-fun linum-mode linum-mode-active)
 

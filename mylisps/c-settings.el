@@ -1,6 +1,6 @@
 ;; -*- Emacs-Lisp -*-
 
-;; Time-stamp: <2018-10-10 21:05:34 Wednesday by zhangguhua>
+;; Time-stamp: <2018-11-15 23:38:31 Thursday by zhangguhua>
 
 ;; This  file is free  software; you  can redistribute  it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -64,7 +64,7 @@
 (defun check-buffer-too-large ()
     "Warn user if buffer has changed by more than CHECK-BUFFER-SIZE-DELTA since last save"
         (if (> (buffer-size) buffer-size-threshold)
-                (auto-indent-mode nil)))
+                (nlinum-mode)))
 
 (defun cc-mode-settings ()
   "Settings for `cc-mode'."

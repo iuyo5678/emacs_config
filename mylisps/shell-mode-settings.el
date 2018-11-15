@@ -1,7 +1,8 @@
 ;; -*- Emacs-Lisp -*-
 
-;; Time-stamp: <2015-02-27 21:20:59 Friday by nilin>
+;; Time-stamp: <2018-11-06 00:31:26 Tuesday by zhangguhua>
 (require 'shell)
+(require 'term)
 (when (fboundp 'winner-mode) 
   (winner-mode) 
   (windmove-default-keybindings)) 
@@ -13,5 +14,7 @@
 (define-key shell-mode-map (kbd "C-l") 'clear-shell)
 
 (add-hook 'shell-mode-hook 'ansi-color-for-comint-mode-on)
+ (add-hook 'eshell-preoutput-filter-functions
+           'ansi-color-filter-apply)
 
 (provide 'shell-mode-settings)
