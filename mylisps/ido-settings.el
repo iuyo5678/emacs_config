@@ -1,24 +1,17 @@
 ;; -*- Emacs-Lisp -*-
 
-;; Time-stamp: <2017-02-07 12:11:54 Tuesday by wls81>
+;; Time-stamp: <2019-07-22 23:09:55 Monday by zhangguhua>
 
 (require 'ido)
 
 (ido-mode t)
-(ido-everywhere t)
 
 (defun ido-settings ()
   "settings for `ido'."
-  (if is-before-emacs-21
-      (setq read-buffer-function 'ido-read-buffer)
-    (ido-everywhere t)
-    (setq ido-define-mode-map-hook 'ido-setup-hook))
-
+  (setq ido-define-mode-map-hook 'ido-setup-hook)
   (add-hook ido-define-mode-map-hook 'ido-keys)
-
   (global-set-key (kbd "C-x C-f") 'ido-find-file)
   (setq ido-max-directory-size 1000000)
-
   (defmacro def-ido-enter-command (command)
     "Make definition of command which execute some command in ido."
     `(defun ,(am-intern "ido-enter-" command) ()

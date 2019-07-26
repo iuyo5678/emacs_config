@@ -1,6 +1,6 @@
 ;; -*- Emacs-Lisp -*-
 
-;; Time-stamp: <2018-09-24 20:00:45 Monday by drakezhang>
+;; Time-stamp: <2019-07-23 00:16:14 Tuesday by zhangguhua>
 
 ;; This  file is free  software; you  can redistribute  it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -96,6 +96,39 @@
 
 (require 'sed-settings)
 
+
+;; Trigger completion immediately.
+(setq company-idle-delay 0)
+
+;; Number the candidates (use M-1, M-2 etc to select completions).
+(setq company-show-numbers t)
+
+;; Use the tab-and-go frontend.
+;; Allows TAB to select and complete at the same time.
+(company-tng-configure-default)
+(setq company-frontends
+      '(company-tng-frontend
+        company-pseudo-tooltip-frontend
+        company-echo-metadata-frontend))
+
+
+;; 高亮显示TODO、FIXME、BUG
+(require 'fixme-mode)
+(defvar my-highlight-words
+  '("FIXME" "TODO" "BUG"))
+;; Ensure that the variable exists.
+(defvar wcheck-language-data nil)
+(push '("FIXME"
+        (program . (lambda (strings)
+                     (let (found)
+                       (dolist (word my-highlight-words found)
+                         (when (member word strings)
+                           (push word found))))))
+        (face . highlight)
+        (read-or-skip-faces
+         (nil)))
+      wcheck-language-data)
+(fixme-mode 1)
 ;; 回车后indent
 (eal-define-keys
  `(lisp-mode-map emacs-lisp-mode-map lisp-interaction-mode-map sh-mode-map

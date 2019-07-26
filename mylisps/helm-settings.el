@@ -43,9 +43,6 @@
 (require 'helm-config)
 (require 'helm-grep)
 
-(if (version< "26.0.50" emacs-version)
-        (eval-when-compile (require 'helm-lib)))
-
 (defun helm-hide-minibuffer-maybe ()
     (when (with-helm-buffer helm-echo-input-in-header-line)
         (let ((ov (make-overlay (point-min) (point-max) nil nil t)))
@@ -89,7 +86,7 @@
                                         ; useful in helm-mini that lists buffers
       helm-org-headings-fontify t
       helm-find-files-sort-directories t
-      ;; ido-use-virtual-buffers t
+      ido-use-virtual-buffers t
       helm-semantic-fuzzy-match t
       helm-M-x-fuzzy-match t
       helm-imenu-fuzzy-match t

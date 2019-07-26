@@ -1,5 +1,5 @@
 ;; -*- Emacs-Lisp -*-
-;; Time-stamp: <2018-10-24 00:30:44 Wednesday by zhangguhua>
+;; Time-stamp: <2019-07-23 16:00:14 Tuesday by zhangguhua>
 ;; zgh的emacs配置启动文件
 
 ;; 定义相关的路径，
@@ -29,11 +29,8 @@
 ;;主题配置
 (require 'face-settings)
 
-;; company
-(require 'company)
-(global-company-mode 1)
-(delete 'company-semantic company-backends)
-
+;; 自动补全的配置
+(require 'company-settings)
 (require 'exec-path-from-shell) 
 
 (when (memq window-system '(mac ns))
@@ -143,10 +140,10 @@
 ;; ibuffer
 (global-set-key (kbd "C-x C-b") 'ibuffer)
 
-;;(require 'select-buffer)
-(require 'ido-settings)
-;;
 (require 'helm-settings)
+
+(require 'ido-settings)
+
 ;;dired模式的一些配置
 (require 'dired-settings)
 
@@ -185,3 +182,18 @@
 (add-hook 'after-init-hook 'session-initialize)
 (require  'wcy-desktop)
 (wcy-desktop-init)
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(package-selected-packages
+   (quote
+    (flucui-themes doom-modeline yaml-mode ws-butler web-mode undo-tree switch-window stickyfunc-enhance sphinx-mode sphinx-doc smex org2blog markdown-mode magit-popup magit helm-gtags graphql godoctor go-guru ghub elpy company-tabnine company-shell company-php company-c-headers anzu)))
+ '(template-use-package t nil (template)))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
