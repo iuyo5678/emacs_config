@@ -1,5 +1,5 @@
 ;; -*- Emacs-Lisp -*-
-;; Time-stamp: <2019-07-23 16:00:14 Tuesday by zhangguhua>
+;; Time-stamp: <2019-09-19 22:46:50 Thursday by drakezhang>
 ;; zgh的emacs配置启动文件
 
 ;; 定义相关的路径，
@@ -180,20 +180,5 @@
 
 (require 'session)
 (add-hook 'after-init-hook 'session-initialize)
-(require  'wcy-desktop)
-(wcy-desktop-init)
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(package-selected-packages
-   (quote
-    (flucui-themes doom-modeline yaml-mode ws-butler web-mode undo-tree switch-window stickyfunc-enhance sphinx-mode sphinx-doc smex org2blog markdown-mode magit-popup magit helm-gtags graphql godoctor go-guru ghub elpy company-tabnine company-shell company-php company-c-headers anzu)))
- '(template-use-package t nil (template)))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
+;; (require  'wcy-desktop)
+;; (wcy-desktop-init)

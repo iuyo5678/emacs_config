@@ -1,6 +1,6 @@
 ;; -*- Emacs-Lisp -*-
 
-;; Time-stamp: <2018-11-16 00:34:27 Friday by zhangguhua>
+;; Time-stamp: <2019-09-19 20:54:37 Thursday by drakezhang>
 
 ;; This  file is free  software; you  can redistribute  it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -140,34 +140,30 @@
 
   (global-semanticdb-minor-mode 1)
   (global-semantic-idle-scheduler-mode 1)
+
   (global-semantic-idle-summary-mode 1)
-  
+
   (semantic-mode 1)
 
-  (defun alexott/cedet-hook ()
-      (local-set-key "\C-c\C-j" 'semantic-ia-fast-jump)
-      (local-set-key "\C-c\C-s" 'semantic-ia-show-summary))
+    (defun alexott/cedet-hook ()
+       (local-set-key "\C-c\C-j" 'semantic-ia-fast-jump)
+       (local-set-key "\C-c\C-s" 'semantic-ia-show-summary))
 
   (add-hook 'c-mode-common-hook 'alexott/cedet-hook)
   (add-hook 'c-mode-hook 'alexott/cedet-hook)
   (add-hook 'c++-mode-hook 'alexott/cedet-hook)
 
-  (add-hook 'c-mode-hook 'check-buffer-too-large)
-  (add-hook 'c++-mode-hook 'check-buffer-too-large)
-
+  (semantic-add-system-include "/usr/include")
+  (semantic-add-system-include "/usr/local/include")
 
   (require 'ede)
   (global-ede-mode)
-  (require 'company-c-headers)
-  (add-to-list 'company-backends 'company-c-headers)
-  (define-key c-mode-map  [(tab)] 'company-complete)
-  (define-key c++-mode-map  [(tab)] 'company-complete)
   (add-hook 'c-mode-common-hook 'check-buffer-too-large)
   (defalias 'cpp-mode 'c++-mode))
 
 ;;在第一行显示函数名称
-;;(add-to-list 'semantic-default-submodes 'global-semantic-stickyfunc-mode)
-;;(require 'stickyfunc-enhance)
+(add-to-list 'semantic-default-submodes 'global-semantic-stickyfunc-mode)
+(require 'stickyfunc-enhance)
 
 
 (eval-after-load "cc-mode"

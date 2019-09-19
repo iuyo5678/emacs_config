@@ -1,6 +1,6 @@
 ;; -*- Emacs-Lisp -*-
 
-;; Time-stamp: <2019-07-23 00:16:14 Tuesday by zhangguhua>
+;; Time-stamp: <2019-09-19 21:04:23 Thursday by drakezhang>
 
 ;; This  file is free  software; you  can redistribute  it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -96,6 +96,9 @@
 
 (require 'sed-settings)
 
+
+(require 'yasnippet)
+(yas-global-mode 1)
 
 ;; Trigger completion immediately.
 (setq company-idle-delay 0)

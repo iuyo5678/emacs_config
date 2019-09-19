@@ -42,9 +42,35 @@
 ;; company
 (require 'company)
 (global-company-mode 1)
-(delete 'company-semantic company-backends)
 (require 'company-tabnine)
-(add-to-list 'company-backends #'company-tabnine)
+
+(require 'company-c-headers)
+(add-to-list 'company-c-headers-path-system "/usr/local/gcc-5.4.0/include/c++/5.4.0/")
+
+(setq company-backends `((company-elisp :with
+                                          company-yasnippet company-tabnine)
+                           company-bbdb
+                           ,@(unless (version<= "26" emacs-version)
+                               '(company-nxml company-css))
+                           company-semantic
+                           (company-capf :with
+                                         company-yasnippet company-tabnine)
+                           company-tabnine
+                           company-files
+                           (company-dabbrev-code
+                            company-gtags company-etags company-keywords)
+                           company-oddmuse company-dabbrev))
+
+
+
+;;(add-to-list 'company-backends #'company-complete)
+;;(add-to-list 'company-backends #'company-tabnine)
+
+;;(add-to-list 'company-backends 'company-c-headers)
+;;(add-to-list 'company-backends 'company-yasnippet)
+;(add-to-list 'company-backends #'company-files)
+
+
 ;; Trigger completion immediately.
 (setq company-idle-delay 0)
 
@@ -53,7 +79,6 @@
 
 ;; Use the tab-and-go frontend.
 ;; Allows TAB to select and complete at the same time.
-(company-tng-configure-default)
 (setq company-frontends
       '(company-tng-frontend
         company-pseudo-tooltip-frontend
