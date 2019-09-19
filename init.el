@@ -1,5 +1,5 @@
 ;; -*- Emacs-Lisp -*-
-;; Time-stamp: <2019-09-19 22:46:50 Thursday by drakezhang>
+;; Time-stamp: <2019-09-20 00:19:48 Friday by zhangguhua>
 ;; zgh的emacs配置启动文件
 
 ;; 定义相关的路径，
@@ -180,5 +180,5 @@
 
 (require 'session)
 (add-hook 'after-init-hook 'session-initialize)
-;; (require  'wcy-desktop)
-;; (wcy-desktop-init)
+(require  'wcy-desktop)
+(wcy-desktop-init)

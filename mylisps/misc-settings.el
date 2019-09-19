@@ -1,6 +1,6 @@
 ;; -*- Emacs-Lisp -*-
 
-;; Time-stamp: <2016-02-26 22:53:14 Friday by zhangguhua>
+;; Time-stamp: <2019-07-31 23:57:05 Wednesday by zhangguhua>
 
 ;; This  file is free  software; you  can redistribute  it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -67,7 +67,7 @@
 (setq enable-recursive-minibuffers t)
 
 ;; 当你在shell、telnet、w3m等模式下时，必然碰到过要输入密码的情况,此时加密显出你的密码
-;;(add-hook 'comint-output-filter-functions 'comint-watch-for-password-prompt)
+(add-hook 'comint-output-filter-functions 'comint-watch-for-password-prompt)
 
 ;; 可以保存你上次光标所在的位置
 (require 'saveplace)

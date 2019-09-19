@@ -45,31 +45,44 @@
 (require 'company-tabnine)
 
 (require 'company-c-headers)
-(add-to-list 'company-c-headers-path-system "/usr/local/gcc-5.4.0/include/c++/5.4.0/")
+(if (eq system-type 'darwin)
+    (add-to-list 'company-c-headers-path-system "/usr/local/include/c++/v1"))
 
-(setq company-backends `((company-elisp :with
-                                          company-yasnippet company-tabnine)
-                           company-bbdb
-                           ,@(unless (version<= "26" emacs-version)
-                               '(company-nxml company-css))
-                           company-semantic
-                           (company-capf :with
-                                         company-yasnippet company-tabnine)
-                           company-tabnine
-                           company-files
-                           (company-dabbrev-code
-                            company-gtags company-etags company-keywords)
-                           company-oddmuse company-dabbrev))
+(if (eq system-type 'gnu/linux)
+    (add-to-list 'company-c-headers-path-system "/usr/local/gcc-5.4.0/include/c++/5.4.0"))
 
-
-
-;;(add-to-list 'company-backends #'company-complete)
 ;;(add-to-list 'company-backends #'company-tabnine)
 
-;;(add-to-list 'company-backends 'company-c-headers)
-;;(add-to-list 'company-backends 'company-yasnippet)
-;(add-to-list 'company-backends #'company-files)
+(add-to-list 'company-backends 'company-c-headers)
 
+;; (add-to-list 'company-backends 'company-yasnippet)
+(add-to-list 'company-backends 'company-files)
+
+
+(defun company//sort-by-tabnine (candidates)
+  (if (or (functionp company-backend)
+          (not (and (listp company-backend) (memq 'company-tabnine company-backend))))
+      candidates
+    (let ((candidates-table (make-hash-table :test #'equal))
+          candidates-1
+          candidates-2)
+      (dolist (candidate candidates)
+        (if (eq (get-text-property 0 'company-backend candidate)
+                'company-tabnine)
+            (unless (gethash candidate candidates-table)
+              (push candidate candidates-2))
+          (push candidate candidates-1)
+          (puthash candidate t candidates-table)))
+      (setq candidates-1 (nreverse candidates-1))
+      (setq candidates-2 (nreverse candidates-2))
+      (nconc (seq-take candidates-1 2)
+             (seq-take candidates-2 2)
+             (seq-drop candidates-1 2)
+             (seq-drop candidates-2 2)))))
+
+(add-to-list 'company-transformers 'company//sort-by-tabnine t)
+;; `:separate`  使得不同 backend 分开排序
+(add-to-list 'company-backends '(company-yasnippet :with company-tabnine :separate))
 
 ;; Trigger completion immediately.
 (setq company-idle-delay 0)

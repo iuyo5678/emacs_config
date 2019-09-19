@@ -1,6 +1,6 @@
 ;; -*- Emacs-Lisp -*-
 
-;; Time-stamp: <2018-10-25 23:43:47 Thursday by zhangguhua>
+;; Time-stamp: <2019-07-29 21:55:04 Monday by zhangguhua>
 
 (require 'compile-settings)
 (require 'edit-misc)
@@ -20,8 +20,6 @@
 (setq require-final-newline t)
 
 (define-key minibuffer-local-completion-map (kbd "C-k") 'kill-line)
-
-;;(autoload 'copy-region-as-kill "pc-select"  t)
 
 ;;;###autoload
 (defmacro def-action-on-area-command (fun-name action mark-area doc)

@@ -1,6 +1,6 @@
 ;; -*- Emacs-Lisp -*-
 
-;; Time-stamp: <2013-09-01 16:44:14 Sunday by nilin>
+;; Time-stamp: <2019-09-20 00:21:48 Friday by zhangguhua>
 
 (eal-define-keys-commonly
  global-map
@@ -9,7 +9,7 @@
 
 ;;;###autoload
 (defun rm-mark-command ()
-  "如果是CUA mode, 则执行`cua-set-rectangle-mark', 否则执行`rm-set-mark'"
+  "如果是CUA\ mode, 则执行`cua-set-rectangle-mark', 否则执行`rm-set-mark'"
   (interactive)
   (setq last-region-beg (point))
   (setq last-region-is-rect t)

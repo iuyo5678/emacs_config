@@ -1,6 +1,6 @@
 ;; -*- Emacs-Lisp -*-
 
-;; Time-stamp: <2018-11-06 00:31:26 Tuesday by zhangguhua>
+;; Time-stamp: <2019-08-08 11:52:25 Thursday by zhangguhua>
 (require 'shell)
 (require 'term)
 (when (fboundp 'winner-mode) 

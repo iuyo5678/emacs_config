@@ -1,6 +1,6 @@
 ;; -*- Emacs-Lisp -*-
 
-;; Time-stamp: <2015-02-27 17:04:59 Friday by nilin>
+;; Time-stamp: <2019-08-30 19:45:04 Friday by zhangguhua>
 
 ;; This  file is free  software; you  can redistribute  it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -17,13 +17,7 @@
 ;; write  to  the Free  Software  Foundation,  Inc., 51  Franklin
 ;; Street, Fifth Floor, Boston, MA 02110-1301, USA.
 
-;; mule-gbk
-(unless is-after-emacs-23
-  (require 'mule-gbk "my-mule-gbk"))
 
-;; ±‡¬Î…Ë÷√
-(when (not (and is-after-emacs-23 window-system))
-  (set-language-environment "UTF-8"))
 (set-terminal-coding-system 'utf-8)
 (set-keyboard-coding-system 'utf-8)
 (prefer-coding-system 'utf-8)
