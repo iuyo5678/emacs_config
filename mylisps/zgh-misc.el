@@ -156,10 +156,7 @@ See also `with-temp-buffer'."
   :group 'centaur
   :type 'boolean)
 
-(defcustom centaur-chinese-calendar nil
-  "Use Chinese calendar or not."
-  :group 'centaur
-  :type 'boolean)
+
 (defconst sys/win32p
   (eq system-type 'windows-nt)
   "Are we running on a WinTel system?")
