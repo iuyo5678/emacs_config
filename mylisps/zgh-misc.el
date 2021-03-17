@@ -274,7 +274,6 @@ like argument of `define-key'."
 
 
 (use-package so-long
-  :ensure nil
   :hook (after-init . global-so-long-mode)
   :config (setq so-long-threshold 400))
 
