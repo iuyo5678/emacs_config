@@ -23,3 +23,14 @@ elpa/*
 \#*\#
 semanticdb/
 history
+.dap-breakpoints
+.lsp-session-v1
+.mc-lists.el
+amx-items
+.cache/
+/.extension/
+/forge-database.sqlite
+/projectile-bookmarks.eld
+/status.log
+/transient/
+/var/
