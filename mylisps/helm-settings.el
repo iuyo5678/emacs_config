@@ -32,7 +32,7 @@
 
 (provide 'helm-settings)
 (eval-when-compile
-  (require 'cl))
+  (require 'cl-lib))
 
 
 ;;;;##########################################################################
@@ -155,6 +155,8 @@
     (setq helm-google-suggest-use-curl-p t))
 (helm-mode 1)
 
-
+(require 'helm-smex)
+(global-set-key [remap execute-extended-command] #'helm-smex)
+(global-set-key (kbd "M-X") #'helm-smex-major-mode-commands)
 
 ;;; helm-settings.el ends here

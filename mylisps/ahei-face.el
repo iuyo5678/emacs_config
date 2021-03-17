@@ -1,8 +1,6 @@
 ;; -*- Emacs-Lisp -*-
 
-;; Time-stamp: <2010-09-18 22:31:55 Saturday by taoshanwen>
-
-(require 'util)
+;; Time-stamp: <2021-03-12 16:17:23 Friday by zhangguhua>
 
 ;; 我自定义的一些face
 (defface white-face
@@ -108,6 +106,25 @@
 
 (defface region-invert nil "Invert of face region.")
 
+(defface dired-directory
+  '((((class color) (background dark)) (:foreground "red" :background "blue")) (t ()))
+  "我自定义的dired directory face")
+
+(defface c-includes-open-face
+  '((((class color) (background dark)) (:foreground "red")) (t ()))
+  "我自定义的dired directory face")
+
+(defface c-includes-close-face
+  '((((class color) (background dark)) (:foreground "dark red")) (t ()))
+  "")
+
+(defface c-includes-already-face
+  '((((class color) (background dark)) (:foreground "purple")) (t ()))
+  "")
+(defface c-includes-unknown-face
+  '((((class color) (background dark)) (:bold true :foreground "red" :weitht bold)) (t ()))
+  "")
+
 (apply-args-list-to-fun
  'defvar
  `((beautiful-blue-face 'beautiful-blue-face)
@@ -119,5 +136,4 @@
    (yellow-face         'yellow-face)
    (green-face          'green-face)
    (cyan-face           'cyan-face)))
-
 (provide 'ahei-face)

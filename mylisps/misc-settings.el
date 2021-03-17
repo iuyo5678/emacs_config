@@ -46,9 +46,6 @@
 (put 'downcase-region 'disabled nil)
 (put 'dired-find-alternate-file 'disabled nil)
 
-;; 不显示Emacs的开始画面
-(setq inhibit-startup-message t)
-(setq initial-scratch-message "")
 
 ;; 不要总是没完没了的问yes or no, 为什么不能用y/n
 (fset 'yes-or-no-p 'y-or-n-p)

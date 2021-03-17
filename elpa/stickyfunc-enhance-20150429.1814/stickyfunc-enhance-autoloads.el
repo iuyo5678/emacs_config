@@ -13,9 +13,7 @@
 (autoload 'semantic-stickyfunc-fetch-stickyline "stickyfunc-enhance" "\
 Make the function at the top of the current window sticky.
 Capture its function declaration, and place it in the header line.
-If there is no function, disable the header line.
-
-\(fn)" nil nil)
+If there is no function, disable the header line." nil nil)
 
 (if (fboundp 'register-definition-prefixes) (register-definition-prefixes "stickyfunc-enhance" '("stickyfunc-enhance--")))
 

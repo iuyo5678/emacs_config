@@ -74,7 +74,7 @@
 
 ;; General Emacs/XEmacs-compatibility compile-time macros
 (eval-when-compile
-  (require 'cl)
+  (require 'cl-lib)
   (defmacro cond-emacs-xemacs (&rest args)
     (cond-emacs-xemacs-macfn
      args "`cond-emacs-xemacs' must return exactly one element"))
@@ -140,7 +140,7 @@
 			     'ignore)))))))))))
 
 (eval-when-compile
-  (require 'cl)
+  (require 'cl-lib)
   (defvar init-file-loaded)		; would be useful in Emacs, too...
   (defvar file-name-buffer-file-type-alist))
 
@@ -2346,12 +2346,12 @@ result is in `template-file'.  See `template-derivation-alist'."
   (template-default-file template raw num ext)
   (let* ((dir (car template-file))
 	 (full (expand-file-name (cadr template-file) dir)))
-    (when (if (string= (fourth template-file) "")
+    (when (if (string= (cl-fourth template-file) "")
 	      auto-num
 	    (setq auto-num
 		  (and (or (get-file-buffer full)
 			   (file-readable-p full))
-		       (string-to-number (fourth template-file)))))
+		       (string-to-number (cl-fourth template-file)))))
       (setq auto-num (1- auto-num)
 	    raw (third template-file)
 	    ext (fifth template-file))
@@ -2642,7 +2642,7 @@ For ARG, see `template-define-start'."
     (if (string= comment "")
 	(template-define-start arg "(%S %S)" register contents)
       (template-define-start arg "(%S %S %S)" register contents comment))))
-  
+
 
 ;;;===========================================================================
 ;;;  Initialization

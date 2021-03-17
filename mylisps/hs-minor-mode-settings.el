@@ -42,7 +42,7 @@
 
   (defvar hs-hide-all nil "Current state of hideshow for toggling all.")
   (make-local-variable 'hs-hide-all)
-  
+
   (defun hs-toggle-hiding-all ()
     "Toggle hideshow all."
     (interactive)
@@ -55,7 +55,7 @@
   (make-variable-buffer-local 'fold-all-fun)
   (defvar fold-fun nil "Function to fold.")
   (make-variable-buffer-local 'fold-fun)
-  
+
   (defun toggle-fold-all ()
     "Toggle fold all."
     (interactive)
@@ -69,7 +69,7 @@
     (if fold-fun
         (call-interactively fold-fun)
       (hs-toggle-hiding)))
-  
+
   (defun hs-minor-mode-4-emaci-settings ()
     "Settings of `hs-minor-mode' for `emaci'."
     (eal-define-keys
@@ -79,7 +79,7 @@
 
   (eval-after-load "emaci"
     '(hs-minor-mode-4-emaci-settings))
-  
+
   (define-key-list
     hs-minor-mode-map
     `(("C-c h" hs-hide-block)

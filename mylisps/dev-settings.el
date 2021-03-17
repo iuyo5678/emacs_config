@@ -1,6 +1,6 @@
 ;; -*- Emacs-Lisp -*-
 
-;; Time-stamp: <2019-09-19 21:04:23 Thursday by drakezhang>
+;; Time-stamp: <2021-03-15 15:42:42 Monday by zhangguhua>
 
 ;; This  file is free  software; you  can redistribute  it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -32,121 +32,94 @@
      ("<\\|>" . cyan-face)
      ("{\\|}" . green-face))))
 
-;; hs-minor-mode,折叠代码
-(require 'hs-minor-mode-settings)
 
-;; 所有关于括号的配置
-(require 'all-paren-settings)
+(use-package hs-minor-mode-settings
+  :ensure nil
+  :hook ((c-mode . hs-minor-mode-hook)
+         (c++-mode . hs-minor-mode-hook)
+         (java-mode . hs-minor-mode-hook)
+         ))
 
-;; 用来显示当前光标在哪个函数
-(require 'which-func-settings)
+;; Prettify Symbols
+;; e.g. display “lambda” as “λ”
+(use-package prog-mode
+  :ensure nil
+  :hook (prog-mode . prettify-symbols-mode)
+  :init
+  (setq-default prettify-symbols-alist centaur-prettify-symbols-alist)
+  (setq prettify-symbols-unprettify-at-point 'right-edge))
 
-(autoload 'markdown-mode "markdown-mode"
-  "Major mode for editing Markdown files" t)
-(add-to-list 'auto-mode-alist '("\\.text\\'" . markdown-mode))
-(add-to-list 'auto-mode-alist '("\\.markdown\\'" . markdown-mode))
-(add-to-list 'auto-mode-alist '("\\.md\\'" . markdown-mode))
+;; Jump to definition
+(use-package dumb-jump
+  :pretty-hydra
+  ((:title (pretty-hydra-title "Dump Jump" 'faicon "anchor")
+    :color blue :quit-key "q")
+   ("Jump"
+    (("j" dumb-jump-go "Go")
+     ("o" dumb-jump-go-other-window "Go other window")
+     ("e" dumb-jump-go-prefer-external "Go external")
+     ("x" dumb-jump-go-prefer-external-other-window "Go external other window"))
+    "Other"
+    (("i" dumb-jump-go-prompt "Prompt")
+     ("l" dumb-jump-quick-look "Quick look")
+     ("b" dumb-jump-back "Back"))))
+  :bind (("M-g o" . dumb-jump-go-other-window)
+         ("M-g j" . dumb-jump-go)
+         ("M-g i" . dumb-jump-go-prompt)
+         ("M-g x" . dumb-jump-go-prefer-external)
+         ("M-g z" . dumb-jump-go-prefer-external-other-window)
+         ("C-M-j" . dumb-jump-hydra/body))
+  :init
+  (add-hook 'xref-backend-functions #'dumb-jump-xref-activate)
+  (setq dumb-jump-prefer-searcher 'rg
+        dumb-jump-selector 'ivy))
 
-;; `gdb'
-(require 'gud-settings)
+(use-package editorconfig
+  :diminish
+  :hook (after-init . editorconfig-mode))
 
-;; 版本控制
-(require 'vc-settings)
+;; Run commands quickly
+(use-package quickrun
+  :bind (("C-<f5>" . quickrun)
+         ("C-c X" . quickrun)))
 
-;; 写配置文件时的mode，ini文件conf文件
-(require 'any-ini-mode)
-(add-to-list 'auto-mode-alist '(".*\\.ini$" . any-ini-mode))
-(add-to-list 'auto-mode-alist '(".*\\.conf$" . any-ini-mode))
+(use-package cask-mode)
+(use-package csharp-mode)
+(use-package csv-mode)
+(use-package julia-mode)
+(use-package lua-mode)
+(use-package mermaid-mode)
+(use-package plantuml-mode)
+(use-package powershell)
+(use-package rmsbolt)                   ; A compiler output viewer
+(use-package scala-mode)
+(use-package swift-mode)
+(use-package vimrc-mode)
 
-;; subversion
-(require 'svn-settings)
-;; magit按键配置
-(global-set-key (kbd "C-x g") 'magit-status)
-(global-set-key (kbd "C-x M-g") 'magit-dispatch-popup)
+(use-package protobuf-mode
+  :hook (protobuf-mode . (lambda ()
+                           (setq imenu-generic-expression
+                                 '((nil "^[[:space:]]*\\(message\\|service\\|enum\\)[[:space:]]+\\([[:alnum:]]+\\)" 2))))))
 
+(use-package nxml-mode
+  :ensure nil
+  :mode (("\\.xaml$" . xml-mode)))
 
-;; 所有关于lisp方面的配置
-(require 'all-lisp-settings)
-(require 'go-settings)
+;; New `conf-toml-mode' in Emacs 26
+(unless (fboundp 'conf-toml-mode)
+  (use-package toml-mode))
 
-;; 开发shell程序的mode配置
-(require 'sh-mode-settings)
+;; Batch Mode eXtras
+(use-package bmx-mode
+  :after company
+  :diminish
+  :hook (after-init . bmx-mode-setup-defaults))
 
-;; protobuffer mode
-(require 'protobuf-mode)
-(setq auto-mode-alist (cons '("\\.proto$" . protobuf-mode) auto-mode-alist))
+;; Fish shell
+(use-package fish-mode
+  :hook (fish-mode . (lambda ()
+                       (add-hook 'before-save-hook
+                                 #'fish_indent-before-save))))
 
-;; json的相关处理
-(require 'json-mode)
-(require 'json-reformat)
-
-;; 显示变量, 函数的声明
-(require 'eldoc-settings)
-
-;; 方便开发c/c++的配置
-(require 'c-settings)
-
-;; 放在kde-emacs后面
-(require 'compile-settings)
-
-;;写html的配置
-(require 'html-settings)
-
-(require 'python-settings)
-
-(require 'sed-settings)
-
-
-(require 'yasnippet)
-(yas-global-mode 1)
-
-;; Trigger completion immediately.
-(setq company-idle-delay 0)
-
-;; Number the candidates (use M-1, M-2 etc to select completions).
-(setq company-show-numbers t)
-
-;; Use the tab-and-go frontend.
-;; Allows TAB to select and complete at the same time.
-(company-tng-configure-default)
-(setq company-frontends
-      '(company-tng-frontend
-        company-pseudo-tooltip-frontend
-        company-echo-metadata-frontend))
-
-
-;; 高亮显示TODO、FIXME、BUG
-(require 'fixme-mode)
-(defvar my-highlight-words
-  '("FIXME" "TODO" "BUG"))
-;; Ensure that the variable exists.
-(defvar wcheck-language-data nil)
-(push '("FIXME"
-        (program . (lambda (strings)
-                     (let (found)
-                       (dolist (word my-highlight-words found)
-                         (when (member word strings)
-                           (push word found))))))
-        (face . highlight)
-        (read-or-skip-faces
-         (nil)))
-      wcheck-language-data)
-(fixme-mode 1)
-;; 回车后indent
-(eal-define-keys
- `(lisp-mode-map emacs-lisp-mode-map lisp-interaction-mode-map sh-mode-map
-                 awk-mode-map java-mode-map
-                 ruby-mode-map c-mode-base-map tcl-mode-map org-mode-map
-                 python-mode-map perl-mode-map)
- `(("RET" newline-and-indent)))
-
-(defun copy-current-fun-name ()
-  "Copy current function name."
-  (interactive)
-  (kill-new (which-function)))
-
-;;hide lines
-(autoload 'hide-lines "hide-lines" "Hide lines based on a regexp" t)
-(global-set-key (kbd "C-c /") 'hide-lines)
 
 (provide 'dev-settings)

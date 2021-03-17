@@ -19,10 +19,6 @@ Company backend for C/C++ header files.
 
 ;;;***
 
-;;;### (autoloads nil nil ("company-c-headers-pkg.el") (0 0 0 0))
-
-;;;***
-
 ;; Local Variables:
 ;; version-control: never
 ;; no-byte-compile: t

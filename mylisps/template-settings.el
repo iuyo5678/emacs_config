@@ -3,11 +3,11 @@
 
 (require 'template)
 
-(eal-define-keys
- '(emacs-lisp-mode-map c-mode-base-map makefile-mode-map makefile-automake-mode-map
-                       sh-mode-map text-mode-map python-mode-map py-mode-map)
- `(("C-c T" my-template-expand-template)
-   ("C-c C-t" template-expand-template)))
+;;(eal-define-keys
+;; '(emacs-lisp-mode-map c-mode-base-map makefile-mode-map makefile-automake-mode-map
+;;                       sh-mode-map text-mode-map python-mode-map py-mode-map)
+;; `(("C-c T" my-template-expand-template)
+;;   ("C-c C-t" template-expand-template)))
 
 (defun template-settings ()
   "settings for `template'."

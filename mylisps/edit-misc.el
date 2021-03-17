@@ -1,7 +1,7 @@
 ;; Copyright (C) 2010 ahei
 
 ;; Author: ahei <ahei0802@gmail.com>
-;; Keywords: 
+;; Keywords:
 ;; URL: http://code.google.com/p/dea/source/browse/trunk/my-lisps/edit-misc.el
 ;; Time-stamp: <2016-03-08 23:16:48 Tuesday by zhangguhua>
 
@@ -39,15 +39,13 @@
 (defun backward-kill-word-or-kill-region ()
   "`mark-active'时, 剪切选择的区域, 平时向后删除word, 和bash下面一样."
   (interactive)
-  (if (rm-mark-active)
-      (call-interactively 'rm-kill-region)
-    (if mark-active
+  (if mark-active
         (if cua-mode
             (progn
               (cua-cut-rectangle t)
               (cua-cancel))
           (call-interactively 'kill-region))
-      (call-interactively 'backward-kill-word))))
+      (call-interactively 'backward-kill-word)))
 
 ;;;###autoload
 (defun mark-whole-sexp (&optional not-whole)
@@ -134,6 +132,7 @@ If NOT-WHOLE is non-nil, do not copy whole sexp."
       (kill-paragraph nil)
     (call-interactively 'mark-paragraph)
     (call-interactively 'kill-region)))
+
 
 ;;;###autoload
 (defun copy-whole-paragraph (&optional arg)

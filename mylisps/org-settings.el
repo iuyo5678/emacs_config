@@ -1,10 +1,10 @@
-;;; org-settings.el --- 
+;;; org-settings.el ---
 
 ;; Copyright 2016 your name
 ;;
 ;; Author: youremail@host.com
 ;; Version: $Id: org-settings.el,v 0.0 2016/07/22 19:36:05 zhangguhua Exp $
-;; Keywords: 
+;; Keywords:
 ;; X-URL: not distributed yet
 
 ;; This program is free software; you can redistribute it and/or modify
@@ -23,109 +23,246 @@
 
 ;;; Commentary:
 
-;; 
+;;
 
 ;; Put this file into your load-path and the following into your ~/.emacs:
 ;;   (require 'org-settings)
 
 ;;; Code:
 
+(defcustom centaur-prettify-org-symbols-alist
+  '(("[ ]" . ?☐)
+    ("[X]" . ?☑)
+    ("[-]" . ?⛝)
+
+    ("#+ARCHIVE:" . ?📦)
+    ("#+AUTHOR:" . ?👤)
+    ("#+CREATOR:" . ?💁)
+    ("#+DATE:" . ?📆)
+    ("#+DESCRIPTION:" . ?⸙)
+    ("#+EMAIL:" . ?📧)
+    ("#+OPTIONS:" . ?⛭)
+    ("#+SETUPFILE:" . ?⛮)
+    ("#+TAGS:" . ?🏷)
+    ("#+TITLE:" . ?📓)
+
+    ("#+BEGIN_SRC" . ?✎)
+    ("#+END_SRC" . ?□)
+    ("#+BEGIN_QUOTE" . ?»)
+    ("#+END_QUOTE" . ?«)
+    ("#+HEADERS" . ?☰)
+    ("#+RESULTS:" . ?💻))
+  "Alist of symbol prettifications for `org-mode'."
+  :group 'centaur
+  :type '(alist :key-type string :value-type (choice character sexp)))
+
+
+(use-package org
+  :ensure nil
+  :commands (org-dynamic-block-define)
+  :custom-face (org-ellipsis ((t (:foreground nil))))
+:bind (("C-c a" . org-agenda)
+         ("C-c b" . org-switchb)
+         ("C-c x" . org-capture)
+         :map org-mode-map
+         ("<" . (lambda ()
+                  "Insert org template."
+                  (interactive)
+                  (if (or (region-active-p) (looking-back "^\s*" 1))
+                      (org-hydra/body)
+                    (self-insert-command 1)))))
+  :hook (((org-babel-after-execute org-mode) . org-redisplay-inline-images) ; display image
+         (org-mode . (lambda ()
+                       "Beautify org symbols."
+                       (setq prettify-symbols-alist centaur-prettify-org-symbols-alist)
+                       (prettify-symbols-mode 1)))
+         (org-indent-mode . (lambda()
+                              (diminish 'org-indent-mode)
+                              ;; WORKAROUND: Prevent text moving around while using brackets
+                              ;; @see https://github.com/seagle0128/.emacs.d/issues/88
+                              (make-variable-buffer-local 'show-paren-mode)
+                              (setq show-paren-mode nil))))
+  :config
+  ;; For hydra
+  (defun hot-expand (str &optional mod)
+    "Expand org template.
+
+STR is a structure template string recognised by org like <s. MOD is a
+string with additional parameters to add the begin line of the
+structure element. HEADER string includes more parameters that are
+prepended to the element after the #+HEADER: tag."
+    (let (text)
+      (when (region-active-p)
+        (setq text (buffer-substring (region-beginning) (region-end)))
+        (delete-region (region-beginning) (region-end)))
+      (insert str)
+      (if (fboundp 'org-try-structure-completion)
+          (org-try-structure-completion) ; < org 9
+        (progn
+          ;; New template expansion since org 9
+          (require 'org-tempo nil t)
+          (org-tempo-complete-tag)))
+      (when mod (insert mod) (forward-line))
+      (when text (insert text))))
+
+  ;; To speed up startup, don't put to init section
+  (setq org-directory my-org-file-path
+        org-capture-templates
+        `(("i" "Idea" entry (file ,(concat org-directory "/idea.org"))
+           "*  %^{Title} %?\n%U\n%a\n")
+          ("t" "Todo" entry (file ,(concat org-directory "/gtd.org"))
+           "* TODO %?\n%U\n%a\n" :clock-in t :clock-resume t)
+          ("n" "Note" entry (file ,(concat org-directory "/note.org"))
+           "* %? :NOTE:\n%U\n%a\n" :clock-in t :clock-resume t)
+          ("j" "Journal" entry (,(if (>= emacs-major-version 26) 'file+olp+datetree 'file+datetree)
+                                ,(concat org-directory "/journal.org"))
+           "*  %^{Title} %?\n%U\n%a\n" :clock-in t :clock-resume t)
+	      ("b" "Book" entry (,(if (>= emacs-major-version 26) 'file+olp+datetree 'file+datetree)
+                             ,(concat org-directory "/book.org"))
+	       "* Topic: %^{Description}  %^g %? Added: %U"))
+
+        org-agenda-files `(,my-org-file-path)
+        org-todo-keywords
+        '((sequence "TODO(t)" "DOING(i)" "HANGUP(h)" "|" "DONE(d)" "CANCEL(c)")
+          (sequence "⚑(T)" "🏴(I)" "❓(H)" "|" "✔(D)" "✘(C)"))
+        org-todo-keyword-faces '(("HANGUP" . warning)
+                                 ("❓" . warning))
+        org-priority-faces '((?A . error)
+                             (?B . warning)
+                             (?C . success))
+
+        org-tags-column -80
+        org-log-done 'time
+        org-catch-invisible-edits 'smart
+        org-startup-indented t
+        org-ellipsis (if (and (display-graphic-p) (char-displayable-p ?⏷)) "\t⏷" nil)
+        org-pretty-entities nil
+        org-hide-emphasis-markers t)
+
+  ;; Add new template
+  (add-to-list 'org-structure-template-alist '("n" . "note"))
+
+  ;; Use embedded webkit browser if possible
+  (when (featurep 'xwidget-internal)
+    (push '("\\.\\(x?html?\\|pdf\\)\\'"
+            .
+            (lambda (file _link)
+              (xwidget-webkit-browse-url (concat "file://" file))
+              (let ((buf (xwidget-buffer (xwidget-webkit-current-session))))
+                (when (buffer-live-p buf)
+                  (and (eq buf (current-buffer)) (quit-window))
+                  (pop-to-buffer buf)))))
+          org-file-apps))
+
+  ;; Add gfm/md backends
+  (use-package ox-gfm)
+  (add-to-list 'org-export-backends 'md)
+
+  (with-eval-after-load 'counsel
+    (bind-key [remap org-set-tags-command] #'counsel-org-tag org-mode-map))
+
+  ;; Prettify UI
+  (when (>= emacs-major-version 26)
+    (use-package org-superstar
+      :if (and (display-graphic-p) (char-displayable-p ?⚫))
+      :hook (org-mode . org-superstar-mode)
+      :init (setq org-superstar-headline-bullets-list '("⚫" "⚫" "⚫" "⚫"))))
+
+  (use-package org-fancy-priorities
+    :diminish
+    :hook (org-mode . org-fancy-priorities-mode)
+    :init (setq org-fancy-priorities-list
+                (if (and (display-graphic-p) (char-displayable-p ?⯀))
+                    '("⯀" "⯀" "⯀" "⯀")
+                  '("HIGH" "MEDIUM" "LOW" "OPTIONAL"))))
+
+  ;; Babel
+  (setq org-confirm-babel-evaluate nil
+        org-src-fontify-natively t
+        org-src-tab-acts-natively t)
+
+  (defvar load-language-list '((emacs-lisp . t)
+                               (perl . t)
+                               (python . t)
+                               (ruby . t)
+                               (js . t)
+                               (css . t)
+                               (sass . t)
+                               (C . t)
+                               (java . t)
+                               (plantuml . t)))
+
+  ;; ob-sh renamed to ob-shell since 26.1.
+  (if (>= emacs-major-version 26)
+      (cl-pushnew '(shell . t) load-language-list)
+    (cl-pushnew '(sh . t) load-language-list))
+
+  (use-package ob-go
+    :init (cl-pushnew '(go . t) load-language-list))
+
+  ;; Use mermadi-cli: npm install -g @mermaid-js/mermaid-cli
+  (use-package ob-mermaid
+    :init (cl-pushnew '(mermaid . t) load-language-list))
+
+  (org-babel-do-load-languages 'org-babel-load-languages
+                               load-language-list)
+
+  ;; Rich text clipboard
+  (use-package org-rich-yank
+    :bind (:map org-mode-map
+           ("C-M-y" . org-rich-yank)))
+
+  ;; Table of contents
+  (use-package toc-org
+    :hook (org-mode . toc-org-mode))
+
+  ;; Export text/html MIME emails
+  (use-package org-mime
+    :bind (:map message-mode-map
+           ("C-c M-o" . org-mime-htmlize)
+           :map org-mode-map
+           ("C-c M-o" . org-mime-org-buffer-htmlize)))
+
+  ;; Preview
+  (use-package org-preview-html
+    :diminish)
+
+  ;; Presentation
+  (use-package org-tree-slide
+    :diminish
+    :functions (org-display-inline-images
+                org-remove-inline-images)
+    :bind (:map org-mode-map
+           ("s-<f7>" . org-tree-slide-mode)
+           :map org-tree-slide-mode-map
+           ("<left>" . org-tree-slide-move-previous-tree)
+           ("<right>" . org-tree-slide-move-next-tree)
+           ("S-SPC" . org-tree-slide-move-previous-tree)
+           ("SPC" . org-tree-slide-move-next-tree))
+    :hook ((org-tree-slide-play . (lambda ()
+                                    (text-scale-increase 4)
+                                    (org-display-inline-images)
+                                    (read-only-mode 1)))
+           (org-tree-slide-stop . (lambda ()
+                                    (text-scale-increase 0)
+                                    (org-remove-inline-images)
+                                    (read-only-mode -1))))
+    :config
+    (org-tree-slide-simple-profile)
+    (setq org-tree-slide-skip-outline-level 2))
+
+  ;; Pomodoro
+  (use-package org-pomodoro
+    :custom-face
+    (org-pomodoro-mode-line ((t (:inherit warning))))
+    (org-pomodoro-mode-line-overtime ((t (:inherit error))))
+    (org-pomodoro-mode-line-break ((t (:inherit success))))
+    :bind (:map org-agenda-mode-map
+           ("P" . org-pomodoro))))
+
+
 (provide 'org-settings)
-(eval-when-compile
-  (require 'cl))
 
-;;;;##########################################################################
-;;;;  User Options, Variables
-;;;;##########################################################################
-
-(defun org-insert-src-block (src-code-type)
-    "Insert a `SRC-CODE-TYPE' type source code block in org-mode."
-    (interactive
-     (let ((src-code-types
-            '("bash" "emacs-lisp" "python" "C" "sh" "java" "js" "clojure" "C++" "css"
-              "calc" "asymptote" "dot" "gnuplot" "ledger" "lilypond" "mscgen"
-              "octave" "oz" "plantuml" "R" "sass" "screen" "sql" "awk" "ditaa"
-              "haskell" "latex" "lisp" "matlab" "ocaml" "org" "perl" "ruby"
-              "scheme" "sqlite")))
-         (list (ido-completing-read "Source code type: " src-code-types))))
-    (progn
-        (newline-and-indent)
-        (insert (format "#+BEGIN_SRC %s\n" src-code-type))
-        (newline-and-indent)
-        (insert "#+END_SRC\n")
-        (previous-line 2)
-        (org-edit-src-code)))
-
-(add-hook 'org-mode-hook '(lambda ()
-                              ;; turn on flyspell-mode by default
-                              (flyspell-mode 1)
-                              ;; C-TAB for expanding
-                              (local-set-key (kbd "C-<tab>")
-                                             'yas/expand-from-trigger-key)
-                              ;; keybinding for editing source code blocks
-                              (local-set-key (kbd "C-c s e")
-                                             'org-edit-src-code)
-                              ;; keybinding for inserting code blocks
-                              (local-set-key (kbd "C-c s i")
-                                             'org-insert-src-block)
-                              ;; keybinding for inserting time-stamp
-                              (local-set-key (kbd "C-c s t")
-                                             'org-time-stamp)
-                              ))
-
-(setq org-src-fontify-natively t)
-;; 先将 org-capture-templates 设置为空
-(setq org-capture-templates nil)
-(add-to-list 'org-capture-templates '("t" "Tasks"))
-(add-to-list 'org-capture-templates
-             '("tw" "Work Task" entry
-               (file+headline "~/Dropbox/docs/org/workplan.org" "遗留工作")
-               "* TODO %^{任务名}\n%u\n%a\n" :clock-in t :clock-resume t))
-(add-to-list 'org-capture-templates
-             '("n" "Notes" entry (file "~/Dropbox/docs/org/lifebook.org")
-               "* %^{heading} %t %^g\n  %?\n"))
-
-
-(require 'org-protocol)
-(add-to-list 'org-capture-templates '("p" "Protocol"))
-(add-to-list 'org-capture-templates
-             '("pn" "Protocol Bookmarks" entry
-               (file+headline "~/Dropbox/docs/org/web.org" "Notes")
-               "* %U - %:annotation %^g\n\n  %?" :empty-lines 1 :kill-buffer t))
-(add-to-list 'org-capture-templates
-             '("pb" "Protocol Bookmarks" entry
-               (file+headline "~/Dropbox/docs/org/web.org" "Bookmarks")
-               "* %U - %:annotation" :immediate-finish t :kill-buffer t))
-(add-to-list 'org-capture-templates
-             '("pa" "Protocol Annotation" plain
-               (file+function "~/Dropbox/docs/org/web.org" org-capture-template-goto-link)
-               "  %U - %?\n\n  %:initial" :empty-lines 1))
-(defun make-orgcapture-frame ()
-  "Create a new frame and run org-capture."
-  (interactive)
-  (make-frame '((name . "remember") (width . 80) (height . 16)
-                (top . 400) (left . 300)
-                (font . "-apple-Monaco-medium-normal-normal-*-13-*-*-*-m-0-iso10646-1")
-                ))
-  (select-frame-by-name "remember")
-  (org-capture))
-(defun org-capture-template-goto-link ()
-  (org-capture-put :target (list 'file+headline
-                                 (nth 1 (org-capture-get :target))
-                                 (org-capture-get :annotation)))
-  (org-capture-put-target-region-and-position)
-  (widen)
-  (let ((hd (nth 2 (org-capture-get :target))))
-    (goto-char (point-min))
-    (if (re-search-forward
-         (format org-complex-heading-regexp-format (regexp-quote hd)) nil t)
-        (org-end-of-subtree)
-      (goto-char (point-max))
-      (or (bolp) (insert "\n"))
-      (insert "* " hd "\n"))))
-
-
-(global-set-key (kbd "C-c c") 'org-capture)
 
 (setq org-todo-keywords '((sequence "TODO(t)" "PLAN(p@)" "DOING(i)" "|" "DONE(d@)" "ABORT(a@)")))
 

@@ -1,1 +1,10 @@
-alias ll ls -l $*
+alias lt ls -ltFh
+alias lsa ls -lah
+alias lrt ls -lFcrt
+alias lr ls -tRFh
+alias la ls -lAFh
+alias ll ls -l
+alias l ls -lFh
+alias d dired $1
+alias fo find-file-other-window $1
+alias f find-file $1

@@ -22,6 +22,7 @@
   (and transient-mark-mode mark-active
        (if window-system 'region 'region-invert)))
 
+
 (size-indication-mode 1)
 (setq-default mode-line-buffer-identification (propertized-buffer-identification "%b"))
 

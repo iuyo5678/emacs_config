@@ -1,2 +1,2 @@
-;;; -*- no-byte-compile: t -*-
-(define-package "company-c-headers" "20190825.1631" "Company mode backend for C/C++ header files" '((emacs "24.1") (company "0.8")) :commit "5e676ab0c2f287c868b1e3931afd4c78895910cd" :keywords '("development" "company") :authors '(("Alastair Rankine" . "alastair@girtby.net")) :maintainer '("Alastair Rankine" . "alastair@girtby.net"))
+;;; Generated package description from /Users/zhangguhua/.emacs.d/elpa/company-c-headers-20190825.1631/company-c-headers.el  -*- no-byte-compile: t -*-
+(define-package "company-c-headers" "20190825.1631" "Company mode backend for C/C++ header files" '((emacs "24.1") (company "0.8")) :commit "9d384571b1190e99d0a789e5296176d69a3d0771" :authors '(("Alastair Rankine" . "alastair@girtby.net")) :maintainer '("Alastair Rankine" . "alastair@girtby.net") :keywords '("development" "company"))
