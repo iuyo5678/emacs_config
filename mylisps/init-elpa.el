@@ -1,10 +1,10 @@
-;;; init-elpa.el --- 
+;;; init-elpa.el ---
 
 ;; Copyright 2016 zhangguhua
 ;;
 ;; Author: zhangguhua@baidu.com
 ;; Version: $Id: init-elpa.el,v 0.0 2016/02/25 12:05:58 zhangguhua Exp $
-;; Keywords: 
+;; Keywords:
 ;; X-URL: not distributed yet
 
 ;; This program is free software; you can redistribute it and/or modify
@@ -23,7 +23,7 @@
 
 ;;; Commentary:
 
-;; 
+;;
 
 ;; Put this file into your load-path and the following into your ~/.emacs:
 ;;   (require 'init-elpa)
@@ -35,10 +35,8 @@
 ;;;;  User Options, Variables
 ;;;;##########################################################################
 
-(require 'package)
-;; 增加软件包仓库
-(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
-
+(setq package-archives '(("gnu"   . "http://mirrors.tuna.tsinghua.edu.cn/elpa/gnu/")
+                         ("melpa" . "http://mirrors.tuna.tsinghua.edu.cn/elpa/melpa/")))
 ;; Initialize packages
 (unless (bound-and-true-p package--initialized) ; To avoid warnings in 27
   (setq package-enable-at-startup nil)          ; To prevent initializing twice
