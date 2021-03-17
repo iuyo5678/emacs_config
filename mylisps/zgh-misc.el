@@ -27,6 +27,100 @@
   (exec-path-from-shell-initialize)
   (setq default-directory "~"))
 
+(defun centaur--load-theme (theme)
+  "Disable others and enable new one."
+  (when theme
+    (mapc #'disable-theme custom-enabled-themes)
+    (load-theme theme t)
+    (message "Loaded theme `%s'" theme)))
+
+
+(defun centaur-set-variable (variable value &optional no-save)
+  "Set the VARIABLE to VALUE, and return VALUE.
+
+Save to `custom-file' if NO-SAVE is nil."
+  (customize-set-variable variable value)
+  (when (and (not no-save)
+             (file-writable-p custom-file))
+    (with-temp-buffer
+      (insert-file-contents custom-file)
+      (goto-char (point-min))
+      (while (re-search-forward
+              (format "^[\t ]*[;]*[\t ]*(setq %s .*)" variable)
+              nil t)
+        (replace-match (format "(setq %s '%s)" variable value) nil nil))
+      (write-region nil nil custom-file)
+      (message "Saved %s (%s) to %s" variable value custom-file))))
+
+(defcustom centaur-theme-alist
+  '((default  . doom-one)
+    (pro      . doom-monokai-pro)
+    (dark     . doom-dark+)
+    (light    . doom-one-light)
+    (warm     . doom-solarized-light)
+    (cold     . doom-city-lights)
+    (day      . doom-tomorrow-day)
+    (night    . doom-tomorrow-night))
+  "List of themes mapped to internal themes."
+  :group 'centaur
+  :type '(alist :key-type (symbol :tag "Theme")
+                :value-type (symbol :tag "Internal theme")))
+
+(defun centaur--theme-name (theme)
+  "Return internal THEME name."
+  (or (alist-get theme centaur-theme-alist) theme 'doom-one))
+
+(defcustom centaur-theme 'default
+  "The color theme."
+  :group 'centaur
+  :type `(choice (const :tag "Auto" 'auto)
+                 (const :tag "Random" 'random)
+                 ,(if (boundp 'ns-system-appearance)
+                      '(const :tag "System" 'system)
+                    "")
+                 ,@(mapcar
+                    (lambda (item)
+                      (let ((name (car item)))
+                        (list 'const
+                              :tag (capitalize (symbol-name name))
+                              name)))
+                    centaur-theme-alist)
+                 symbol))
+
+(defun centaur-load-theme (theme &optional no-save)
+  "Load color THEME. Save to `custom-file' if NO-SAVE is nil."
+  (interactive
+   (list (intern (completing-read
+                  "Load theme: "
+                  `(auto
+                    random
+                    ,(if (boundp 'ns-system-appearance) 'system "")
+                    ,@(mapcar #'car centaur-theme-alist))))))
+  ;; Set option
+  (centaur-set-variable 'centaur-theme theme no-save)
+
+  ;; Disable system theme
+  (remove-hook 'ns-system-appearance-change-functions #'centaur--load-system-theme)
+
+  (pcase centaur-theme
+    ('auto
+     ;; Time-switching themes
+     (use-package circadian
+       :functions circadian-setup
+       :custom (circadian-themes centaur-auto-themes)
+       :init (circadian-setup)))
+    ('system
+     ;; System-appearance themes
+     (if (boundp 'ns-system-appearance)
+         (progn
+           (centaur--load-system-theme ns-system-appearance)
+           (add-hook 'ns-system-appearance-change-functions #'centaur--load-system-theme))
+       (warn "The system theme is unavailable on this platform!")))
+    ('random (centaur-load-random-theme))
+    (_ (centaur--load-theme (centaur--theme-name theme)))))
+(global-set-key (kbd "C-c T") #'centaur-load-theme)
+
+
 (defalias 'move-beginning-of-line 'beginning-of-line)
 (defalias 'move-end-of-line       'end-of-line)
 

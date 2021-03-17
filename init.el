@@ -27,10 +27,11 @@
 (require 'init-elpa)
 
 (require 'zgh-misc)
-;;主题配置
-(require 'face-settings)
 
 (require 'init-hydra)
+
+;;主题配置
+(require 'face-settings)
 
 (require 'edit-settings)
 
