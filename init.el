@@ -45,6 +45,8 @@
 
 (require 'windows-settings)
 
+(require 'view-settings)
+
 (require 'dev-settings)
 
 (require 'shell-mode-settings)
@@ -71,8 +73,6 @@
 
 ;; 状态栏的配置
 (require 'mode-line-settings)
-
-;;(require 'helm-settings)
 
 ;;所有关于模板的配置
 (require 'template-settings)
