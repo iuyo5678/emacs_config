@@ -21,21 +21,14 @@
 
 (eal-define-keys-commonly
  global-map
- `(("C-x \\"  rm-mark-command)
-   ("M-w"     copy-region)))
+ `(("M-w"     copy-region)))
 
-;;;###autoload
-(defun rm-mark-command ()
-  "如果是CUA\ mode, 则执行`cua-set-rectangle-mark', 否则执行`rm-set-mark'"
-  (interactive)
-  (setq last-region-beg (point))
-    (call-interactively 'rm-set-mark))
 
 ;;;###autoload
 (defun copy-region (beg end)
   "根据`mark-active'和`rm-mark-active'来决定是执行`copy-region-as-kill-nomark'还是`rm-kill-ring-save'"
   (interactive "r")
-     (copy-region-as-kill beg end))
+  (copy-region-as-kill beg end))
 
 ;;;###autoload
 (defmacro def-action-on-area-command (fun-name action mark-area doc)
@@ -425,6 +418,7 @@
   :diminish
   :hook (after-init . fancy-narrow-mode))
 
+(use-package yaml-mode)
 (defun visit-.emacs ()
   "访问.emacs文件"
   (interactive)

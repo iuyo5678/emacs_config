@@ -32,14 +32,6 @@
      ("<\\|>" . cyan-face)
      ("{\\|}" . green-face))))
 
-
-(use-package hs-minor-mode-settings
-  :ensure nil
-  :hook ((c-mode . hs-minor-mode-hook)
-         (c++-mode . hs-minor-mode-hook)
-         (java-mode . hs-minor-mode-hook)
-         ))
-
 ;; Prettify Symbols
 ;; e.g. display “lambda” as “λ”
 (use-package prog-mode
@@ -120,6 +112,5 @@
   :hook (fish-mode . (lambda ()
                        (add-hook 'before-save-hook
                                  #'fish_indent-before-save))))
-
 
 (provide 'dev-settings)

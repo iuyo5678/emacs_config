@@ -119,18 +119,5 @@
 (use-package haml-mode)
 (use-package php-mode)
 
-;; REST
-(use-package restclient
-  :mode ("\\.http\\'" . restclient-mode)
-  :config
-  (use-package restclient-test
-    :diminish
-    :hook (restclient-mode . restclient-test-mode))
-
-  (with-eval-after-load 'company
-    (use-package company-restclient
-      :defines company-backends
-      :init (add-to-list 'company-backends 'company-restclient))))
-
 (provide 'web-settings)
 ;;; web-settings.el ends here

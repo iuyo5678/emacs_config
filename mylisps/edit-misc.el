@@ -419,10 +419,13 @@ otherwise call `move-beginning-of-line'."
 ;; C-x C-j open the directory of current buffer
 (global-set-key (kbd "C-x C-j")
                 (lambda ()
-                    (interactive)
-                    (if (buffer-file-name)
-                            (dired default-directory))))
+                  (interactive)
+                  (if (buffer-file-name)
+                      (dired default-directory))))
 
+;; 共享粘贴板
+(setq x-select-enable-clipboard t)
+(setq mouse-drag-copy-region t)
 
 (provide 'edit-misc)
 

@@ -29,7 +29,6 @@
 (require 'zgh-misc)
 
 (require 'init-hydra)
-
 ;;主题配置
 (require 'face-settings)
 
@@ -48,6 +47,8 @@
 (require 'view-settings)
 
 (require 'dev-settings)
+
+(require 'docker-settings)
 
 (require 'shell-mode-settings)
 

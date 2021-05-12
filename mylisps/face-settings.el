@@ -3,20 +3,10 @@
 ;; Time-stamp: <2021-03-15 18:05:25 Monday by zhangguhua>
 ;;主题配置
 
-(defcustom centaur-logo (expand-file-name
-                         (if (display-graphic-p) "logo.png" "banner.txt")
-                         user-emacs-directory)
-  "Set Centaur logo. nil means official logo."
-  :group 'centaur
-  :type 'string)
-
 ;; Font
 (defun font-installed-p (font-name)
   "Check if font with FONT-NAME is available."
   (find-font (font-spec :name font-name)))
-
-;; Logo
-(setq fancy-splash-image centaur-logo)
 
 (use-package hide-mode-line
   :hook (((completion-list-mode
@@ -161,13 +151,6 @@
       window-divider-default-bottom-width 1
       window-divider-default-right-width 1)
 (add-hook 'window-setup-hook #'window-divider-mode)
-
-
-(setq cjk-font-size 18)
-(setq ansi-font-size 18)
-
-(set-frame-font
-   (concat "Monaco-" (number-to-string ansi-font-size)))
 
 ;; Easily adjust the font size in all frames
 (use-package default-text-scale

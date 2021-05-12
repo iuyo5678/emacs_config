@@ -28,6 +28,15 @@
 
 ;;; Code:
 
+(define-minor-mode centaur-read-mode
+  "Minor Mode for better reading experience."
+  :init-value nil
+  :group centaur
+  (if centaur-read-mode
+      (progn
+        (text-scale-set +2))
+    (progn
+      (text-scale-set 0))))
 ;;
 ;; PDF reader
 (when (display-graphic-p)
