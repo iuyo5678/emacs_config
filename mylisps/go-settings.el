@@ -1,3 +1,4 @@
+;;; -*- lexical-binding: t; -*-
 ;;; go-settings.el ---
 
 ;; Copyright 2017 Zhang Guhua

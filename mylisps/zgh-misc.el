@@ -390,15 +390,20 @@ like argument of `define-key'."
 (setq visible-bell t
       inhibit-compacting-font-caches t  ; Don’t compact font caches during GC.
       delete-by-moving-to-trash t       ; Deleting files go to OS's trash folder
-      make-backup-files nil             ; Forbide to make backup files
       auto-save-default nil             ; Disable auto save
-
       uniquify-buffer-name-style 'post-forward-angle-brackets ; Show path if names are same
       adaptive-fill-regexp "[ t]+|[ t]*([0-9]+.|*+)[ t]*"
       adaptive-fill-first-line-regexp "^* *$"
       sentence-end "\\([。！？]\\|……\\|[.?!][]\"')}]*\\($\\|[ \t]\\)\\)[ \t\n]*"
       sentence-end-double-space nil)
 
+(setq backup-by-copying t ; 自动备份
+      backup-directory-alist
+      '(("." . "~/.em_backup")) ; 自动备份在目录"~/.em_backup"下
+      delete-old-versions t ; 自动删除旧的备份文件
+      kept-new-versions 3 ; 保留最近的3个备份文件
+      kept-old-versions 1 ; 保留最早的1个备份文件
+      version-control t) ; 多次备份
 
 ;; Pass a URL to a WWW browser
 (use-package browse-url
