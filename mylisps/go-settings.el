@@ -34,6 +34,7 @@
 
 ;; Golang
 (use-package go-mode
+  :defines projectile-project-root-files-bottom-up
   :functions (go-packages-gopkgs go-update-tools)
   :bind (:map go-mode-map
          ("C-c R" . go-remove-unused-imports)
@@ -42,7 +43,11 @@
   ;; Env vars
   (with-eval-after-load 'exec-path-from-shell
     (exec-path-from-shell-copy-envs '("GOPATH" "GO111MODULE" "GOPROXY")))
-
+  ;; set go root
+  (with-eval-after-load 'projectile
+    (setq projectile-project-root-files-bottom-up
+          (append '("go.mod")
+                  projectile-project-root-files-bottom-up)))
   ;; Install or update tools
   (defvar go--tools '("golang.org/x/tools/cmd/goimports"
                       "github.com/go-delve/delve/cmd/dlv"
