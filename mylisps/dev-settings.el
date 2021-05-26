@@ -87,7 +87,7 @@
 (use-package scala-mode)
 (use-package swift-mode)
 (use-package vimrc-mode)
-
+(use-package cmake-mode)
 (use-package protobuf-mode
   :hook (protobuf-mode . (lambda ()
                            (setq imenu-generic-expression
