@@ -32,7 +32,7 @@
 
 
 (use-package pretty-hydra
-  :bind ("<f6>" . toggles-hydra/body)
+  :bind ("s-6" . toggles-hydra/body)
   :init
   (cl-defun pretty-hydra-title (title &optional icon-type icon-name
                                       &key face height v-adjust)

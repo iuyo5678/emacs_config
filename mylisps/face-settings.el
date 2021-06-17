@@ -5,12 +5,13 @@
 
 ;; Font
 
+(use-package unicode-fonts
+  :init (unicode-fonts-setup))
 (set-frame-font "Monaco")
 (face-spec-set 'default `((t (:height , 180))))
 (defun font-installed-p (font-name)
   "Check if font with FONT-NAME is available."
   (find-font (font-spec :name font-name)))
-
 (use-package hide-mode-line
   :hook (((completion-list-mode
            completion-in-region-mode

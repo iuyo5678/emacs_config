@@ -91,7 +91,7 @@
       :diminish
       :defines company-box-icons-all-the-icons
       :hook (company-mode . company-box-mode)
-      :init (setq company-box-doc-delay 0.3)
+      :init (setq company-box-doc-delay 0.6)
       :config
       (with-no-warnings
         ;; Prettify icons
