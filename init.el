@@ -72,8 +72,5 @@
 
 (require 'web-settings)
 
-;; 状态栏的配置
-(require 'mode-line-settings)
-
 ;;所有关于模板的配置
 (require 'template-settings)

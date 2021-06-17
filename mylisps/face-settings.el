@@ -25,6 +25,9 @@
   :init (unless (or (eq system-type 'windows-nt) (font-installed-p "all-the-icons"))
           (all-the-icons-install-fonts t))
   :config
+  ;; 在状态栏显示日期时间
+  (setq display-time-day-and-date t)
+  (display-time)
   (declare-function memoize 'memoize)
   (declare-function memoize-restore 'memoize)
   (defun all-the-icons-reset ()
@@ -251,6 +254,7 @@ Nil to use font supports ligatures."
                               `([,(cdr char-regexp) 0 font-shape-gstring]))))
     (set-char-table-parent composition-ligature-table composition-function-table)))
 
+
 (use-package doom-themes
   :custom-face
   (doom-modeline-buffer-file ((t (:inherit (mode-line bold)))))
@@ -277,7 +281,8 @@ Nil to use font supports ligatures."
   ;; Prevent flash of unstyled modeline at startup
   (unless after-init-time
     (setq doom-modeline--default-format mode-line-format)
-    (setq-default mode-line-format nil))
+    (setq-default mode-line-format nil)
+    (setq doom-modeline-height 5))
   :bind (:map doom-modeline-mode-map
          ("C-<f6>" . doom-modeline-hydra/body))
   :pretty-hydra

@@ -334,6 +334,7 @@ like argument of `define-key'."
   (push (expand-file-name recentf-save-file) recentf-exclude)
   (add-to-list 'recentf-filename-handlers #'abbreviate-file-name))
 
+
 (use-package savehist
   :ensure nil
   :hook (after-init . savehist-mode)
@@ -492,6 +493,12 @@ FUN-LIST can be a symbol, also can be a list whose element is a symbol."
   "Remove binding of KEY in map KEYMAP.
 KEY is a string or vector representing a sequence of keystrokes."
   (define-key keymap key nil))
+
+(defun get-mode-name ()
+  "显示`major-mode'及`mode-name'"
+  (interactive)
+  (message "major-mode为%s, mode-name为%s" major-mode mode-name))
+(global-set-key (kbd "C-x m") 'get-mode-name)
 
 (provide 'zgh-misc)
 
