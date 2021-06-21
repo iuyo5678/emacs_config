@@ -42,9 +42,12 @@
                          ("melpa" . "http://elpa.emacs-china.org/melpa/")))
 
 ;; Initialize packages
-(unless (bound-and-true-p package--initialized) ; To avoid warnings in 27
-  (setq package-enable-at-startup nil)          ; To prevent initializing twice
-  (package-initialize))
+ (unless (bound-and-true-p package--initialized) ; To avoid warnings in 27
+   (setq package-enable-at-startup nil)          ; To prevent initializing twice
+   (package-initialize))
+
+;;(require 'maple-package)
+;;(maple-package-initialize 'no-activate)
 
 ;; Setup `use-package'
 (unless (package-installed-p 'use-package)
@@ -60,7 +63,6 @@
 
 (eval-when-compile
   (require 'use-package))
-
 ;; Required by `use-package'
 (use-package diminish)
 (use-package bind-key)

@@ -1,17 +1,57 @@
 ;; -*- Emacs-Lisp -*-
 
 ;; Time-stamp: <2021-03-15 18:05:25 Monday by zhangguhua>
-;;主题配置
+;;外观的配置
 
-;; Font
+(use-package ahei-face
+  :ensure nil
+  :demand t
+  :config
+  (setq ns-auto-hide-menu-bar t)
+  (tool-bar-mode -1)
+  (set-frame-position (selected-frame) 0 -24)
+  (set-frame-size (selected-frame) 80 85)
+  (setq scroll-bar-mode nil)
+  ;;Suppress GUI features
+  (setq use-file-dialog nil
+	use-dialog-box nil
+	inhibit-startup-screen t
+	inhibit-startup-echo-area-message t)
+
+  ;; Display dividers between windows
+  (setq window-divider-default-places t
+        window-divider-default-bottom-width 1
+        window-divider-default-right-width 1)
+  (add-hook 'window-setup-hook #'window-divider-mode)
+  (defun apply-args-list-to-fun (fun-list args-list)
+    "Apply args list to function FUN-LIST.
+FUN-LIST can be a symbol, also can be a list whose element is a symbol."
+    (let ((is-list (and (listp fun-list) (not (functionp fun-list)))))
+      (dolist (args args-list)
+	(if is-list
+	    (dolist (fun fun-list)
+	      (apply-args-to-fun fun args))
+          (apply-args-to-fun fun-list args)))))
+  (apply-args-list-to-fun
+   'defvar
+   `((beautiful-blue-face 'beautiful-blue-face)
+     (darkgreen-face      'darkgreen-face)
+     (darkred-face        'darkred-face)
+     (darkyellow-face     'darkyellow-face)
+     (darkmagenta-face    'darkmagenta-face)
+     (darkcyan-face       'darkcyan-face)
+     (yellow-face         'yellow-face)
+     (green-face          'green-face)
+     (cyan-face           'cyan-face)))
+  )
 
 (use-package unicode-fonts
-  :init (unicode-fonts-setup))
-(set-frame-font "Monaco")
-(face-spec-set 'default `((t (:height , 180))))
-(defun font-installed-p (font-name)
-  "Check if font with FONT-NAME is available."
-  (find-font (font-spec :name font-name)))
+  :init (unicode-fonts-setup)
+  :config
+  (set-frame-font "Monaco")
+  (face-spec-set 'default `((t (:height , 180))))
+  )
+
 (use-package hide-mode-line
   :hook (((completion-list-mode
            completion-in-region-mode
@@ -22,7 +62,8 @@
 ;; NOTE: Must run `M-x all-the-icons-install-fonts', and install fonts manually on Windows
 (use-package all-the-icons
   :if (display-graphic-p)
-  :init (unless (or (eq system-type 'windows-nt) (font-installed-p "all-the-icons"))
+  :init
+  (unless (or (eq system-type 'windows-nt) (find-font (font-spec :name "all-the-icons")))
           (all-the-icons-install-fonts t))
   :config
   ;; 在状态栏显示日期时间
@@ -146,18 +187,31 @@
       :hook (global-linum-mode . hlinum-activate)
       :init (setq linum-highlight-in-all-buffersp t))))
 
+(defcustom centaur-prettify-org-symbols-alist
+  '(("[ ]" . ?☐)
+    ("[X]" . ?☑)
+    ("[-]" . ?⛝)
 
-;; Suppress GUI features
-(setq use-file-dialog nil
-      use-dialog-box nil
-      inhibit-startup-screen t
-      inhibit-startup-echo-area-message t)
+    ("#+ARCHIVE:" . ?📦)
+    ("#+AUTHOR:" . ?👤)
+    ("#+CREATOR:" . ?💁)
+    ("#+DATE:" . ?📆)
+    ("#+DESCRIPTION:" . ?⸙)
+    ("#+EMAIL:" . ?📧)
+    ("#+OPTIONS:" . ?⛭)
+    ("#+SETUPFILE:" . ?⛮)
+    ("#+TAGS:" . ?🏷)
+    ("#+TITLE:" . ?📓)
 
-;; Display dividers between windows
-(setq window-divider-default-places t
-      window-divider-default-bottom-width 1
-      window-divider-default-right-width 1)
-(add-hook 'window-setup-hook #'window-divider-mode)
+    ("#+begin_src" . ?✎)
+    ("#+end_src" . ?⌀)
+    ("#+begin_quote" . ?»)
+    ("#+end_quote" . ?«)
+    ("#+HEADERS" . ?☰)
+    ("#+RESULTS:" . ?💻))
+  "Alist of symbol prettifications for `org-mode'."
+  :group 'centaur
+  :type '(alist :key-type string :value-type (choice character sexp)))
 
 ;; Easily adjust the font size in all frames
 (use-package default-text-scale
@@ -173,17 +227,6 @@
 ;; Use fixed pitch where it's sensible
 (use-package mixed-pitch
   :diminish)
-
-;; 不要menu-bar和tool-bar
-(menu-bar-mode -1)
-;; GUI下显示toolbar的话select-buffer会出问题
-(if (fboundp 'tool-bar-mode)
-  (tool-bar-mode -1))
-
-
-;; Don't use GTK+ tooltip
-(when (boundp 'x-gtk-use-system-tooltips)
-  (setq x-gtk-use-system-tooltips nil))
 
 (defcustom centaur-prettify-symbols-alist
   '(("lambda" . ?λ)
@@ -258,13 +301,11 @@ Nil to use font supports ligatures."
 (use-package doom-themes
   :custom-face
   (doom-modeline-buffer-file ((t (:inherit (mode-line bold)))))
-  :custom
-  (doom-themes-treemacs-theme "doom-colors")
-  :init (centaur-load-theme centaur-theme t)
+  :demand t
   :config
+  (load-theme 'doom-solarized-dark t)
   ;; Enable flashing mode-line on errors
   (doom-themes-visual-bell-config)
-
   ;; Enable customized theme
   ;; FIXME https://github.com/emacs-lsp/lsp-treemacs/issues/89
   (with-eval-after-load 'lsp-treemacs
@@ -272,7 +313,7 @@ Nil to use font supports ligatures."
 
 (use-package doom-modeline
   :custom
-  (doom-modeline-icon centaur-icon)
+  (doom-modeline-icon zgh-icon)
   (doom-modeline-minor-modes t)
   (doom-modeline-unicode-fallback t)
   (doom-modeline-mu4e nil)
@@ -282,7 +323,10 @@ Nil to use font supports ligatures."
   (unless after-init-time
     (setq doom-modeline--default-format mode-line-format)
     (setq-default mode-line-format nil)
-    (setq doom-modeline-height 5))
+    (setq doom-modeline-height 1)
+    (custom-set-faces
+     '(mode-line ((t (:height 0.9))))
+     '(mode-line-inactive ((t (:height 0.9))))))
   :bind (:map doom-modeline-mode-map
          ("C-<f6>" . doom-modeline-hydra/body))
   :pretty-hydra
@@ -400,5 +444,79 @@ Nil to use font supports ligatures."
      ("z w" (counsel-read-setq-expression 'doom-modeline-bar-width) "set bar width")
      ("z g" (counsel-read-setq-expression 'doom-modeline-github-interval) "set github interval")
      ("z n" (counsel-read-setq-expression 'doom-modeline-gnus-timer) "set gnus interval")))))
-(require 'ahei-face)
+
+;;TODO:: fix load bug temp add demand
+(use-package dashboard
+  :diminish (dashboard-mode page-break-lines-mode)
+  :functions (all-the-icons-faicon
+              all-the-icons-material
+              winner-undo
+              widget-forward)
+  :custom-face (dashboard-heading ((t (:inherit (font-lock-string-face bold)))))
+  :hook (dashboard-mode . (lambda () (setq-local frame-title-format "")))
+  :init
+  (setq
+   dashboard-startup-banner (or zgh-logo 'official)
+   dashboard-center-content t
+   dashboard-show-shortcuts nil
+   dashboard-items '((recents  . 8)
+                     (bookmarks . 5)
+                     (projects . 5))
+
+   dashboard-set-init-info t
+   dashboard-set-file-icons zgh-icon
+   dashboard-set-heading-icons zgh-icon
+   dashboard-heading-icons '((recents   . "file-text")
+                             (bookmarks . "bookmark")
+                             (agenda    . "calendar")
+                             (projects  . "briefcase")
+                             (registers . "database"))
+
+   dashboard-set-footer t
+   dashboard-footer (format "Package by Drake Zhang, Powered by Centaur Emacs  %s" (format-time-string "%Y"))
+   dashboard-footer-icon (cond ((icons-displayable-p)
+                                (all-the-icons-faicon "heart"
+                                                      :height 1.1
+                                                      :v-adjust -0.05
+                                                      :face 'error))
+                               ((char-displayable-p ?🧡) "🧡 ")
+                               (t (propertize ">" 'face 'dashboard-footer)))
+
+   dashboard-set-navigator t)
+  (dashboard-setup-startup-hook)
+  :config
+  ;; WORKAROUND: fix differnct background color of the banner image.
+  ;; @see https://github.com/emacs-dashboard/emacs-dashboard/issues/203
+  (defun my-dashboard-insert-image-banner (banner)
+    "Display an image BANNER."
+    (when (file-exists-p banner)
+      (let* ((title dashboard-banner-logo-title)
+             (spec (create-image banner))
+             (size (image-size spec))
+             (width (car size))
+             (left-margin (max 0 (floor (- dashboard-banner-length width) 2))))
+        (goto-char (point-min))
+        (insert "\n")
+        (insert (make-string left-margin ?\ ))
+        (insert-image spec)
+        (insert "\n\n")
+        (when title
+          (dashboard-center-line title)
+          (insert (format "%s\n\n" (propertize title 'face 'dashboard-banner-logo-title)))))))
+  (advice-add #'dashboard-insert-image-banner :override #'my-dashboard-insert-image-banner)
+
+  ;; FIXME: Insert copyright
+  ;; @see https://github.com/emacs-dashboard/emacs-dashboard/issues/219
+  (defun my-dashboard-insert-copyright ()
+    "Insert copyright in the footer."
+    (when dashboard-footer
+      (insert "\n  ")
+      (dashboard-center-line dashboard-footer)
+      (insert (propertize dashboard-footer 'face 'font-lock-comment-face))
+      (insert "\n")))
+  (advice-add #'dashboard-insert-footer :after #'my-dashboard-insert-copyright)
+
+  )
+
+;;(require 'dashboard)
 (provide 'face-settings)

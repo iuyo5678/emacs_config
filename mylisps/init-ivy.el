@@ -451,7 +451,7 @@ This is for use in `ivy-re-builders-alist'."
     :bind (:map counsel-mode-map
            ("C-c c T" . counsel-tramp))))
 
-(if centaur-icon
+(if zgh-icon
     ;; Better experience with icons
     ;; Enable it before`ivy-rich-mode' for better performance
     (use-package all-the-icons-ivy-rich

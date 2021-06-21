@@ -25,8 +25,6 @@
 ;;; Installation:
 ;;
 ;; Copy edit-misc.el to your load-path and add to your .emacs:
-;;
-;; (require 'edit-misc)
 
 ;;; History:
 ;;
@@ -40,12 +38,12 @@
   "`mark-active'时, 剪切选择的区域, 平时向后删除word, 和bash下面一样."
   (interactive)
   (if mark-active
-        (if cua-mode
-            (progn
-              (cua-cut-rectangle t)
-              (cua-cancel))
-          (call-interactively 'kill-region))
-      (call-interactively 'backward-kill-word)))
+      (if cua-mode
+          (progn
+            (cua-cut-rectangle t)
+            (cua-cancel))
+        (call-interactively 'kill-region))
+    (call-interactively 'backward-kill-word)))
 
 ;;;###autoload
 (defun mark-whole-sexp (&optional not-whole)
@@ -70,6 +68,34 @@ If NOT-WHOLE is non-nil, do not kill whole sexp."
   (interactive)
   (mark-whole-sexp not-whole)
   (backward-kill-word-or-kill-region))
+
+;;;###autoload
+(defun copy-region (beg end)
+  "根据`mark-active'和`rm-mark-active'来决定是执行`copy-region-as-kill-nomark'还是`rm-kill-ring-save'"
+  (interactive "r")
+  (copy-region-as-kill beg end))
+
+;;;###autoload
+(defmacro def-action-on-area-command (fun-name action mark-area doc)
+  `(defun ,fun-name ()
+     ,doc
+     (interactive)
+     (save-excursion
+       (funcall ,mark-area)
+       (call-interactively ,action))))
+
+
+;;;###autoload
+(defmacro def-redo-command (fun-name redo undo)
+  "Make redo command."
+  `(defun ,fun-name ()
+     (interactive)
+     (if (equal last-command ,redo)
+         (setq last-command 'undo)
+       (setq last-command nil))
+     (call-interactively ,undo)
+     (setq this-command ,redo)))
+(def-redo-command redo 'redo 'undo)
 
 ;;;###autoload
 (defun copy-sexp (&optional not-whole)
@@ -373,59 +399,43 @@ otherwise call `move-beginning-of-line'."
 
 ;;显示当前buffer或region或函数的行数和字符数，绑定到按键C-x l
 (defun count-brf-lines (&optional is-fun)
-    "显示当前buffer或region或函数的行数和字符数"
-    (interactive "P")
-    (let (min max)
-        (if is-fun
-                (save-excursion
-                    (beginning-of-defun) (setq min (point))
-                    (end-of-defun) (setq max (point))
-                    (message "当前函数%s内共有%d行, %d个字符" (which-function) (count-lines min max) (- max min)))
-            (if mark-active
-                    (progn
-                        (setq min (min (point) (mark)))
-                        (setq max (max (point) (mark))))
-                (setq min (point-min))
-                (setq max (point-max)))
-            (if (or (= 1 (point-min)) mark-active)
-                    (if mark-active
-                            (message "当前region内共有%d行, %d个字符" (count-lines min max) (- max min))
-                        (message "当前buffer内共有%d行, %d个字符" (count-lines min max) (- max min)))
-                (let ((nmin min) (nmax max))
-                    (save-excursion
-                        (save-restriction
-                            (widen)
-                            (setq min (point-min))
-                            (setq max (point-max))))
-                    (message "narrow下buffer内共有%d行, %d个字符, 非narrow下buffer内共有%d行, %d个字符"
-                             (count-lines nmin nmax) (- nmax nmin) (count-lines min max) (- max min)))))))
-(eal-define-keys-commonly
- global-map
- `(("C-x l" count-brf-lines)
-   ))
-
+  "显示当前buffer或region或函数的行数和字符数"
+  (interactive "P")
+  (let (min max)
+    (if is-fun
+        (save-excursion
+          (beginning-of-defun) (setq min (point))
+          (end-of-defun) (setq max (point))
+          (message "当前函数%s内共有%d行, %d个字符" (which-function) (count-lines min max) (- max min)))
+      (if mark-active
+          (progn
+            (setq min (min (point) (mark)))
+            (setq max (max (point) (mark))))
+        (setq min (point-min))
+        (setq max (point-max)))
+      (if (or (= 1 (point-min)) mark-active)
+          (if mark-active
+              (message "当前region内共有%d行, %d个字符" (count-lines min max) (- max min))
+            (message "当前buffer内共有%d行, %d个字符" (count-lines min max) (- max min)))
+        (let ((nmin min) (nmax max))
+          (save-excursion
+            (save-restriction
+              (widen)
+              (setq min (point-min))
+              (setq max (point-max))))
+          (message "narrow下buffer内共有%d行, %d个字符, 非narrow下buffer内共有%d行, %d个字符"
+                   (count-lines nmin nmax) (- nmax nmin) (count-lines min max) (- max min)))))))
 
 
 (defun edit-current-file-as-root ()
-    "Edit the file that is associated with the current buffer as root"
-    (interactive)
-    (if (buffer-file-name)
-            (progn
-                (setq file (concat "/sudo:root@localhost:" (buffer-file-name)))
-                (find-file file))
-        (message "Current buffer does not have an associated file.")))
+  "Edit the file that is associated with the current buffer as root"
+  (interactive)
+  (if (buffer-file-name)
+      (progn
+        (setq file (concat "/sudo:root@localhost:" (buffer-file-name)))
+        (find-file file))
+    (message "Current buffer does not have an associated file.")))
 
-
-;; C-x C-j open the directory of current buffer
-(global-set-key (kbd "C-x C-j")
-                (lambda ()
-                  (interactive)
-                  (if (buffer-file-name)
-                      (dired default-directory))))
-
-;; 共享粘贴板
-(setq x-select-enable-clipboard t)
-(setq mouse-drag-copy-region t)
 
 (provide 'edit-misc)
 

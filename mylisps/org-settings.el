@@ -30,40 +30,14 @@
 
 ;;; Code:
 
-(defcustom centaur-prettify-org-symbols-alist
-  '(("[ ]" . ?☐)
-    ("[X]" . ?☑)
-    ("[-]" . ?⛝)
-
-    ("#+ARCHIVE:" . ?📦)
-    ("#+AUTHOR:" . ?👤)
-    ("#+CREATOR:" . ?💁)
-    ("#+DATE:" . ?📆)
-    ("#+DESCRIPTION:" . ?⸙)
-    ("#+EMAIL:" . ?📧)
-    ("#+OPTIONS:" . ?⛭)
-    ("#+SETUPFILE:" . ?⛮)
-    ("#+TAGS:" . ?🏷)
-    ("#+TITLE:" . ?📓)
-
-    ("#+begin_src" . ?✎)
-    ("#+end_src" . ?⌀)
-    ("#+begin_quote" . ?»)
-    ("#+end_quote" . ?«)
-    ("#+HEADERS" . ?☰)
-    ("#+RESULTS:" . ?💻))
-  "Alist of symbol prettifications for `org-mode'."
-  :group 'centaur
-  :type '(alist :key-type string :value-type (choice character sexp)))
-
-
 (use-package org
   :ensure nil
+  :defer t
   :commands (org-dynamic-block-define)
   :custom-face (org-ellipsis ((t (:foreground nil))))
   :pretty-hydra
   ((:title (pretty-hydra-title "Org Template" 'fileicon "org" :face 'all-the-icons-green :height 1.1 :v-adjust 0.0)
-           :color blue :quit-key "q")
+    :color blue :quit-key "q")
    ("Basic"
     (("a" (hot-expand "<a") "ascii")
      ("c" (hot-expand "<c") "center")
@@ -152,9 +126,9 @@ prepended to the element after the #+HEADER: tag."
           ("j" "Journal" entry (,(if (>= emacs-major-version 26) 'file+olp+datetree 'file+datetree)
                                 ,(concat org-directory "/journal.org"))
            "*  %^{Title} %?\n%U\n%a\n" :clock-in t :clock-resume t)
-	      ("b" "Book" entry (,(if (>= emacs-major-version 26) 'file+olp+datetree 'file+datetree)
+          ("b" "Book" entry (,(if (>= emacs-major-version 26) 'file+olp+datetree 'file+datetree)
                              ,(concat org-directory "/book.org"))
-	       "* Topic: %^{Description}  %^g %? Added: %U"))
+           "* Topic: %^{Description}  %^g %? Added: %U"))
 
         org-agenda-files `(,my-org-file-path)
         org-todo-keywords
@@ -165,14 +139,12 @@ prepended to the element after the #+HEADER: tag."
         org-priority-faces '((?A . error)
                              (?B . warning)
                              (?C . success))
-
-        org-tags-column -80
+	org-tags-column -80
         org-log-done 'time
         org-catch-invisible-edits 'smart
         org-startup-indented t
-        org-ellipsis (if (and (display-graphic-p) (char-displayable-p ?⏷)) "\t⏷" nil)
-        org-pretty-entities nil
-        org-hide-emphasis-markers t)
+	org-pretty-entities nil
+	org-hide-emphasis-markers t)
 
   ;; Add new template
   (add-to-list 'org-structure-template-alist '("n" . "note"))
@@ -191,6 +163,7 @@ prepended to the element after the #+HEADER: tag."
 
   ;; Add gfm/md backends
   (use-package ox-gfm)
+  (add-to-list 'org-export-backends 'md)
 
   (with-eval-after-load 'counsel
     (bind-key [remap org-set-tags-command] #'counsel-org-tag org-mode-map))
@@ -220,6 +193,7 @@ prepended to the element after the #+HEADER: tag."
                                (java . t)
                                (plantuml . t)))
 
+
   ;; ob-sh renamed to ob-shell since 26.1.
   (if (>= emacs-major-version 26)
       (cl-pushnew '(shell . t) load-language-list)
@@ -232,13 +206,13 @@ prepended to the element after the #+HEADER: tag."
   (use-package ob-mermaid
     :init (cl-pushnew '(mermaid . t) load-language-list))
 
-  (org-babel-do-load-languages 'org-babel-load-languages
-                               load-language-list)
+  ;;(org-babel-do-load-languages 'org-babel-load-languages
+  ;;                             load-language-list)
 
   ;; Rich text clipboard
   (use-package org-rich-yank
     :bind (:map org-mode-map
-                ("C-M-y" . org-rich-yank)))
+           ("C-M-y" . org-rich-yank)))
 
   ;; Table of contents
   (use-package toc-org
@@ -247,9 +221,9 @@ prepended to the element after the #+HEADER: tag."
   ;; Export text/html MIME emails
   (use-package org-mime
     :bind (:map message-mode-map
-                ("C-c M-o" . org-mime-htmlize)
-                :map org-mode-map
-                ("C-c M-o" . org-mime-org-buffer-htmlize)))
+           ("C-c M-o" . org-mime-htmlize)
+           :map org-mode-map
+           ("C-c M-o" . org-mime-org-buffer-htmlize)))
 
   ;; Preview
   (use-package org-preview-html
@@ -261,12 +235,12 @@ prepended to the element after the #+HEADER: tag."
     :functions (org-display-inline-images
                 org-remove-inline-images)
     :bind (:map org-mode-map
-                ("s-<f7>" . org-tree-slide-mode)
-                :map org-tree-slide-mode-map
-                ("<left>" . org-tree-slide-move-previous-tree)
-                ("<right>" . org-tree-slide-move-next-tree)
-                ("S-SPC" . org-tree-slide-move-previous-tree)
-                ("SPC" . org-tree-slide-move-next-tree))
+           ("s-<f7>" . org-tree-slide-mode)
+           :map org-tree-slide-mode-map
+           ("<left>" . org-tree-slide-move-previous-tree)
+           ("<right>" . org-tree-slide-move-next-tree)
+           ("S-SPC" . org-tree-slide-move-previous-tree)
+           ("SPC" . org-tree-slide-move-next-tree))
     :hook ((org-tree-slide-play . (lambda ()
                                     (text-scale-increase 4)
                                     (org-display-inline-images)
@@ -286,7 +260,8 @@ prepended to the element after the #+HEADER: tag."
     (org-pomodoro-mode-line-overtime ((t (:inherit error))))
     (org-pomodoro-mode-line-break ((t (:inherit success))))
     :bind (:map org-agenda-mode-map
-                ("P" . org-pomodoro))))
+           ("P" . org-pomodoro)))
+  )
 
 
 (provide 'org-settings)

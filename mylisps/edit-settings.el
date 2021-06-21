@@ -1,107 +1,29 @@
-;; -*- Emacs-Lisp -*-
 
+;; -*- Emacs-Lisp -*-
 ;; Time-stamp: <2021-03-15 17:20:35 Monday by zhangguhua>
 
-(require 'edit-misc)
+(use-package edit-misc
+  :ensure nil
+  :demand t
+  :bind (([remap count-lines-page] . count-brf-lines)
+	 ("M-w" . copy-region)
+	 ("C-k" . kill-whole-line)
+	 ("C-x k" . kill-this-buffer)
+	 :map minibuffer-local-completion-map
+	 ("C-k" .  'kill-line))
+  :config
+  (setq x-select-enable-clipboard t
+	mouse-drag-copy-region t
+	;; 在行首C-k时，同时删除该行
+	kill-whole-line t
+	;; 缩进设置
+	;; 不用TAB字符来indent
+	indent-tabs-mode nil
+	tab-width 4
+	tab-stop-list nil
 
-;; ;; 在行首C-k时，同时删除该行
-(setq-default kill-whole-line t)
-
-;; 缩进设置
-;; 不用TAB字符来indent
-(setq-default indent-tabs-mode nil
-              fill-column 80
-              tab-width 4
-              tab-stop-list nil)
-
-;;  自动的在文件末增加一新行
-(setq require-final-newline t)
-
-(define-key minibuffer-local-completion-map (kbd "C-k") 'kill-line)
-
-(eal-define-keys-commonly
- global-map
- `(("M-w"     copy-region)))
-
-
-;;;###autoload
-(defun copy-region (beg end)
-  "根据`mark-active'和`rm-mark-active'来决定是执行`copy-region-as-kill-nomark'还是`rm-kill-ring-save'"
-  (interactive "r")
-  (copy-region-as-kill beg end))
-
-;;;###autoload
-(defmacro def-action-on-area-command (fun-name action mark-area doc)
-  `(defun ,fun-name ()
-     ,doc
-     (interactive)
-     (save-excursion
-       (funcall ,mark-area)
-       (call-interactively ,action))))
-
-
-;;;###autoload
-(defmacro def-redo-command (fun-name redo undo)
-  "Make redo command."
-  `(defun ,fun-name ()
-     (interactive)
-     (if (equal last-command ,redo)
-         (setq last-command 'undo)
-       (setq last-command nil))
-     (call-interactively ,undo)
-     (setq this-command ,redo)))
-(def-redo-command redo 'redo 'undo)
-
-(eal-define-keys-commonly
- global-map
- `(("M-k" kill-whole-paragraph)
-   ("M-C-k" kill-paragraph)
-   ("M-C" copy-whole-paragraph)
-   ("C-x c" copy-whole-buffer)
-   ("C-x C" kill-whole-buffer)
-   ("M-W" which-copy)
-   ("M-w" smart-copy)
-   ("C-x M-w" insert-cur-line)
-   ("C-x M-W" insert-cur-sexp)
-   ("C-M-w" copy-sentence)
-   ;; 删除整行
-   ("M-K" kill-line)
-   ("C-k" smart-kill)
-   ("C-\\" delete-indentation)
-   ("C-x M-M" mark-invisible-region)
-   ("M-U" del-to-begin)
-   ("C-^" case-trans)
-   ("C-6" case-trans)
-   ("C-w" backward-kill-word-or-kill-region)
-   ("C-x S" mark-whole-sexp)
-   ("C-x W" kill-whole-sexp)
-   ("C-x w" copy-sexp)
-   ("M-D" my-kill-word)
-   ("C-x TAB" indent-whole-buffer)
-   ("M-Y" redo)
-   ("M-m" beginning-of-line-text)
-   ("C-M-\\" smart-indent)
-   ("M-q" fill-paragraph-justify)
-   ("C-c t" insert-time)
-   ("<escape> SPC" just-one-space)))
-
-
-
-;;设置自动换行
-(setq truncate-partial-width-windows nil)
-(add-hook 'org-mode-hook (lambda() (setq truncate-lines nil)))
-
-
-;; Package: ws-butler
-(use-package ws-butler
-  :hook ((c-mode-common-hook . ws-butler-mode)
-         (prog-mode-hook . ws-butler-mode)
-         (text-mode . ws-butler-mode)
-         (fundamental-mode . ws-butler-mode)))
-
-
-;; 和机器共享剪切板
-(setq x-select-enable-clipboard t)
+	;;  自动的在文件末增加一新行
+	require-final-newline t))
 
 ;; Show number of matches in mode-line while searching
 (use-package anzu
@@ -176,7 +98,7 @@
   :bind (("C-:" . avy-goto-char)
          ("C-'" . avy-goto-char-2)
          ("M-g f" . avy-goto-line)
-         ("M-g w" . avy-goto-word-1)
+	 ("M-g w" . avy-goto-word-1)
          ("M-g e" . avy-goto-word-0))
   :hook (after-init . avy-setup-default)
   :config (setq avy-all-windows nil

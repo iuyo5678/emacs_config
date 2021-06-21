@@ -67,8 +67,12 @@
 (add-hook 'comint-output-filter-functions 'comint-watch-for-password-prompt)
 
 ;; 可以保存你上次光标所在的位置
-(require 'saveplace)
-(setq-default save-place t)
+(use-package saveplace
+  :ensure nil
+  :config
+  (setq-default save-place t)
+  )
+
 
 ;; 光标靠近鼠标指针时，让鼠标指针自动让开，别挡住视线。
 (mouse-avoidance-mode 'animate)

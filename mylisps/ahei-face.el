@@ -124,16 +124,4 @@
 (defface c-includes-unknown-face
   '((((class color) (background dark)) (:bold true :foreground "red" :weitht bold)) (t ()))
   "")
-
-(apply-args-list-to-fun
- 'defvar
- `((beautiful-blue-face 'beautiful-blue-face)
-   (darkgreen-face      'darkgreen-face)
-   (darkred-face        'darkred-face)
-   (darkyellow-face     'darkyellow-face)
-   (darkmagenta-face    'darkmagenta-face)
-   (darkcyan-face       'darkcyan-face)
-   (yellow-face         'yellow-face)
-   (green-face          'green-face)
-   (cyan-face           'cyan-face)))
 (provide 'ahei-face)

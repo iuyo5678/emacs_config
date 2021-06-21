@@ -153,7 +153,7 @@
         treemacs-sorting                 'alphabetic-asc
         treemacs-follow-after-init       t
         treemacs-width                   30
-        treemacs-no-png-images           (not centaur-icon))
+        treemacs-no-png-images           (not zgh-icon))
   :config
   (treemacs-follow-mode t)
   (treemacs-filewatch-mode t)
@@ -184,8 +184,6 @@
     :functions treemacs-set-scope-type
     :config (treemacs-set-scope-type 'Perspectives)))
 
-(when sys/mac-x-p
-  (setq ns-use-native-fullscreen nil))
 (provide 'windows-settings)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

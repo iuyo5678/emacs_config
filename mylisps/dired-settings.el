@@ -43,11 +43,6 @@
     :bind (:map dired-mode-map
            ("C-c C-r" . dired-rsync)))
 
-  (use-package dired-view
-    :ensure nil
-    :hook (dired-mode . dired-view-minor-mode-on)
-    :bind (:map dired-mode-map
-                (";" . dired-view-minor-mode-toggle)))
   ;; Colourful dired
   (use-package diredfl
     :init (diredfl-global-mode 1))
@@ -120,17 +115,24 @@
 ;; `find-dired' alternative using `fd'
 (when (executable-find "fd")
   (use-package fd-dired))
+
+(use-package dired-view
+  :ensure nil
+  :hook (dired-mode-hook . dired-view-minor-mode-on)
+  :bind (:map dired-mode-map
+         (";" . dired-view-minor-mode-toggle)))
+
 (use-package dired-single
   :hook (dired-mode . (lambda ()
-            (define-key dired-mode-map (kbd "RET") 'dired-single-buffer)
-            (define-key dired-mode-map (kbd "<mouse-1>") 'dired-single-buffer-mouse)
-            (define-key dired-mode-map (kbd "^")
-              (lambda ()
-                (interactive)
-                (dired-single-buffer "..")))
-            (setq dired-single-use-magic-buffer t)
-            (setq dired-single-magic-buffer-name "*dired*")))
+			(define-key dired-mode-map (kbd "RET") 'dired-single-buffer)
+			(define-key dired-mode-map (kbd "<mouse-1>") 'dired-single-buffer-mouse)
+			(define-key dired-mode-map (kbd "^")
+			  (lambda ()
+			    (interactive)
+			    (dired-single-buffer "..")))
+			(setq dired-single-use-magic-buffer t)
+			(setq dired-single-magic-buffer-name "*dired*")))
   :bind (:map dired-mode-map
-             ("C-x d" . dired-single-magic-buffer)
-             ))
+         ("C-x d" . dired-single-magic-buffer)
+         ))
 (provide 'dired-settings)

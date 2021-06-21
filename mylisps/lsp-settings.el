@@ -26,7 +26,6 @@
 ;;
 
 ;; Put this file into your load-path and the following into your ~/.emacs:
-;;   (require 'lsp-settings)
 
 
 ;;; Code:
@@ -296,8 +295,7 @@
 
        (with-no-warnings
          (when (require 'all-the-icons nil t)
-           (treemacs-create-theme "centaur-colors"
-             :extends "doom-colors"
+           (treemacs-create-theme "doom-colors"
              :config
              (progn
                (treemacs-create-icon
@@ -462,8 +460,7 @@
                (treemacs-create-icon
                 :icon (format "%s " (all-the-icons-octicon "repo" :height 1.0 :v-adjust -0.1 :face 'all-the-icons-blue))
                 :extensions (java-project))))
-
-           (setq lsp-treemacs-theme "centaur-colors")))))
+           ))))
 
    ;; Python: pyright
    (use-package lsp-pyright
