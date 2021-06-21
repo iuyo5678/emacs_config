@@ -6,7 +6,7 @@
   :ensure nil
   :demand t
   :bind (([remap count-lines-page] . count-brf-lines)
-	 ("M-w" . copy-region)
+	 ("M-w" . smart-copy)
 	 ("C-k" . kill-whole-line)
 	 ("C-x k" . kill-this-buffer)
 	 :map minibuffer-local-completion-map

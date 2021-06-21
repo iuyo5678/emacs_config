@@ -491,6 +491,10 @@
      (use-package lsp-sourcekit
        :init (setq lsp-sourcekit-executable
                    "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/sourcekit-lsp")))
+   ;; whichkey
+   (use-package which-key
+     :config
+     (which-key-mode))
 
    ;; Julia support
    (use-package lsp-julia

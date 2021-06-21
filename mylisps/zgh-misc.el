@@ -73,6 +73,8 @@
   :init
   (setq exec-path-from-shell-variables '("PATH" "MANPATH")
 	exec-path-from-shell-arguments '("-l"))
+;;  (dolist (envvar '("PYTHONPATH" "GOPATH" "GO111MODULE" "GOPROXY"))
+;;    (add-to-list 'exec-path-from-shell-variables envvar))
   (exec-path-from-shell-initialize))
 
 

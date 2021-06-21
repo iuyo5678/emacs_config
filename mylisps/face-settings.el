@@ -176,7 +176,6 @@ FUN-LIST can be a symbol, also can be a list whose element is a symbol."
       :ensure nil
       :hook (prog-mode . display-line-numbers-mode))
   (use-package linum-off
-    :demand
     :defines linum-format
     :hook (after-init . global-linum-mode)
     :init (setq linum-format "%4d ")
@@ -302,9 +301,10 @@ Nil to use font supports ligatures."
 (use-package doom-themes
   :custom-face
   (doom-modeline-buffer-file ((t (:inherit (mode-line bold)))))
+  :init
   :demand t
   :config
-  (load-theme 'doom-solarized-dark t)
+  (load-theme 'doom-dark+ t)
   ;; Enable flashing mode-line on errors
   (doom-themes-visual-bell-config)
   ;; Enable customized theme
@@ -446,7 +446,6 @@ Nil to use font supports ligatures."
      ("z g" (counsel-read-setq-expression 'doom-modeline-github-interval) "set github interval")
      ("z n" (counsel-read-setq-expression 'doom-modeline-gnus-timer) "set gnus interval")))))
 
-;;TODO:: fix load bug temp add demand
 (use-package dashboard
   :diminish (dashboard-mode page-break-lines-mode)
   :functions (all-the-icons-faicon

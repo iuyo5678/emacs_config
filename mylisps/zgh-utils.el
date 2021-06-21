@@ -1,4 +1,4 @@
-;;; TEMPLATE.el.tpl ---
+;; TEMPLATE.el.tpl ---
 
 ;; Copyright 2021 Zhang Guhua
 ;;

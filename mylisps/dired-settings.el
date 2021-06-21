@@ -89,7 +89,6 @@
   (use-package dired-aux :ensure nil)
   (use-package dired-x
     :ensure nil
-    :demand
     :config
     (let ((cmd (cond (sys/mac-x-p "open")
                      (sys/linux-x-p "xdg-open")
