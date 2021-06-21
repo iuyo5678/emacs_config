@@ -142,9 +142,9 @@ filenames' first character.
                   ""
                   (split-string
                    (shell-command-to-string
-                    (concat "ls "       ; possible caveats here
-                            (replace-regexp-in-string
-                             "l" "" dired-listing-switches)))
+                    (concat insert-directory-program " "       ; possible caveats here
+			    (replace-regexp-in-string
+			     "l" "" dired-listing-switches)))
                    "\n")))
                 nil))))
       (cond (filename                   ; success
