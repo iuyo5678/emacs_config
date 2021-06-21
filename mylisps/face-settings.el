@@ -7,10 +7,11 @@
   :ensure nil
   :demand t
   :config
-  (setq ns-auto-hide-menu-bar t)
+  (if (display-graphic-p)
+      (setq ns-auto-hide-menu-bar t)
+    (set-frame-position (selected-frame) 0 -24))
+  (menu-bar-mode -1)
   (tool-bar-mode -1)
-  (set-frame-position (selected-frame) 0 -24)
-  (set-frame-size (selected-frame) 80 85)
   (setq scroll-bar-mode nil)
   ;;Suppress GUI features
   (setq use-file-dialog nil

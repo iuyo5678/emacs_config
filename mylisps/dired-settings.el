@@ -118,7 +118,7 @@
 
 (use-package dired-view
   :ensure nil
-  :hook (dired-mode-hook . dired-view-minor-mode-on)
+  :hook (dired-mode . dired-view-minor-mode-on)
   :bind (:map dired-mode-map
          (";" . dired-view-minor-mode-toggle)))
 
