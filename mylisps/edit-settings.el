@@ -4,26 +4,20 @@
 
 (use-package edit-misc
   :ensure nil
-  :demand t
+  :defer
   :bind (([remap count-lines-page] . count-brf-lines)
-	 ("M-w" . smart-copy)
-	 ("C-k" . kill-whole-line)
-	 ("C-x k" . kill-this-buffer)
-	 :map minibuffer-local-completion-map
-	 ("C-k" .  'kill-line))
+	     ("M-w" . smart-copy)
+	     ("C-k" . kill-whole-line)
+	     ("C-x k" . kill-this-buffer)
+	     :map minibuffer-local-completion-map
+	     ("C-k" .  'kill-line))
   :config
   (setq x-select-enable-clipboard t
-	mouse-drag-copy-region t
-	;; 在行首C-k时，同时删除该行
-	kill-whole-line t
-	;; 缩进设置
-	;; 不用TAB字符来indent
-	indent-tabs-mode nil
-	tab-width 4
-	tab-stop-list nil
-
-	;;  自动的在文件末增加一新行
-	require-final-newline t))
+	    mouse-drag-copy-region t
+	    ;; 在行首C-k时，同时删除该行
+	    kill-whole-line t
+	    ;;  自动的在文件末增加一新行
+	    require-final-newline t))
 
 ;; Show number of matches in mode-line while searching
 (use-package anzu
