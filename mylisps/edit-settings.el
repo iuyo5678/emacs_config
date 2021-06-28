@@ -159,6 +159,13 @@
 (use-package comment-dwim-2
   :bind ([remap comment-dwim] . comment-dwim-2)) ;
 
+;; 可以保存你上次光标所在的位置
+(use-package saveplace
+  :ensure nil
+  :config
+  (setq-default save-place t)
+  )
+
 ;; Drag stuff (lines, words, region, etc...) around
 (use-package drag-stuff
   :diminish

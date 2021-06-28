@@ -25,16 +25,12 @@
 ;;; Code:
 (use-package zgh-utils
   :ensure nil
-  :defer
+  :demand t
   :bind
   (("C-]" . goto-paren))
   :config
   (when (memq window-system '(mac ns))
     (setq default-directory "~"))
-  (when sys/mac-x-p
-    (bound-and-true-p ns-use-native-fullscreen)
-    (setq ns-use-native-fullscreen nil))
-
   ;; 不要总是没完没了的问yes or no, 为什么不能用y/n
   (fset 'yes-or-no-p 'y-or-n-p)
   ;; 不要闪烁光标, 烦不烦啊
@@ -46,41 +42,36 @@
   (when (display-graphic-p)
     (setq mouse-wheel-scroll-amount '(1 ((shift) . 1))
           mouse-wheel-progressive-speed nil))
-  (custom-set-variables
-   '(tab-width 4)
-   '(indent-tabs-mode nil))
 
   (setq default-buffer-file-coding-system 'utf-8
-		kill-do-not-save-duplicates t
-		scroll-margin 3
-		scroll-step 1
-		scroll-conservatively 100000
-		show-paren-mode 1  ;; 显示匹配的括号
-		visible-bell t
-		inhibit-compacting-font-caches t  ; Don’t compact font caches during GC.
-		delete-by-moving-to-trash t       ; Deleting files go to OS's trash folder
-		auto-save-default t             ; Disable auto save
-		uniquify-buffer-name-style 'post-forward-angle-brackets ; Show path if names are same
-		adaptive-fill-regexp "[ t]+|[ t]*([0-9]+.|*+)[ t]*"
-		adaptive-fill-first-line-regexp "^* *$"
-		sentence-end "\\([。！？]\\|……\\|[.?!][]\"')}]*\\($\\|[ \t]\\)\\)[ \t\n]*"
-		sentence-end-double-space nil
-		backup-by-copying t ; 自动备份
-		backup-directory-alist
-		'(("." . "~/.em_backup")) ; 自动备份在目录"~/.em_backup"下
-		delete-old-versions t ; 自动删除旧的备份文件
-		kept-new-versions 3 ; 保留最近的3个备份文件
-		kept-old-versions 1 ; 保留最早的1个备份文件
-		version-control t) ; 多次备份
+	    kill-do-not-save-duplicates t
+	    scroll-margin 3
+	    scroll-step 1
+	    scroll-conservatively 100000
+	    show-paren-mode 1  ;; 显示匹配的括号
+	    visible-bell t
+	    inhibit-compacting-font-caches t  ; Don’t compact font caches during GC.
+	    delete-by-moving-to-trash t       ; Deleting files go to OS's trash folder
+	    auto-save-default t             ; Disable auto save
+	    uniquify-buffer-name-style 'post-forward-angle-brackets ; Show path if names are same
+	    adaptive-fill-regexp "[ t]+|[ t]*([0-9]+.|*+)[ t]*"
+	    adaptive-fill-first-line-regexp "^* *$"
+	    sentence-end "\\([。！？]\\|……\\|[.?!][]\"')}]*\\($\\|[ \t]\\)\\)[ \t\n]*"
+	    sentence-end-double-space nil
+	    backup-by-copying t ; 自动备份
+	    backup-directory-alist
+	    '(("." . "~/.em_backup")) ; 自动备份在目录"~/.em_backup"下
+	    delete-old-versions t ; 自动删除旧的备份文件
+	    kept-new-versions 3 ; 保留最近的3个备份文件
+	    kept-old-versions 1 ; 保留最早的1个备份文件
+	    version-control t) ; 多次备份
   )
 (global-set-key (kbd "C-x m") 'get-mode-name)
 
 (use-package exec-path-from-shell
   :init
   (setq exec-path-from-shell-variables '("PATH" "MANPATH")
-	exec-path-from-shell-arguments '("-l"))
-;;  (dolist (envvar '("PYTHONPATH" "GOPATH" "GO111MODULE" "GOPROXY"))
-;;    (add-to-list 'exec-path-from-shell-variables envvar))
+	    exec-path-from-shell-arguments '("-l"))
   (exec-path-from-shell-initialize))
 
 

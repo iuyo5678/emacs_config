@@ -32,24 +32,14 @@
 ;; 支持emacs和外部程序的粘贴
 (setq x-select-enable-clipboard t)
 
-;; Emacs找不到合适的模式时，缺省使用text-mode
-(setq default-major-mode 'text-mode)
-
 ;; 显示列号
 (setq column-number-mode t)
 
 ;; emacs lock
 (autoload 'toggle-emacs-lock "emacs-lock" "Emacs lock" t)
 
-;; 启用以下功能
-(put 'narrow-to-region 'disabled nil)
-(put 'downcase-region 'disabled nil)
-(put 'dired-find-alternate-file 'disabled nil)
-
-
 ;; 不要总是没完没了的问yes or no, 为什么不能用y/n
 (fset 'yes-or-no-p 'y-or-n-p)
-
 ;; 不要闪烁光标, 烦不烦啊
 (blink-cursor-mode -1)
 
@@ -57,22 +47,13 @@
 (setq scroll-margin 3
       scroll-conservatively 10000)
 
-;; 没有提示音,也不闪屏
-(setq ring-bell-function 'ignore)
+(setq ns-use-native-fullscreen nil)
 
 ;; 可以递归的使用minibuffer
 (setq enable-recursive-minibuffers t)
 
 ;; 当你在shell、telnet、w3m等模式下时，必然碰到过要输入密码的情况,此时加密显出你的密码
 (add-hook 'comint-output-filter-functions 'comint-watch-for-password-prompt)
-
-;; 可以保存你上次光标所在的位置
-(use-package saveplace
-  :ensure nil
-  :config
-  (setq-default save-place t)
-  )
-
 
 ;; 光标靠近鼠标指针时，让鼠标指针自动让开，别挡住视线。
 (mouse-avoidance-mode 'animate)

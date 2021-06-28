@@ -23,6 +23,8 @@
 ;;初始化配置elpa
 (require 'init-elpa)
 
+(require 'misc-settings)
+
 (require 'zgh-misc)
 
 (require 'init-hydra)

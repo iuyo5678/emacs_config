@@ -7,17 +7,14 @@
   :ensure nil
   :demand t
   :config
-  (if (display-graphic-p)
-      (setq ns-auto-hide-menu-bar t)
-    (set-frame-position (selected-frame) 0 -24))
   (menu-bar-mode -1)
   (tool-bar-mode -1)
   (setq scroll-bar-mode nil)
   ;;Suppress GUI features
   (setq use-file-dialog nil
-	use-dialog-box nil
-	inhibit-startup-screen t
-	inhibit-startup-echo-area-message t)
+	    use-dialog-box nil
+	    inhibit-startup-screen t
+	    inhibit-startup-echo-area-message t)
 
   ;; Display dividers between windows
   (setq window-divider-default-places t
@@ -29,9 +26,9 @@
 FUN-LIST can be a symbol, also can be a list whose element is a symbol."
     (let ((is-list (and (listp fun-list) (not (functionp fun-list)))))
       (dolist (args args-list)
-	(if is-list
-	    (dolist (fun fun-list)
-	      (apply-args-to-fun fun args))
+	    (if is-list
+	        (dolist (fun fun-list)
+	          (apply-args-to-fun fun args))
           (apply-args-to-fun fun-list args)))))
   (apply-args-list-to-fun
    'defvar
@@ -49,8 +46,8 @@ FUN-LIST can be a symbol, also can be a list whose element is a symbol."
 (use-package unicode-fonts
   :init (unicode-fonts-setup)
   :config
-  (set-frame-font "Monaco")
-  (face-spec-set 'default `((t (:height , 180))))
+  (set-frame-font "Monaco")  ;;默认字体
+  (face-spec-set 'default `((t (:height , 180)))) ;;默认大小
   )
 
 (use-package hide-mode-line

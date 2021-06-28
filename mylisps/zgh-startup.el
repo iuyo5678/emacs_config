@@ -160,6 +160,11 @@ like argument of `define-key'."
   :group 'zgh-person
   :type 'string)
 
+;;temp set here
+(custom-set-variables
+ '(tab-width 4)
+ '(indent-tabs-mode nil))
+
 (defun icons-displayable-p ()
   "Return non-nil if `all-the-icons' is displayable."
   (and zgh-icon
