@@ -81,7 +81,16 @@
   :init (setq git-messenger:show-detail t
               git-messenger:use-magit-popup t)
   :config
-    ((defun my-git-messenger:format-detail (vcs commit-id author message)
+  (with-no-warnings
+    (with-eval-after-load 'hydra
+      (defhydra git-messenger-hydra (:color blue)
+        ("s" git-messenger:popup-show "show")
+        ("c" git-messenger:copy-commit-id "copy hash")
+        ("m" git-messenger:copy-message "copy message")
+        ("," (catch 'git-messenger-loop (git-messenger:show-parent)) "go parent")
+        ("q" git-messenger:popup-close "quit")))
+
+    (defun my-git-messenger:format-detail (vcs commit-id author message)
       (if (eq vcs 'git)
           (let ((date (git-messenger:commit-date commit-id))
                 (colon (propertize ":" 'face 'font-lock-comment-face)))
@@ -101,7 +110,8 @@
     (defun my-git-messenger:popup-message ()
       "Popup message with `posframe', `pos-tip', `lv' or `message', and dispatch actions with `hydra'."
       (interactive)
-      (let* ((vcs (git-messenger:find-vcs))
+      (let* ((hydra-hint-display-type 'message)
+             (vcs (git-messenger:find-vcs))
              (file (buffer-file-name (buffer-base-buffer)))
              (line (line-number-at-pos))
              (commit-info (git-messenger:commit-info-at-line vcs file line))
@@ -120,17 +130,24 @@
               git-messenger:last-message msg
               git-messenger:last-commit-id commit-id)
         (run-hook-with-args 'git-messenger:before-popup-hook popuped-message)
+        (git-messenger-hydra/body)
         (cond ((and (fboundp 'posframe-workable-p) (posframe-workable-p))
                (let ((buffer-name "*git-messenger*"))
                  (posframe-show buffer-name
-                                :string popuped-message
+                                :string (concat (propertize "\n" 'face '(:height 0.3))
+                                                popuped-message
+                                                "\n"
+                                                (propertize "\n" 'face '(:height 0.3)))
                                 :left-fringe 8
                                 :right-fringe 8
+                                :width (round (* (frame-width) 0.62))
+                                :height (round (* (frame-height) 0.62))
                                 :internal-border-width 1
-                                :internal-border-color (face-foreground 'font-lock-comment-face))
+                                :internal-border-color (face-foreground 'font-lock-comment-face nil t)
+                                :background-color (face-background 'tooltip nil t))
                  (unwind-protect
                      (push (read-event) unread-command-events)
-                   (posframe-delete buffer-name))))
+                   (posframe-hide buffer-name))))
               ((and (fboundp 'pos-tip-show) (display-graphic-p))
                (pos-tip-show popuped-message))
               ((fboundp 'lv-message)
@@ -141,7 +158,8 @@
               (t (message "%s" popuped-message)))
         (run-hook-with-args 'git-messenger:after-popup-hook popuped-message)))
     (advice-add #'git-messenger:popup-close :override #'ignore)
-    (advice-add #'git-messenger:popup-message :override #'my-git-messenger:popup-message)))
+    (advice-add #'git-messenger:popup-message :override #'my-git-messenger:popup-message))
+  )
 
 ;; Resolve diff3 conflicts
 (use-package smerge-mode
@@ -152,7 +170,7 @@
                           (goto-char (point-min))
                           (when (re-search-forward "^<<<<<<< " nil t)
                             (smerge-mode 1)))))
-                                               ))
+         ))
 
 ;; Open github/gitlab/bitbucket page
 (use-package browse-at-remote

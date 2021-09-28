@@ -9,8 +9,7 @@
 	     ("M-w" . smart-copy)
 	     ("C-k" . kill-whole-line)
 	     ("C-x k" . kill-this-buffer)
-	     :map minibuffer-local-completion-map
-	     ("C-k" .  'kill-line))
+	     :map minibuffer-local-completion-map)
   :config
   (setq x-select-enable-clipboard t
 	    mouse-drag-copy-region t
@@ -158,13 +157,6 @@
 ;; An all-in-one comment command to rule them all
 (use-package comment-dwim-2
   :bind ([remap comment-dwim] . comment-dwim-2)) ;
-
-;; 可以保存你上次光标所在的位置
-(use-package saveplace
-  :ensure nil
-  :config
-  (setq-default save-place t)
-  )
 
 ;; Drag stuff (lines, words, region, etc...) around
 (use-package drag-stuff
@@ -342,6 +334,7 @@
   :hook (after-init . fancy-narrow-mode))
 
 (use-package yaml-mode)
+
 (defun visit-.emacs ()
   "访问.emacs文件"
   (interactive)

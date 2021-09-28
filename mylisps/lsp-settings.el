@@ -256,14 +256,12 @@
    (when (>= emacs-major-version 26)
      (use-package dap-mode
        :defines dap-python-executable
-       :functions dap-hydra/nil
        :diminish
        :bind (:map lsp-mode-map
               ("<f5>" . dap-debug)
               ("M-<f5>" . dap-hydra))
        :hook ((after-init . dap-auto-configure-mode)
               (dap-stopped . (lambda (_args) (dap-hydra)))
-              (dap-terminated . (lambda (_args) (dap-hydra/nil)))
 
               (python-mode . (lambda () (require 'dap-python)))
               (ruby-mode . (lambda () (require 'dap-ruby)))

@@ -43,11 +43,17 @@
   ;; Env vars
   (with-eval-after-load 'exec-path-from-shell
     (exec-path-from-shell-copy-envs '("GOPATH" "GO111MODULE" "GOPROXY")))
-  ;; set go root
+
   (with-eval-after-load 'projectile
     (setq projectile-project-root-files-bottom-up
-          (append '("go.mod")
+          (append '("Dockerfile" "go.sum" "go.mod")
                   projectile-project-root-files-bottom-up)))
+  ;;gopls settings
+  (with-eval-after-load 'lsp-mode
+    (lsp-register-custom-settings
+     '(("gopls.completeUnimported" t t)
+       ("gopls.staticcheck" t t)
+       ("gopls.experimentalWorkspaceModule" t t))))
   ;; Install or update tools
   (defvar go--tools '("golang.org/x/tools/cmd/goimports"
                       "github.com/go-delve/delve/cmd/dlv"
@@ -98,6 +104,15 @@
   (use-package go-fill-struct)
   (use-package go-impl)
 
+  (use-package go-projectile
+    :config
+    (
+     '(progn
+        ;; Set $GOPATH
+        (go-projectile-set-gopath)
+        ;; Set $PATH to $PATH:~/.emacs.d/gotools/bin
+        (go-projectile-tools-add-path)))
+    )
   ;; Install: See https://github.com/golangci/golangci-lint#install
   (use-package flycheck-golangci-lint
     :if (executable-find "golangci-lint")
@@ -124,6 +139,9 @@
            ("C-c t g" . go-gen-test-dwim)))
 
   (use-package gotest
+    :config
+    (setq go-test-verbose t
+          word-wrap t)
     :bind (:map go-mode-map
            ("C-c t a" . go-test-current-project)
            ("C-c t m" . go-test-current-file)

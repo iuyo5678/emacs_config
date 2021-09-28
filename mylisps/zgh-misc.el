@@ -44,12 +44,12 @@
           mouse-wheel-progressive-speed nil))
 
   (setq default-buffer-file-coding-system 'utf-8
-	    kill-do-not-save-duplicates t
 	    scroll-margin 3
 	    scroll-step 1
 	    scroll-conservatively 100000
 	    show-paren-mode 1  ;; 显示匹配的括号
 	    visible-bell t
+        save-place-mode t
 	    inhibit-compacting-font-caches t  ; Don’t compact font caches during GC.
 	    delete-by-moving-to-trash t       ; Deleting files go to OS's trash folder
 	    auto-save-default t             ; Disable auto save

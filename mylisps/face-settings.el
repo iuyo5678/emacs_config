@@ -47,7 +47,7 @@ FUN-LIST can be a symbol, also can be a list whose element is a symbol."
   :init (unicode-fonts-setup)
   :config
   (set-frame-font "Monaco")  ;;默认字体
-  (face-spec-set 'default `((t (:height , 180)))) ;;默认大小
+  (face-spec-set 'default `((t (:height , 170)))) ;;默认大小
   )
 
 (use-package hide-mode-line
