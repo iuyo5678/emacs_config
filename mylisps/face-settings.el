@@ -301,7 +301,7 @@ Nil to use font supports ligatures."
   :init
   :demand t
   :config
-  (load-theme 'doom-dark+ t)
+  (load-theme 'doom-solarized-dark-high-contrast t)
   ;; Enable flashing mode-line on errors
   (doom-themes-visual-bell-config)
   ;; Enable customized theme
@@ -512,7 +512,6 @@ Nil to use font supports ligatures."
       (insert (propertize dashboard-footer 'face 'font-lock-comment-face))
       (insert "\n")))
   (advice-add #'dashboard-insert-footer :after #'my-dashboard-insert-copyright)
-
   )
 
 ;;(require 'dashboard)

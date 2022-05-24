@@ -121,7 +121,7 @@
 
 (use-package so-long
   :hook (after-init . global-so-long-mode)
-  :config (setq so-long-threshold 400))
+  :config (setq so-long-threshold 15000))
 
 (use-package time
   :ensure nil

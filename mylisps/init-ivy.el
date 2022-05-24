@@ -412,7 +412,7 @@ This is for use in `ivy-re-builders-alist'."
             centaur-load-theme))
 
     (ivy-prescient-mode 1))
-    ;; Additional key bindings for Ivy
+  ;; Additional key bindings for Ivy
 
   (use-package ivy-hydra
     :commands ivy-hydra-read-action

@@ -177,11 +177,4 @@
   :bind (:map vc-prefix-map
          ("B" . browse-at-remote)))
 
-;; Git related modes
-(use-package gitattributes-mode)
-(use-package gitconfig-mode)
-(use-package gitignore-mode)
-
-
-
 (provide 'vcs-settings)

@@ -1,7 +1,6 @@
 ;; -*- Emacs-Lisp -*-
 ;; Time-stamp: <2021-03-15 18:15:56 Monday by zhangguhua>
 ;; zgh的emacs配置启动文件
-
 ;;定义所有常用路径
 (defconst my-emacs-path           "~/.emacs.d/" "我的emacs相关配置文件的路径")
 (defconst my-emacs-my-lisps-path  (concat my-emacs-path "mylisps/") "我自己找的一些的emacs lisp包的路径")
@@ -22,8 +21,6 @@
 
 ;;初始化配置elpa
 (require 'init-elpa)
-
-(require 'misc-settings)
 
 (require 'zgh-misc)
 
@@ -64,7 +61,6 @@
 (require 'elisp-settings)
 
 (require 'c-settings)
-
 (require 'go-settings)
 
 (require 'python-settings)

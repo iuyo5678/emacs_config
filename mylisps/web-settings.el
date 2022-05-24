@@ -116,6 +116,11 @@
          .
          prettier-js-mode))
 
+(use-package editorconfig
+  :ensure t
+  :config
+  (editorconfig-mode 1))
+
 (use-package haml-mode)
 (use-package php-mode)
 

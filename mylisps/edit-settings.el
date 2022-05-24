@@ -86,12 +86,18 @@
   :diminish
   :hook (after-init . global-auto-revert-mode))
 
+;; Hungry deletion
+(use-package hungry-delete
+  :diminish
+  :hook (after-init . global-hungry-delete-mode)
+  :config (setq-default hungry-delete-chars-to-skip " \t\f\v"))
+
 ;; Jump to things in Emacs tree-style
 (use-package avy
   :bind (("C-:" . avy-goto-char)
          ("C-'" . avy-goto-char-2)
          ("M-g f" . avy-goto-line)
-	 ("M-g w" . avy-goto-word-1)
+	     ("M-g w" . avy-goto-word-1)
          ("M-g e" . avy-goto-word-0))
   :hook (after-init . avy-setup-default)
   :config (setq avy-all-windows nil
@@ -231,12 +237,6 @@
            ([remap flyspell-correct-word-before-point] . flyspell-correct-wrapper))
     :init (setq flyspell-correct-interface #'flyspell-correct-ivy)))
 
-;; Hungry deletion
-(use-package hungry-delete
-  :diminish
-  :hook (after-init . global-hungry-delete-mode)
-  :config (setq-default hungry-delete-chars-to-skip " \t\f\v"))
-
 ;; Framework for mode-specific buffer indexes
 (use-package imenu
   :ensure nil
@@ -257,20 +257,6 @@
          ([M-kp-8] . pager-row-up)
          ([M-down] . pager-row-down)
          ([M-kp-2] . pager-row-down)))
-
-;; Treat undo history as a tree
-(use-package undo-tree
-  :diminish
-  :hook (after-init . global-undo-tree-mode)
-  :init
-  (setq undo-tree-visualizer-timestamps t
-        undo-tree-enable-undo-in-region nil
-        undo-tree-auto-save-history nil)
-
-  ;; HACK: keep the diff window
-  (with-no-warnings
-    (make-variable-buffer-local 'undo-tree-visualizer-diff)
-    (setq-default undo-tree-visualizer-diff t)))
 
 ;; Goto last change
 (use-package goto-chg

@@ -90,14 +90,14 @@
      :init
      ;; @see https://emacs-lsp.github.io/lsp-mode/page/performance
      (setq read-process-output-max (* 1024 1024)) ;; 1MB
-
+     (setq lsp-use-plists t)
      (setq lsp-keymap-prefix "C-c l"
            lsp-keep-workspace-alive nil
            lsp-signature-auto-activate nil
            lsp-modeline-code-actions-enable nil
            lsp-modeline-diagnostics-enable nil
            lsp-modeline-workspace-status-enable nil
-
+           lsp-lens-enable nil
            lsp-enable-file-watchers nil
            lsp-enable-folding nil
            lsp-enable-symbol-highlighting nil
@@ -476,6 +476,7 @@
 
    ;; C/C++/Objective-C support
    (use-package ccls
+     :init (setq ccls-executable "/usr/local/bin/ccls")
      :defines projectile-project-root-files-bottom-up
      :hook ((c-mode c++-mode objc-mode cuda-mode) . (lambda () (require 'ccls)))
      :config
@@ -489,6 +490,7 @@
      (use-package lsp-sourcekit
        :init (setq lsp-sourcekit-executable
                    "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/sourcekit-lsp")))
+
    ;; whichkey
    (use-package which-key
      :config
