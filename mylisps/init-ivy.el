@@ -369,6 +369,8 @@
   ;; Enhance M-x
   (use-package amx
     :init (setq amx-history-length 20))
+  ;; Use Wgrep for edit rg result
+  (use-package wgrep)
 
   ;; Better sorting and filtering
   (use-package prescient
