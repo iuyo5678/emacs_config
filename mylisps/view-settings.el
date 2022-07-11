@@ -28,6 +28,9 @@
 
 ;;; Code:
 
+(use-package good-scroll
+  :init (good-scroll-mode))
+
 (define-minor-mode centaur-read-mode
   "Minor Mode for better reading experience."
   :init-value nil

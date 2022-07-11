@@ -18,6 +18,26 @@
 	    ;;  自动的在文件末增加一新行
 	    require-final-newline t))
 
+(use-package undo-tree
+  :init (global-undo-tree-mode)
+  )
+(use-package desktop+
+  :init
+  (desktop-save-mode t)
+  :config
+  (setq history-length  250)
+  (setq desktop-restore-eager nil)
+  (setq desktop-buffers-not-to-save
+        (concat "\\("
+                "^nn\\.a[0-9]+\\|\\.log\\|(ftp)\\|^tags\\|^TAGS"
+                "\\|\\.emacs.*\\|\\.diary\\|\\.newsrc-dribble\\|\\|^ccls*\\|\\.bbdb"
+	            "\\)$"))
+  (add-to-list 'desktop-modes-not-to-save 'dired-mode)
+  (add-to-list 'desktop-modes-not-to-save 'Info-mode)
+  (add-to-list 'desktop-modes-not-to-save 'info-lookup-mode)
+  (add-to-list 'desktop-modes-not-to-save 'fundamental-mode)
+  )
+
 ;; Show number of matches in mode-line while searching
 (use-package anzu
   :diminish
@@ -86,11 +106,6 @@
   :diminish
   :hook (after-init . global-auto-revert-mode))
 
-;; Hungry deletion
-(use-package hungry-delete
-  :diminish
-  :hook (after-init . global-hungry-delete-mode)
-  :config (setq-default hungry-delete-chars-to-skip " \t\f\v"))
 
 ;; Jump to things in Emacs tree-style
 (use-package avy
@@ -212,30 +227,6 @@
          :map mc/keymap
          ("C-|" . mc/vertical-align-with-space)))
 
-;; Smartly select region, rectangle, multi cursors
-(use-package smart-region
-  :hook (after-init . smart-region-on))
-
-;; On-the-fly spell checker
-(use-package flyspell
-  :ensure nil
-  :diminish
-  :if (executable-find "aspell")
-  :hook (((text-mode outline-mode) . flyspell-mode)
-         (prog-mode . flyspell-prog-mode)
-         (flyspell-mode . (lambda ()
-                            (dolist (key '("C-;" "C-," "C-."))
-                              (unbind-key key flyspell-mode-map)))))
-  :init (setq flyspell-issue-message-flag nil
-              ispell-program-name "aspell"
-              ispell-extra-args '("--sug-mode=ultra" "--lang=en_US" "--run-together"))
-  :config
-  ;; Correcting words with flyspell via Ivy
-  (use-package flyspell-correct-ivy
-    :after ivy
-    :bind (:map flyspell-mode-map
-           ([remap flyspell-correct-word-before-point] . flyspell-correct-wrapper))
-    :init (setq flyspell-correct-interface #'flyspell-correct-ivy)))
 
 ;; Framework for mode-specific buffer indexes
 (use-package imenu
