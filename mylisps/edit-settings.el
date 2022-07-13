@@ -20,7 +20,12 @@
 
 (use-package undo-tree
   :init (global-undo-tree-mode)
+  :config
+  (setq undo-tree-visualizer-diff t)
+  (setq undo-tree-history-directory-alist '(("." . "~/.emacs.d/undo_history")))
+  (setq undo-tree-visualizer-timestamps t)
   )
+
 (use-package desktop+
   :init
   (desktop-save-mode t)
