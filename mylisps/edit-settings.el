@@ -26,23 +26,6 @@
   (setq undo-tree-visualizer-timestamps t)
   )
 
-(use-package desktop+
-  :init
-  (desktop-save-mode t)
-  :config
-  (setq history-length  250)
-  (setq desktop-restore-eager nil)
-  (setq desktop-buffers-not-to-save
-        (concat "\\("
-                "^nn\\.a[0-9]+\\|\\.log\\|(ftp)\\|^tags\\|^TAGS"
-                "\\|\\.emacs.*\\|\\.diary\\|\\.newsrc-dribble\\|\\|^ccls*\\|\\.bbdb"
-	            "\\)$"))
-  (add-to-list 'desktop-modes-not-to-save 'dired-mode)
-  (add-to-list 'desktop-modes-not-to-save 'Info-mode)
-  (add-to-list 'desktop-modes-not-to-save 'info-lookup-mode)
-  (add-to-list 'desktop-modes-not-to-save 'fundamental-mode)
-  )
-
 ;; Show number of matches in mode-line while searching
 (use-package anzu
   :diminish
@@ -192,7 +175,20 @@
   (add-to-list 'drag-stuff-except-modes 'org-mode)
   (drag-stuff-define-keys))
 
-
+;; Persistent the scratch buffer
+(use-package persistent-scratch
+  :diminish
+  :bind (:map persistent-scratch-mode-map
+         ([remap kill-buffer] . (lambda (&rest _)
+                                  (interactive)
+                                  (user-error "Scratch buffer cannot be killed")))
+         ([remap revert-buffer] . persistent-scratch-restore)
+         ([remap revert-this-buffer] . persistent-scratch-restore))
+  :hook ((after-init . persistent-scratch-autosave-mode)
+         (lisp-interaction-mode . persistent-scratch-mode))
+  :init (setq persistent-scratch-backup-file-name-format "%Y-%m-%d"
+              persistent-scratch-backup-directory
+              (expand-file-name "persistent-scratch" user-emacs-directory)))
 
 ;; Automatic parenthesis pairing
 (use-package elec-pair
@@ -305,6 +301,46 @@
   :diminish hs-minor-mode
   :bind (:map hs-minor-mode-map
          ("C-`" . hs-toggle-hiding)))
+
+;; Fast search tool `ripgrep'
+(use-package rg
+  :defines projectile-command-map
+  :hook (after-init . rg-enable-default-bindings)
+  :bind (:map rg-global-map
+         ("c" . rg-dwim-current-dir)
+         ("f" . rg-dwim-current-file)
+         ("m" . rg-menu))
+  :init (setq rg-group-result t
+              rg-show-columns t)
+  :config
+  (cl-pushnew '("tmpl" . "*.tmpl") rg-custom-type-aliases)
+  (with-eval-after-load 'projectile
+    (bind-key "s R" #'rg-project projectile-command-map)))
+;; A Simple and cool pomodoro timer
+(use-package pomidor
+  :bind ("s-<f12>" . pomidor)
+  :init
+  (setq alert-default-style 'mode-line)
+  (with-eval-after-load 'all-the-icons
+    (setq alert-severity-faces
+          '((urgent   . all-the-icons-red)
+            (high     . all-the-icons-orange)
+            (moderate . all-the-icons-yellow)
+            (normal   . all-the-icons-green)
+            (low      . all-the-icons-blue)
+            (trivial  . all-the-icons-purple))
+          alert-severity-colors
+          `((urgent   . ,(face-foreground 'all-the-icons-red))
+            (high     . ,(face-foreground 'all-the-icons-orange))
+            (moderate . ,(face-foreground 'all-the-icons-yellow))
+            (normal   . ,(face-foreground 'all-the-icons-green))
+            (low      . ,(face-foreground 'all-the-icons-blue))
+            (trivial  . ,(face-foreground 'all-the-icons-purple)))))
+  (when sys/macp
+    (setq pomidor-play-sound-file
+          (lambda (file)
+            (when (executable-find "afplay")
+              (start-process "pomidor-play-sound" nil "afplay" file))))))
 
 ;; Flexible text folding
 (use-package origami
