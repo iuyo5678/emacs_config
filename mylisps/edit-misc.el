@@ -33,6 +33,10 @@
 
 ;;; Code:
 
+(setq kill-ring-max 200)
+;; Save clipboard contents into kill-ring before replace them
+(setq save-interprogram-paste-before-kill t)
+
 ;;;###autoload
 (defun backward-kill-word-or-kill-region ()
   "`mark-active'时, 剪切选择的区域, 平时向后删除word, 和bash下面一样."
