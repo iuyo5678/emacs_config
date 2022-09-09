@@ -139,12 +139,12 @@ prepended to the element after the #+HEADER: tag."
         org-priority-faces '((?A . error)
                              (?B . warning)
                              (?C . success))
-	org-tags-column -80
+	    org-tags-column -80
         org-log-done 'time
         org-catch-invisible-edits 'smart
         org-startup-indented t
-	org-pretty-entities nil
-	org-hide-emphasis-markers t)
+	    org-pretty-entities nil
+	    org-hide-emphasis-markers t)
 
   ;; Add new template
   (add-to-list 'org-structure-template-alist '("n" . "note"))
@@ -262,7 +262,13 @@ prepended to the element after the #+HEADER: tag."
     :bind (:map org-agenda-mode-map
            ("P" . org-pomodoro)))
   )
-
+(use-package org-html-themify
+  :ensure nil
+  :hook (org-mode . org-html-themify-mode)
+  :custom
+  (org-html-themify-themes
+   '((dark . modus-vivendi)
+     (light . modus-operandi))))
 
 (provide 'org-settings)
 

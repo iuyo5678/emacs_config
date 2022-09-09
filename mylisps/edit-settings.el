@@ -220,6 +220,7 @@
 
 ;; Multiple cursors
 (use-package multiple-cursors
+  :ensure t
   :bind (("C-S-c C-S-c"   . mc/edit-lines)
          ("C->"           . mc/mark-next-like-this)
          ("C-<"           . mc/mark-previous-like-this)
@@ -240,7 +241,7 @@
          (prog-mode . flyspell-prog-mode)
          (flyspell-mode . (lambda ()
                             (dolist (key '("C-;" "C-," "C-."))
-                              (unbind-key key flyspell-mode-map)))))
+  (unbind-key key flyspell-mode-map)))))
   :init (setq flyspell-issue-message-flag nil
               ispell-program-name "aspell"
               ispell-extra-args '("--sug-mode=ultra" "--lang=en_US" "--run-together"))

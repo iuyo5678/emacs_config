@@ -301,7 +301,8 @@ Nil to use font supports ligatures."
   :init
   :demand t
   :config
-  (load-theme 'doom-solarized-dark-high-contrast t)
+  ;;(load-theme 'doom-solarized-dark-high-contrast t)
+  (load-theme 'doom-Iosvkem t)
   ;; Enable flashing mode-line on errors
   (doom-themes-visual-bell-config)
   ;; Enable customized theme

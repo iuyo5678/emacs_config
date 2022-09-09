@@ -29,7 +29,6 @@
 ;;   (require 'elisp-settings)
 
 ;;; Code:
-
 (use-package elisp-mode
   :ensure nil
   :defines (flycheck-disabled-checkers calculate-lisp-indent-last-sexp)

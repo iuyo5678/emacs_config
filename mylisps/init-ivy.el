@@ -112,15 +112,28 @@
 
   (setq ivy-use-selectable-prompt t
         ivy-use-virtual-buffers t    ; Enable bookmarks and recentf
-        ivy-height 10
+        ivy-height 12
         ivy-fixed-height-minibuffer t
         ivy-count-format "(%d/%d) "
-        ivy-on-del-error-function nil
+        ivy-ignore-buffers '("\\` " "\\`\\*tramp/" "\\`\\*xref" "\\`\\*helpful "
+                             "\\`\\*.+-posframe-buffer\\*" "\\` ?\\*company-.+\\*")
+        ivy-on-del-error-function #'ignore
         ivy-initial-inputs-alist nil)
+
+  (setq ivy-re-builders-alist '((t . ivy--regex-ignore-order)))
+
+  ;; Set minibuffer height for different commands
+  (setq ivy-height-alist '((counsel-evil-registers . 5)
+                           (counsel-yank-pop       . 8)
+                           (counsel-git-log        . 4)
+                           (swiper                 . 15)
+                           (counsel-projectile-ag  . 15)
+                           (counsel-projectile-rg  . 15)))
 
   (setq swiper-action-recenter t)
 
   (setq counsel-find-file-at-point t
+        counsel-preselect-current-file t
         counsel-yank-pop-separator "\n────────\n")
 
   ;; Use the faster search tool: ripgrep (`rg')

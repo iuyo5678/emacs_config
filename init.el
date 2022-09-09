@@ -8,7 +8,7 @@
 (defconst my-custom-config-path (concat my-emacs-path "personal/") "一些自己自定义的配置信息，如自己的个人信息，个人博客配置等")
 (defconst my-emacs-doc-path (concat my-emacs-path "docs/"))
 (defconst my-emacs-templates-path (concat my-emacs-path "templates/") "模板路径")
-(defconst my-org-file-path "~/Dropbox/docs/org/" "org文件存储路径")
+(defconst my-org-file-path "~/Documents/EmacsOrg/" "org文件存储路径")
 
 (defun update-load-path (&rest _)
   "Update `load-path'."
