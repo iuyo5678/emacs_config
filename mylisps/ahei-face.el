@@ -18,9 +18,9 @@
 ;; (defface red-face
 ;;   '((((class color) (background dark)) (:foreground "red")) (t ()))
 ;;   "我自定义的red face")
-;; (defface green-face
-;;   '((((class color)) :foreground "green"))
-;;   "我自定义的green face")
+(defface green-face
+  '((((class color)) :foreground "green"))
+  "我自定义的green face")
 ;; (defface darkgreen-face
 ;;   '((((type tty pc)) :bold t :foreground "green") (t (:foreground "green")))
 ;;   "我自定义的dark green face")
@@ -64,9 +64,9 @@
 ;; (defface darkyellow-face
 ;;   '((((type tty pc)) :bold t :foreground "yellow") (t (:foreground "yellow")))
 ;;   "我自定义的dark yellow face")
-;; (defface cyan-face
-;;   '((t :foreground "cyan"))
-;;   "我自定义的cyan face")
+(defface cyan-face
+  '((t :foreground "cyan"))
+  "我自定义的cyan face")
 ;; (defface darkcyan-face
 ;;   '((((type tty pc)) :bold t :foreground "cyan") (t (:foreground "cyan")))
 ;;   "我自定义的dark cyan face")

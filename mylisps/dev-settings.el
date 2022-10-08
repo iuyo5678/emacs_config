@@ -17,6 +17,21 @@
 ;; write  to  the Free  Software  Foundation,  Inc., 51  Franklin
 ;; Street, Fifth Floor, Boston, MA 02110-1301, USA.
 
+
+
+;; 增加自定义关键字
+(dolist (mode '(c-mode c++-mode java-mode lisp-mode emacs-lisp-mode
+                       lisp-interaction-mode sh-mode sgml-mode python-mode))
+  (font-lock-add-keywords
+   mode
+   '(("\\<\\(FIXME\\|TODO\\|Todo\\|HACK\\):" 1 font-lock-warning-face prepend)
+     ("\\<\\(and\\|or\\|not\\)\\>" . font-lock-keyword-face)
+     ("(\\|)" . beautiful-blue-face)
+     ("\\[\\|]" . yellow-face)
+     ("<\\|>" . cyan-face)
+     ("{\\|}" . green-face))))
+
+
 ;; Prettify Symbols
 ;; e.g. display “lambda” as “λ”
 (use-package prog-mode
