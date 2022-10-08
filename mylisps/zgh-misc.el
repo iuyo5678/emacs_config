@@ -50,9 +50,10 @@
 	    show-paren-mode 1  ;; 显示匹配的括号
 	    visible-bell t
         save-place-mode t
+        global-font-lock-mode t
 	    inhibit-compacting-font-caches t  ; Don’t compact font caches during GC.
 	    delete-by-moving-to-trash t       ; Deleting files go to OS's trash folder
-	    auto-save-default t             ; Disable auto save
+	    auto-save-default t
 	    uniquify-buffer-name-style 'post-forward-angle-brackets ; Show path if names are same
 	    adaptive-fill-regexp "[ t]+|[ t]*([0-9]+.|*+)[ t]*"
 	    adaptive-fill-first-line-regexp "^* *$"
@@ -131,25 +132,6 @@
               display-time-day-and-date t))
 
 
-;; Pass a URL to a WWW browser
-(use-package browse-url
-  :ensure nil
-  :defines dired-mode-map
-  :bind (("C-c C-z ." . browse-url-at-point)
-         ("C-c C-z b" . browse-url-of-buffer)
-         ("C-c C-z r" . browse-url-of-region)
-         ("C-c C-z u" . browse-url)
-         ("C-c C-z e" . browse-url-emacs)
-         ("C-c C-z v" . browse-url-of-file))
-  :init
-  (with-eval-after-load 'dired
-    (bind-key "C-c C-z f" #'browse-url-of-file dired-mode-map)))
-
-;; Click to browse URL or to send to e-mail address
-(use-package goto-addr
-  :ensure nil
-  :hook ((text-mode . goto-address-mode)
-         (prog-mode . goto-address-prog-mode)))
 ;; Bookmark
 (use-package bookmark
   :ensure nil
@@ -203,7 +185,6 @@
         (setq tabulated-list-entries entries))
       (tabulated-list-print t))
     (advice-add #'bookmark-bmenu--revert :override #'my-bookmark-bmenu--revert)
-
     (defun my-bookmark-bmenu-list ()
       "Display a list of existing bookmarks.
 The list is displayed in a buffer named `*Bookmark List*'.
@@ -218,7 +199,6 @@ deletion, or > if it is flagged for displaying."
       (bookmark-bmenu-mode)
       (bookmark-bmenu--revert))
     (advice-add #'bookmark-bmenu-list :override #'my-bookmark-bmenu-list)
-
     (define-derived-mode bookmark-bmenu-mode tabulated-list-mode "Bookmark Menu"
       (setq truncate-lines t)
       (setq buffer-read-only t)
@@ -234,6 +214,27 @@ deletion, or > if it is flagged for displaying."
       (add-hook 'tabulated-list-revert-hook #'bookmark-bmenu--revert nil t)'
       (setq revert-buffer-function #'bookmark-bmenu--revert)
       (tabulated-list-init-header))))
+
+;; Pass a URL to a WWW browser
+(use-package browse-url
+  :ensure nil
+  :defines dired-mode-map
+  :bind (("C-c C-z ." . browse-url-at-point)
+         ("C-c C-z b" . browse-url-of-buffer)
+         ("C-c C-z r" . browse-url-of-region)
+         ("C-c C-z u" . browse-url)
+         ("C-c C-z e" . browse-url-emacs)
+         ("C-c C-z v" . browse-url-of-file))
+  :init
+  (with-eval-after-load 'dired
+    (bind-key "C-c C-z f" #'browse-url-of-file dired-mode-map)))
+
+;; Click to browse URL or to send to e-mail address
+(use-package goto-addr
+  :ensure nil
+  :hook ((text-mode . goto-address-mode)
+         (prog-mode . goto-address-prog-mode)))
+;; Bookmark
 
 
 (use-package esup

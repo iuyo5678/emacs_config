@@ -32,7 +32,12 @@
     (make-variable-buffer-local 'undo-tree-visualizer-diff)
     (setq-default undo-tree-visualizer-diff t)))
 
-;; Show number of matches in mode-line while searching
+;; Automatic parenthesis pairing
+(use-package elec-pair
+  :ensure nil
+  :hook (after-init . electric-pair-mode)
+  :init (setq electric-pair-inhibit-predicate 'electric-pair-conservative-inhibit))
+
 (use-package anzu
   :diminish
   :bind (([remap query-replace] . anzu-query-replace)
@@ -94,13 +99,13 @@
             (rectangle-mark-mode 1))
       "reset")))))
 
-;; Automatically reload files was modified by external program
+;;Automatically reload files was modified by external program
 (use-package autorevert
   :ensure nil
   :diminish
   :hook (after-init . global-auto-revert-mode))
 
-;; Jump to things in Emacs tree-style
+;;Jump to things in Emacs tree-style
 (use-package avy
   :bind (("C-:" . avy-goto-char)
          ("C-'" . avy-goto-char-2)
@@ -143,30 +148,6 @@
   :diminish
   :hook (after-init . ace-pinyin-global-mode))
 
-;; Minor mode to aggressively keep your code always indented
-(use-package aggressive-indent
-  :diminish
-  :hook ((after-init . global-aggressive-indent-mode)
-         ;; FIXME: Disable in big files due to the performance issues
-         ;; https://github.com/Malabarba/aggressive-indent-mode/issues/73
-         (find-file . (lambda ()
-                        (if (> (buffer-size) (* 3000 80))
-                            (aggressive-indent-mode -1)))))
-  :config
-  ;; Disable in some modes
-  (dolist (mode '(asm-mode web-mode html-mode css-mode go-mode scala-mode prolog-inferior-mode))
-    (push mode aggressive-indent-excluded-modes))
-
-  ;; Disable in some commands
-  (add-to-list 'aggressive-indent-protected-commands #'delete-trailing-whitespace t)
-
-  ;; Be slightly less aggressive in C/C++/C#/Java/Go/Swift
-  (add-to-list 'aggressive-indent-dont-indent-if
-               '(and (derived-mode-p 'c-mode 'c++-mode 'csharp-mode
-                                     'java-mode 'go-mode 'swift-mode)
-                     (null (string-match "\\([;{}]\\|\\b\\(if\\|for\\|while\\)\\b\\)"
-                                         (thing-at-point 'line))))))
-
 
 ;; An all-in-one comment command to rule them all
 (use-package comment-dwim-2
@@ -196,11 +177,6 @@
               persistent-scratch-backup-directory
               (expand-file-name "persistent-scratch" user-emacs-directory)))
 
-;; Automatic parenthesis pairing
-(use-package elec-pair
-  :ensure nil
-  :hook (after-init . electric-pair-mode)
-  :init (setq electric-pair-inhibit-predicate 'electric-pair-conservative-inhibit))
 
 ;; Edit multiple regions in the same way simultaneously
 (use-package iedit
@@ -349,6 +325,48 @@
               (start-process "pomidor-play-sound" nil "afplay" file))))))
 
 
+(use-package ibuffer
+  :ensure nil
+  :bind ("C-x C-b" . ibuffer)
+  :init (setq ibuffer-filter-group-name-face '(:inherit (font-lock-string-face bold)))
+  :config
+  ;; Display icons for buffers
+  (use-package all-the-icons-ibuffer
+    :hook (ibuffer-mode . all-the-icons-ibuffer-mode)
+    :init (setq all-the-icons-ibuffer-icon zgh-icon))
+
+  (with-eval-after-load 'counsel
+    (with-no-warnings
+      (defun my-ibuffer-find-file ()
+        (interactive)
+        (let ((default-directory (let ((buf (ibuffer-current-buffer)))
+                                   (if (buffer-live-p buf)
+                                       (with-current-buffer buf
+                                         default-directory)
+                                     default-directory))))
+          (counsel-find-file default-directory)))
+      (advice-add #'ibuffer-find-file :override #'my-ibuffer-find-file))))
+
+
+;; Group ibuffer's list by project root
+(use-package ibuffer-projectile
+  :functions all-the-icons-octicon ibuffer-do-sort-by-alphabetic
+  :hook ((ibuffer . (lambda ()
+                      (ibuffer-projectile-set-filter-groups)
+                      (unless (eq ibuffer-sorting-mode 'alphabetic)
+                        (ibuffer-do-sort-by-alphabetic)))))
+  :config
+  (setq ibuffer-projectile-prefix
+        (if (icons-displayable-p)
+            (concat
+             (all-the-icons-octicon "file-directory"
+                                    :face ibuffer-filter-group-name-face
+                                    :v-adjust 0.0
+                                    :height 1.0)
+             " ")
+          "Project: ")))
+
+
 ;; Flexible text folding
 (use-package hideshow
   :ensure nil
@@ -494,4 +512,5 @@
     ("C-x G e" goto-my-emacs-dir)
     ("C-x M-H" goto-my-home-dir)
     ("C-x G o" goto-my-org-path)))
+
 (provide 'edit-settings)

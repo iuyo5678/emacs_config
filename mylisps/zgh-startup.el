@@ -84,6 +84,7 @@ decrease this. If you experience stuttering, increase this.")
   "Are we running on a Cygwin system?")
 
 
+(setq max-lisp-eval-depth 10000)
 (setq file-name-handler-alist nil)
 (setq gc-cons-threshold centaur-gc-cons-upper-limit
       gc-cons-percentage 0.5)

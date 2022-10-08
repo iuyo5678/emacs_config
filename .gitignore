@@ -35,3 +35,4 @@ amx-items
 /transient/
 /var/
 /.elfeed/
+undo_history/*

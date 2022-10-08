@@ -39,7 +39,8 @@
    ;; https://github.com/emacs-lsp/lsp-mode#supported-languages
    (use-package lsp-mode
      :diminish
-     :defines (lsp-clients-python-library-directories
+     :defines (lsp-diagnostics-disabled-modes
+               lsp-clients-python-library-directories
                lsp-rust-server)
      :commands (lsp-enable-which-key-integration
                 lsp-format-buffer
@@ -104,10 +105,10 @@
            lsp-enable-text-document-color nil
 
            lsp-enable-indentation nil
-           lsp-enable-on-type-formatting nil)
-
-     ;; For `lsp-clients'
-     (setq lsp-clients-python-library-directories '("/usr/local/" "/usr/"))
+           lsp-enable-on-type-formatting nil
+           lsp-diagnostics-disabled-modes '(markdown-mode gfm-mode)
+           ;; For `lsp-clients'
+           lsp-clients-python-library-directories '("/usr/local/" "/usr/"))
      :config
      (with-no-warnings
        (defun my-lsp--init-if-visible (func &rest args)

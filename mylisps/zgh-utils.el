@@ -36,6 +36,12 @@
 (defalias 'move-end-of-line       'end-of-line)
 
 
+(defun too-long-file-p ()
+  "Check whether the file is too long."
+  (if (fboundp 'buffer-line-statistics)
+      (> (car (buffer-line-statistics)) 3000)
+    (> (buffer-size) 100000)))
+
 
 (defcustom centaur-lsp-format-on-save-ignore-modes '(c-mode c++-mode python-mode)
   "The modes that don't auto format and organize imports while saving the buffers.
