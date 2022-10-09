@@ -36,3 +36,6 @@ amx-items
 /var/
 /.elfeed/
 undo_history/*
+/bookmarks
+/persistent-scratch/
+/.persistent-scratch

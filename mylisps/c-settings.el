@@ -21,7 +21,7 @@
   :bind (:map c-mode-base-map
          ("C-c c" . compile))
   :hook (c-mode-common . (lambda () (c-set-style "stroustrup")))
-  :init (setq-default c-basic-offset 4)
+  :init (setq-default c-basic-offset 2)
   :config
   (use-package modern-cpp-font-lock
     :diminish
