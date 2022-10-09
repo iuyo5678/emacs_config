@@ -41,7 +41,7 @@
   (setq-default prettify-symbols-alist centaur-prettify-symbols-alist)
   (setq prettify-symbols-unprettify-at-point 'right-edge))
 
-;;(use-package tree-sitter
+;; (use-package tree-sitter
 ;;  :ensure tree-sitter-langs
 ;;  :diminish
 ;;  :hook ((after-init . global-tree-sitter-mode)
@@ -89,26 +89,25 @@
            ("M-<f1>" . devdocs-dwim)
            ("C-h D"  . devdocs-dwim))
     :init
-    (defconst devdocs-major-mode-docs-alist
-      '((c-mode          . ("c"))
-        (c++-mode        . ("cpp"))
-        (python-mode     . ("python~3.10" "python~2.7"))
-        (ruby-mode       . ("ruby~3.1"))
-        (go-mode         . ("go"))
-        (css-mode        . ("css"))
-        (html-mode       . ("html"))
-        (julia-mode      . ("julia~1.8"))
-        (js-mode         . ("javascript" "jquery"))
-        (js2-mode        . ("javascript" "jquery"))
-        (emacs-lisp-mode . ("elisp")))
-      "Alist of major-mode and docs.")
+    (add-hook 'c-mode-hook
+              (lambda () (setq-local devdocs-current-docs '("c"))))
+    (add-hook 'c++-mode-hook
+          (lambda () (setq-local devdocs-current-docs '("cpp"))))
+    (add-hook 'python-mode-hook
+          (lambda () (setq-local devdocs-current-docs '("python~3.10" "python~2.7"))))
+    (add-hook 'go-mode-hook
+              (lambda () (setq-local devdocs-current-docs '("go"))))
+    (add-hook 'html-mode-hook
+              (lambda () (setq-local devdocs-current-docs '("html"))))
+    (add-hook 'css-mode-hook
+          (lambda () (setq-local devdocs-current-docs '("css"))))
+    (add-hook 'js-mode-hook
+          (lambda () (setq-local devdocs-current-docs '("javascript" "jquery"))))
+    (add-hook 'js2-mode-hook
+          (lambda () (setq-local devdocs-current-docs '("javascript" "jquery"))))
+    (add-hook 'emacs-lisp-mode-hook
+          (lambda () (setq-local devdocs-current-docs '("elisp"))))
 
-    (mapc
-     (lambda (items)
-       (add-hook (intern (format "%s-hook" (car items)))
-                 (lambda ()
-                   (setq-local devdocs-current-docs (cdr items)))))
-     devdocs-major-mode-docs-alist)
 
     (setq devdocs-data-dir (expand-file-name "devdocs" user-emacs-directory))
 
