@@ -295,20 +295,45 @@ Nil to use font supports ligatures."
     (set-char-table-parent composition-ligature-table composition-function-table)))
 
 
-(use-package doom-themes
-  :custom-face
-  (doom-modeline-buffer-file ((t (:inherit (mode-line bold)))))
-  :init
-  :demand t
-  :config
-  ;;(load-theme 'doom-solarized-dark-high-contrast t)
-  (load-theme 'doom-Iosvkem t)
-  ;; Enable flashing mode-line on errors
-  (doom-themes-visual-bell-config)
-  ;; Enable customized theme
-  ;; FIXME https://github.com/emacs-lsp/lsp-treemacs/issues/89
-  (with-eval-after-load 'lsp-treemacs
-    (doom-themes-treemacs-config)))
+(if (centaur-compatible-theme-p centaur-theme)
+    (progn
+      ;; Make certain buffers grossly incandescent
+      (use-package solaire-mode
+        :hook (after-load-theme . solaire-global-mode))
+
+      (use-package doom-themes
+        :bind ("C-c T" . centaur-load-theme)
+        :custom (doom-themes-treemacs-theme "doom-colors")
+        :init (centaur-load-theme centaur-theme t)
+        :config
+        ;; Enable flashing mode-line on errors
+        (doom-themes-visual-bell-config)
+
+        ;; WORKAROUND: Visual bell on 29
+        ;; @see https://github.com/doomemacs/themes/issues/733
+        (with-no-warnings
+          (defun my-doom-themes-visual-bell-fn ()
+            "Blink the mode-line red briefly. Set `ring-bell-function' to this to use it."
+            (let* ((buf (current-buffer))
+                   (cookies `(,(face-remap-add-relative 'mode-line-active
+                                                        'doom-themes-visual-bell)
+                              ,(face-remap-add-relative 'mode-line
+                                                        'doom-themes-visual-bell))))
+              (force-mode-line-update)
+              (run-with-timer 0.15 nil
+                              (lambda ()
+                                (with-current-buffer buf
+                                  (mapc #'face-remap-remove-relative cookies)
+                                  (force-mode-line-update))))))
+          (advice-add #'doom-themes-visual-bell-fn :override #'my-doom-themes-visual-bell-fn))
+
+        ;; Enable customized theme
+        ;; FIXME: https://github.com/emacs-lsp/lsp-treemacs/issues/89
+        (with-eval-after-load 'lsp-treemacs
+          (doom-themes-treemacs-config))))
+  (progn
+    (warn "The current theme is incompatible!")
+    (centaur-load-theme centaur-theme t)))
 
 (use-package doom-modeline
   :custom

@@ -115,6 +115,9 @@ decrease this. If you experience stuttering, increase this.")
             (add-hook 'minibuffer-setup-hook #'my-minibuffer-setup-hook)
             (add-hook 'minibuffer-exit-hook #'my-minibuffer-exit-hook)))
 
+;;custom config saveto personal/personal.el
+(setq custom-file (expand-file-name "personal/personal-info.el" user-emacs-directory))
+
 ;;;###autoload
 (defun eal-define-keys-commonly (keymap key-defs)
   "Execute `define-key' on KEYMAP use arguments from KEY-DEFS.
