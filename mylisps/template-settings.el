@@ -9,7 +9,7 @@
 	 ("C-c C-t" . template-expand-template)
 	 )
   :config
-  (defun template-settings ()
+  (defun template-config ()
     "settings for `template'."
     (setq template-default-directories (list (concat my-emacs-path "/templates/")))
 
@@ -24,7 +24,8 @@
 	 (concat my-emacs-path "templates") last-template t)))
       (template-expand-template template)
       (setq last-template template)))
-  (template-settings)
+  (template-config)
+  (template-initialize)
   )
 
 (provide 'template-settings)
