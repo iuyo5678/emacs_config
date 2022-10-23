@@ -170,6 +170,16 @@ It's only available on macOS currently."
       (> (car (buffer-line-statistics)) 3000)
     (> (buffer-size) 100000)))
 
+;; WORKAROUND: fix blank screen issue on macOS.
+(defun fix-fullscreen-cocoa ()
+  "Address blank screen issue with child-frame in fullscreen.
+This issue has been addressed in 28."
+  (and sys/mac-cocoa-p
+       (not (>= emacs-major-version 28))
+       (bound-and-true-p ns-use-native-fullscreen)
+       (setq ns-use-native-fullscreen nil)))
+
+
 
 (defcustom centaur-lsp-format-on-save-ignore-modes '(c-mode c++-mode python-mode)
   "The modes that don't auto format and organize imports while saving the buffers.

@@ -229,6 +229,9 @@ prepended to the element after the #+HEADER: tag."
   (use-package org-preview-html
     :diminish)
 
+  (use-package ob-rust
+    :init (cl-pushnew '(rust . t) load-language-list))
+
   ;; Presentation
   (use-package org-tree-slide
     :diminish

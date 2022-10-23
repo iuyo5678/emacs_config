@@ -41,11 +41,11 @@
   (setq-default prettify-symbols-alist centaur-prettify-symbols-alist)
   (setq prettify-symbols-unprettify-at-point 'right-edge))
 
-;; (use-package tree-sitter
-;;  :ensure tree-sitter-langs
-;;  :diminish
-;;  :hook ((after-init . global-tree-sitter-mode)
-;;         (tree-sitter-after-on . tree-sitter-hl-mode)))
+(use-package tree-sitter
+ :ensure tree-sitter-langs
+ :diminish
+ :hook ((after-init . global-tree-sitter-mode)
+        (tree-sitter-after-on . tree-sitter-hl-mode)))
 
 ;; Jump to definition
 (use-package dumb-jump
@@ -104,7 +104,9 @@
     (add-hook 'js-mode-hook
           (lambda () (setq-local devdocs-current-docs '("javascript" "jquery"))))
     (add-hook 'js2-mode-hook
-          (lambda () (setq-local devdocs-current-docs '("javascript" "jquery"))))
+              (lambda () (setq-local devdocs-current-docs '("javascript" "jquery"))))
+    (add-hook 'rustic-mode
+              (lambda () (setq-local devdocs-current-docs '("rust"))))
     (add-hook 'emacs-lisp-mode-hook
           (lambda () (setq-local devdocs-current-docs '("elisp"))))
 
@@ -133,6 +135,8 @@ Install the doc if it's not installed."
       ;; Lookup the symbol at point
       (devdocs-lookup nil (thing-at-point 'symbol t)))))
 
+(use-package rustic)
+(use-package rust-playground)
 
 (use-package cask-mode)
 (use-package csharp-mode)
