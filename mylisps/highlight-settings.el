@@ -104,9 +104,10 @@ FACE defaults to inheriting from default and highlight."
   (advice-add #'deactivate-mark :after #'turn-on-symbol-overlay))
 
 ;; Highlight indentions
-(use-package highlight-indent-guides
-  :diminish
-  :hook ((prog-mode yaml-mode) . (lambda ()
+(if (display-graphic-p)
+  (use-package highlight-indent-guides
+    :diminish
+    :hook ((prog-mode yaml-mode) . (lambda ()
                                    "Highlight indentations in small files for better performance."
                                    (unless (too-long-file-p)
                                      (highlight-indent-guides-mode 1))))
@@ -149,7 +150,8 @@ FACE defaults to inheriting from default and highlight."
               (ignore-errors
                 (remove-text-properties next pos '(display nil face nil) str))))))
       (advice-add #'ivy-cleanup-string :after #'my-ivy-cleanup-indentation))))
-
+  (use-package highlight-indentation)
+)
 ;; Colorize color names in buffers
 (use-package rainbow-mode
   :diminish
