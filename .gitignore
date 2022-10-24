@@ -39,3 +39,4 @@ undo_history/*
 /bookmarks
 /persistent-scratch/
 /.persistent-scratch
+/personal/personal-info.el
