@@ -320,21 +320,14 @@ Nil to use font supports ligatures."
     (centaur-load-theme centaur-theme t)))
 
 (use-package doom-modeline
-  :custom
-  (doom-modeline-icon zgh-icon)
-  (doom-modeline-minor-modes t)
-  (doom-modeline-unicode-fallback t)
-  (doom-modeline-mu4e nil)
   :hook (after-init . doom-modeline-mode)
   :init
-  ;; Prevent flash of unstyled modeline at startup
+  (setq doom-modeline-icon zgh-icon
+        doom-modeline-height 1
+        doom-modeline-window-width-limit 110
+        doom-modeline-minor-modes t)
   (unless after-init-time
-    (setq doom-modeline--default-format mode-line-format)
-    (setq-default mode-line-format nil)
-    (setq doom-modeline-height 1)
-    (custom-set-faces
-     '(mode-line ((t (:height 0.9))))
-     '(mode-line-inactive ((t (:height 0.9))))))
+    (setq-default doom-modeline-mode-map nil))
   :bind (:map doom-modeline-mode-map
          ("C-<f6>" . doom-modeline-hydra/body))
   :pretty-hydra
