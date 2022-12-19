@@ -480,7 +480,6 @@ Nil to use font supports ligatures."
                              (registers . "database"))
 
    dashboard-set-footer t
-   dashboard-footer (format "Package by Drake Zhang, Powered by Centaur Emacs  %s" (format-time-string "%Y"))
    dashboard-footer-icon (cond ((icons-displayable-p)
                                 (all-the-icons-faicon "heart"
                                                       :height 1.1
@@ -508,7 +507,7 @@ Nil to use font supports ligatures."
         (insert-image spec)
         (insert "\n\n")
         (when title
-          (dashboard-center-line title)
+          (dashboard-insert-center title)
           (insert (format "%s\n\n" (propertize title 'face 'dashboard-banner-logo-title)))))))
   (advice-add #'dashboard-insert-image-banner :override #'my-dashboard-insert-image-banner)
 
@@ -516,13 +515,12 @@ Nil to use font supports ligatures."
   ;; @see https://github.com/emacs-dashboard/emacs-dashboard/issues/219
   (defun my-dashboard-insert-copyright ()
     "Insert copyright in the footer."
-    (when dashboard-footer
-      (insert "\n  ")
-      (dashboard-center-line dashboard-footer)
-      (insert (propertize dashboard-footer 'face 'font-lock-comment-face))
-      (insert "\n")))
+    (when dashboard-set-footer
+      (dashboard-insert-center
+      (propertize (format "Package by Drake Zhang, Powered by Centaur Emacs  %s\n" (format-time-string "%Y"))
+                  'face font-lock-comment-face))))
   (advice-add #'dashboard-insert-footer :after #'my-dashboard-insert-copyright)
-  )
+)
 
 ;;(require 'dashboard)
 (provide 'face-settings)
