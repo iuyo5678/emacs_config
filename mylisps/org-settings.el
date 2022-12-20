@@ -265,19 +265,9 @@ prepended to the element after the #+HEADER: tag."
     :bind (:map org-agenda-mode-map
            ("P" . org-pomodoro)))
   )
-(use-package org-html-themify
-  :ensure nil
-  :hook (org-mode . org-html-themify-mode)
-  :custom
-  (org-html-themify-themes
-   '((dark . modus-vivendi)
-     (light . modus-operandi))))
 
-(use-package howm
-  :ensure t
-  :config
-  (setq owm-view-use-grep t)
-  )
+(use-package howm)
+
 ;; Better views of calendar
 (use-package calfw
   :commands cfw:open-calendar-buffer
