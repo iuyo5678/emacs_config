@@ -273,6 +273,35 @@ prepended to the element after the #+HEADER: tag."
    '((dark . modus-vivendi)
      (light . modus-operandi))))
 
+(use-package howm
+  :ensure t
+  :config
+  (setq owm-view-use-grep t)
+  )
+;; Better views of calendar
+(use-package calfw
+  :commands cfw:open-calendar-buffer
+  ;; :bind ("<C-f12>" . open-calendar)
+  :init
+  (use-package calfw-org
+    :commands (cfw:open-org-calendar cfw:org-create-source))
+
+  (use-package calfw-ical
+    :commands (cfw:open-ical-calendar cfw:ical-create-source))
+
+  (defun open-calendar ()
+    "Open calendar."
+    (interactive)
+    (unless (ignore-errors
+              (cfw:open-calendar-buffer
+               :contents-sources
+                (list
+                 (when org-agenda-files
+                   (cfw:org-create-source "YellowGreen"))
+                 (when (bound-and-true-p centaur-ical)
+                   (cfw:ical-create-source "gcal" centaur-ical "IndianRed")))))
+      (cfw:open-calendar-buffer))))
+
 (provide 'org-settings)
 
 ;;; org-settings.el ends here

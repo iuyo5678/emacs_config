@@ -38,8 +38,9 @@
   (set-terminal-coding-system 'utf-8)
   (set-keyboard-coding-system 'utf-8)
   (prefer-coding-system 'utf-8)
-  ;;鼠标更加平平滑
+    ;;鼠标更加平平滑
   (when (display-graphic-p)
+    (display-battery-mode t)
     (setq mouse-wheel-scroll-amount '(1 ((shift) . 1))
           mouse-wheel-progressive-speed nil))
 
@@ -126,11 +127,14 @@
 
 (use-package time
   :ensure nil
-  :unless (display-graphic-p)
-  :hook (after-init . display-time-mode)
   :init (setq display-time-24hr-format t
-              display-time-day-and-date t))
-
+              display-time-day-and-date t
+              system-time-locale "zh_CN.UTF-8"
+              display-time-format "%A %B%d %H:%M"
+              )
+  :config
+  (display-time-mode t)
+  )
 
 ;; Bookmark
 (use-package bookmark

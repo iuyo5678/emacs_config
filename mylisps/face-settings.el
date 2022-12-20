@@ -3,6 +3,42 @@
 ;; Time-stamp: <2021-03-15 18:05:25 Monday by zhangguhua>
 ;;外观的配置
 
+
+(use-package cal-china-x
+  :ensure t
+  :commands cal-china-x-setup
+  :init (cal-china-x-setup)
+  :config
+  ;; `S' can show the time of sunrise and sunset on Calendar
+  (setq calendar-location-name "Beijing"
+        calendar-latitude 39.90
+        calendar-longitude 116.40)
+  (setq cal-china-x-force-chinese-week-day t)
+  (setq cal-china-x-always-show-jieqi t)
+  ;; Holidays
+  (setq calendar-mark-holidays-flag t)
+  (setq cal-china-x-important-holidays cal-china-x-chinese-holidays)
+  (setq cal-china-x-general-holidays
+        '((holiday-lunar 1 15 "元宵节")
+          (holiday-lunar 7 7 "七夕节")
+          (holiday-fixed 3 8 "妇女节")
+          (holiday-fixed 3 12 "植树节")
+          (holiday-fixed 5 4 "青年节")
+          (holiday-fixed 6 1 "儿童节")
+          (holiday-fixed 9 10 "教师节")))
+  (setq holiday-other-holidays
+        '((holiday-fixed 2 14 "情人节")
+          (holiday-fixed 4 1 "愚人节")
+          (holiday-fixed 12 25 "圣诞节")
+          (holiday-float 5 0 2 "母亲节")
+          (holiday-float 6 0 3 "父亲节")
+          (holiday-float 11 4 4 "感恩节")))
+  (setq calendar-holidays
+        (append cal-china-x-important-holidays
+                cal-china-x-general-holidays
+                holiday-other-holidays)))
+
+
 (use-package ahei-face
   :ensure nil
   :demand t
@@ -60,111 +96,79 @@ FUN-LIST can be a symbol, also can be a list whose element is a symbol."
 ;; NOTE: Must run `M-x all-the-icons-install-fonts', and install fonts manually on Windows
 (use-package all-the-icons
   :if (display-graphic-p)
-  :init
-  (unless (or (eq system-type 'windows-nt) (find-font (font-spec :name "all-the-icons")))
-          (all-the-icons-install-fonts t))
+  :init  (unless (or sys/win32p
+                      (daemonp)
+                      (font-installed-p "all-the-icons"))
+            (zgh-install-fonts))
   :config
-  ;; 在状态栏显示日期时间
-  (setq display-time-day-and-date t)
-  (display-time)
-  (declare-function memoize 'memoize)
-  (declare-function memoize-restore 'memoize)
-  (defun all-the-icons-reset ()
-    "Reset (unmemoize/memoize) the icons."
-    (interactive)
-    (ignore-errors
-      (dolist (f '(all-the-icons-icon-for-file
-                   all-the-icons-icon-for-mode
-                   all-the-icons-icon-for-url
-                   all-the-icons-icon-family-for-file
-                   all-the-icons-icon-family-for-mode
-                   all-the-icons-icon-family))
-        (memoize-restore f)
-        (memoize f)))
-    (message "Reset all-the-icons"))
+  ;; Support more icons
+    (let ((extension-icon-alist
+           '(("bat"  all-the-icons-alltheicon "terminal" :face all-the-icons-lsilver)
+             ("cmd"  all-the-icons-alltheicon "terminal" :face all-the-icons-lsilver)
+             ("conf" all-the-icons-octicon "settings"    :v-adjust 0.0 :face all-the-icons-yellow)
+             ("eln"  all-the-icons-octicon "file-binary" :v-adjust 0.0 :face all-the-icons-dsilver)
+             ("epub" all-the-icons-faicon "book"         :height 1.0 :v-adjust -0.1 :face all-the-icons-green)
+             ("exe"  all-the-icons-octicon "file-binary" :v-adjust 0.0 :face all-the-icons-dsilver)
+             ("make" all-the-icons-fileicon "gnu"        :face all-the-icons-dorange)
+             ("rss"  all-the-icons-octicon "rss"         :height 1.1 :v-adjust 0.0 :face all-the-icons-lorange)
+             ("toml" all-the-icons-octicon "settings"    :v-adjust 0.0 :face all-the-icons-yellow)
+             ("tsx"  all-the-icons-fileicon "tsx"        :height 1.0 :v-adjust -0.1 :face all-the-icons-cyan-alt)
+             ("xpm"  all-the-icons-octicon "file-media"  :v-adjust 0.0 :face all-the-icons-dgreen))))
+      (dolist (icon extension-icon-alist)
+        (add-to-list 'all-the-icons-extension-icon-alist icon)))
 
-  (add-to-list 'all-the-icons-icon-alist
-               '("^Rakefile$" all-the-icons-alltheicon "ruby-alt" :face all-the-icons-red))
-  (add-to-list 'all-the-icons-icon-alist
-               '("\\.\\(bat\\|cmd\\)$" all-the-icons-alltheicon "terminal" :face all-the-icons-lsilver))
-  (add-to-list 'all-the-icons-icon-alist
-               '("\\go.mod$" all-the-icons-fileicon "go" :face all-the-icons-dblue))
-  (add-to-list 'all-the-icons-icon-alist
-               '("\\go.sum$" all-the-icons-fileicon "go" :face all-the-icons-dpurple))
-  (add-to-list 'all-the-icons-mode-icon-alist
-               '(xwidget-webkit-mode all-the-icons-faicon "chrome" :v-adjust -0.1 :face all-the-icons-blue))
-  (add-to-list 'all-the-icons-mode-icon-alist
-               '(bongo-playlist-mode all-the-icons-material "queue_music" :height 1.2 :face 'all-the-icons-green))
-  (add-to-list 'all-the-icons-mode-icon-alist
-               '(bongo-library-mode all-the-icons-material "library_music" :height 1.1 :face 'all-the-icons-green))
-  (add-to-list 'all-the-icons-mode-icon-alist
-               '(gnus-group-mode all-the-icons-fileicon "gnu" :face 'all-the-icons-silver))
-  (add-to-list 'all-the-icons-mode-icon-alist
-               '(gnus-summary-mode all-the-icons-octicon "inbox" :height 1.0 :v-adjust 0.0 :face 'all-the-icons-orange))
-  (add-to-list 'all-the-icons-mode-icon-alist
-               '(gnus-article-mode all-the-icons-octicon "mail" :height 1.1 :v-adjust 0.0 :face 'all-the-icons-lblue))
-  (add-to-list 'all-the-icons-mode-icon-alist
-               '(message-mode all-the-icons-octicon "mail" :height 1.1 :v-adjust 0.0 :face 'all-the-icons-lblue))
-  (add-to-list 'all-the-icons-mode-icon-alist
-               '(diff-mode all-the-icons-octicon "git-compare" :v-adjust 0.0 :face all-the-icons-lred))
-  (add-to-list 'all-the-icons-mode-icon-alist
-               '(flycheck-error-list-mode all-the-icons-octicon "checklist" :height 1.1 :v-adjust 0.0 :face all-the-icons-lred))
-  (add-to-list 'all-the-icons-icon-alist
-               '("\\.rss$" all-the-icons-octicon "rss" :height 1.1 :v-adjust 0.0 :face all-the-icons-lorange))
-  (add-to-list 'all-the-icons-mode-icon-alist
-               '(elfeed-search-mode all-the-icons-faicon "rss-square" :v-adjust -0.1 :face all-the-icons-orange))
-  (add-to-list 'all-the-icons-mode-icon-alist
-               '(elfeed-show-mode all-the-icons-octicon "rss" :height 1.1 :v-adjust 0.0 :face all-the-icons-lorange))
-  (add-to-list 'all-the-icons-mode-icon-alist
-               '(newsticker-mode all-the-icons-faicon "rss-square" :v-adjust -0.1 :face all-the-icons-orange))
-  (add-to-list 'all-the-icons-mode-icon-alist
-               '(newsticker-treeview-mode all-the-icons-faicon "rss-square" :v-adjust -0.1 :face all-the-icons-orange))
-  (add-to-list 'all-the-icons-mode-icon-alist
-               '(newsticker-treeview-list-mode all-the-icons-octicon "rss" :height 1.1 :v-adjust 0.0 :face all-the-icons-orange))
-  (add-to-list 'all-the-icons-mode-icon-alist
-               '(newsticker-treeview-item-mode all-the-icons-octicon "rss" :height 1.1 :v-adjust 0.0 :face all-the-icons-lorange))
-  (add-to-list 'all-the-icons-icon-alist
-               '("\\.[bB][iI][nN]$" all-the-icons-octicon "file-binary" :v-adjust 0.0 :face all-the-icons-yellow))
-  (add-to-list 'all-the-icons-icon-alist
-               '("\\.c?make$" all-the-icons-fileicon "gnu" :face all-the-icons-dorange))
-  (add-to-list 'all-the-icons-icon-alist
-               '("\\.conf$" all-the-icons-octicon "settings" :v-adjust 0.0 :face all-the-icons-yellow))
-  (add-to-list 'all-the-icons-icon-alist
-               '("\\.toml$" all-the-icons-octicon "settings" :v-adjust 0.0 :face all-the-icons-yellow))
-  (add-to-list 'all-the-icons-mode-icon-alist
-               '(conf-mode all-the-icons-octicon "settings" :v-adjust 0.0 :face all-the-icons-yellow))
-  (add-to-list 'all-the-icons-mode-icon-alist
-               '(conf-space-mode all-the-icons-octicon "settings" :v-adjust 0.0 :face all-the-icons-yellow))
-  (add-to-list 'all-the-icons-mode-icon-alist
-               '(forge-topic-mode all-the-icons-alltheicon "git" :face all-the-icons-blue))
-  (add-to-list 'all-the-icons-icon-alist
-               '("\\.xpm$" all-the-icons-octicon "file-media" :v-adjust 0.0 :face all-the-icons-dgreen))
-  (add-to-list 'all-the-icons-mode-icon-alist
-               '(help-mode all-the-icons-faicon "info-circle" :height 1.1 :v-adjust -0.1 :face all-the-icons-purple))
-  (add-to-list 'all-the-icons-mode-icon-alist
-               '(helpful-mode all-the-icons-faicon "info-circle" :height 1.1 :v-adjust -0.1 :face all-the-icons-purple))
-  (add-to-list 'all-the-icons-mode-icon-alist
-               '(Info-mode all-the-icons-faicon "info-circle" :height 1.1 :v-adjust -0.1))
-  (add-to-list 'all-the-icons-icon-alist
-               '("NEWS$" all-the-icons-faicon "newspaper-o" :height 0.9 :v-adjust -0.2))
-  (add-to-list 'all-the-icons-icon-alist
-               '("Cask\\'" all-the-icons-fileicon "elisp" :height 1.0 :v-adjust -0.2 :face all-the-icons-blue))
-  (add-to-list 'all-the-icons-mode-icon-alist
-               '(cask-mode all-the-icons-fileicon "elisp" :height 1.0 :v-adjust -0.2 :face all-the-icons-blue))
-  (add-to-list 'all-the-icons-icon-alist
-               '(".*\\.ipynb\\'" all-the-icons-fileicon "jupyter" :height 1.2 :face all-the-icons-orange))
-  (add-to-list 'all-the-icons-mode-icon-alist
-               '(ein:notebooklist-mode all-the-icons-faicon "book" :face all-the-icons-lorange))
-  (add-to-list 'all-the-icons-mode-icon-alist
-               '(ein:notebook-mode all-the-icons-fileicon "jupyter" :height 1.2 :face all-the-icons-orange))
-  (add-to-list 'all-the-icons-mode-icon-alist
-               '(ein:notebook-multilang-mode all-the-icons-fileicon "jupyter" :height 1.2 :face all-the-icons-dorange))
-  (add-to-list 'all-the-icons-icon-alist
-               '("\\.epub\\'" all-the-icons-faicon "book" :height 1.0 :v-adjust -0.1 :face all-the-icons-green))
-  (add-to-list 'all-the-icons-mode-icon-alist
-               '(nov-mode all-the-icons-faicon "book" :height 1.0 :v-adjust -0.1 :face all-the-icons-green))
-  (add-to-list 'all-the-icons-mode-icon-alist
-               '(gfm-mode all-the-icons-octicon "markdown" :face all-the-icons-lblue)))
+    (let ((regexp-icon-alist
+           '(("\\.[bB][iI][nN]$"               all-the-icons-octicon "file-binary" :v-adjust 0.0 :face all-the-icons-yellow)
+             ("^config$"                       all-the-icons-octicon "settings"    :v-adjust 0.0 :face all-the-icons-dorange)
+             ("\\.\\(ba\\|z\\)shrc$"           all-the-icons-alltheicon "script"   :height 0.9 :face all-the-icons-dpink)
+             ("\\.\\(bash\\|zsh\\)*_?profile$" all-the-icons-alltheicon "script"   :height 0.9 :face all-the-icons-dred)
+             ("\\.\\(ba\\|z\\)sh_history$"     all-the-icons-alltheicon "script"   :height 0.9 :face all-the-icons-dsilver)
+             ("\\.zshenv$"                     all-the-icons-alltheicon "script"   :height 0.9 :face all-the-icons-dred)
+             ("Cask\\'"                        all-the-icons-fileicon "elisp"      :height 1.0 :v-adjust -0.2 :face all-the-icons-blue)
+             ("NEWS$"                          all-the-icons-faicon "newspaper-o"  :height 0.9 :v-adjust -0.2)
+             ("^Rakefile$"                     all-the-icons-alltheicon "ruby-alt" :face all-the-icons-red))))
+      (dolist (icon regexp-icon-alist)
+        (add-to-list 'all-the-icons-regexp-icon-alist icon)))
+
+    (let ((mode-icon-alist
+           '((xwidget-webkit-mode           all-the-icons-faicon "chrome"          :v-adjust -0.1 :face all-the-icons-blue)
+             (bongo-playlist-mode           all-the-icons-material "queue_music"   :height 1.3 :face all-the-icons-green)
+             (bongo-library-mode            all-the-icons-material "library_music" :height 1.1 :face all-the-icons-green)
+             (simple-mpc-mode               all-the-icons-faicon "music"           :v-adjust -0.1 :face all-the-icons-green)
+             (mingus-playlist-mode          all-the-icons-faicon "music"           :v-adjust -0.1 :face all-the-icons-green)
+             (mingus-help-mode              all-the-icons-material "music_note"    :height 1.2 :face all-the-icons-green)
+             (mingus-browse-mode            all-the-icons-material "library_music" :height 1.1 :face all-the-icons-green)
+             (mingus-burn-mode              all-the-icons-material "queue_music"   :height 1.3 :face all-the-icons-green)
+             (gnus-group-mode               all-the-icons-fileicon "gnu"           :face all-the-icons-silver)
+             (gnus-summary-mode             all-the-icons-octicon "inbox"          :height 1.0 :v-adjust 0.0 :face all-the-icons-orange)
+             (gnus-article-mode             all-the-icons-octicon "mail"           :height 1.1 :v-adjust 0.0 :face all-the-icons-lblue)
+             (message-mode                  all-the-icons-octicon "mail"           :height 1.1 :v-adjust 0.0 :face all-the-icons-lblue)
+             (diff-mode                     all-the-icons-octicon "git-compare"    :v-adjust 0.0 :face all-the-icons-lred)
+             (flycheck-error-list-mode      all-the-icons-octicon "checklist"      :height 1.1 :v-adjust 0.0 :face all-the-icons-lred)
+             (newsticker-mode               all-the-icons-faicon "rss-square"      :v-adjust -0.1 :face all-the-icons-orange)
+             (newsticker-treeview-mode      all-the-icons-faicon "rss-square"      :v-adjust -0.1 :face all-the-icons-orange)
+             (newsticker-treeview-list-mode all-the-icons-octicon "rss"            :height 1.1 :v-adjust 0.0 :face all-the-icons-orange)
+             (newsticker-treeview-item-mode all-the-icons-octicon "rss"            :height 1.1 :v-adjust 0.0 :face all-the-icons-lorange)
+             (conf-mode                     all-the-icons-octicon "settings"       :v-adjust 0.0 :face all-the-icons-yellow)
+             (conf-space-mode               all-the-icons-octicon "settings"       :v-adjust 0.0 :face all-the-icons-yellow)
+             (gitconfig-mode                all-the-icons-octicon "settings"       :v-adjust 0.0 :face all-the-icons-dorange)
+             (forge-topic-mode              all-the-icons-alltheicon "git"         :face all-the-icons-blue)
+             (help-mode                     all-the-icons-faicon "info-circle"     :height 1.1 :v-adjust -0.1 :face all-the-icons-purple)
+             (helpful-mode                  all-the-icons-faicon "info-circle"     :height 1.1 :v-adjust -0.1 :face all-the-icons-purple)
+             (Info-mode                     all-the-icons-faicon "info-circle"     :height 1.1 :v-adjust -0.1)
+             (cask-mode                     all-the-icons-fileicon "elisp"         :height 1.0 :v-adjust -0.2 :face all-the-icons-blue)
+             (ein:notebooklist-mode         all-the-icons-faicon "book"            :face all-the-icons-lorange)
+             (ein:notebook-mode             all-the-icons-fileicon "jupyter"       :height 1.2 :face all-the-icons-orange)
+             (ein:notebook-multilang-mode   all-the-icons-fileicon "jupyter"       :height 1.2 :face all-the-icons-dorange)
+             (nov-mode                      all-the-icons-faicon "book"            :height 1.0 :v-adjust -0.1 :face all-the-icons-green)
+             (gfm-mode                      all-the-icons-octicon "markdown"       :face all-the-icons-lblue)
+             (osx-dictionary-mode           all-the-icons-material "library_books" :face all-the-icons-lblue)
+             (youdao-dictionary-mode        all-the-icons-material "library_books" :face all-the-icons-lblue)
+             (fanyi-mode                    all-the-icons-material "library_books" :face all-the-icons-lblue))))
+      (dolist (icon mode-icon-alist)
+        (add-to-list 'all-the-icons-mode-icon-alist icon)))
+    )
+
 
 
 ;; Show native line numbers if possible, otherwise use `linum'
@@ -324,7 +328,9 @@ Nil to use font supports ligatures."
   :init
   (setq doom-modeline-icon zgh-icon
         doom-modeline-height 1
-        doom-modeline-window-width-limit 110
+        doom-modeline-modal-icon nil
+        find-file-visit-truename t
+        doom-modeline-project-detection 'project
         doom-modeline-minor-modes t)
   (unless after-init-time
     (setq-default doom-modeline-mode-map nil))
