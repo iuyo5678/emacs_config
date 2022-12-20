@@ -88,7 +88,7 @@ NEW-SESSION specifies whether to create a new xwidget-webkit session."
       :autoload (saveplace-pdf-view-find-file-advice saveplace-pdf-view-to-alist-advice)
       :init
       (advice-add 'save-place-find-file-hook :around #'saveplace-pdf-view-find-file-advice)
-      (advice-add 'save-place-to-alist :around #'saveplace-pdf-view-to-alist-advice))) )
+      (advice-add 'save-place-to-alist :around #'saveplace-pdf-view-to-alist-advice)))
 
 ;; Epub reader
 (use-package nov
@@ -118,8 +118,6 @@ NEW-SESSION specifies whether to create a new xwidget-webkit session."
     (setq process-coding-system-alist
           (cons `(,nov-unzip-program . (gbk . gbk))
                 process-coding-system-alist))))
-
-(use-package json-navigator)
 
 ;; Atom/RSS reader
 (use-package elfeed
@@ -157,6 +155,7 @@ NEW-SESSION specifies whether to create a new xwidget-webkit session."
               elfeed-show-entry-switch #'pop-to-buffer
               elfeed-show-entry-delete #'delete-window
               elfeed-feeds '(
+                ("http://feeds2.feedburner.com/cnbeta-full" cnBeta)
                 ("https://www.huxiu.com/rss/0.xml" 虎嗅)
                 ("https://36kr.com/feed" 36ker)
                 ("https://www.ifanr.com/feed" ifanr)
@@ -205,6 +204,8 @@ browser defined by `browse-url-generic-program'."
         (unless (or elfeed-search-remain-on-entry (use-region-p))
           (forward-line))))
     (advice-add #'elfeed-search-browse-url :override #'my-elfeed-search-browse-url)))
+)
+(use-package json-navigator)
 
 (provide 'view-settings)
 ;;; view-settings.el ends here
