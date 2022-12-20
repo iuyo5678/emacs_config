@@ -84,7 +84,7 @@
     (go-update-tools))
 
   ;; Misc
-  (use-package dap-dlv-go)
+  ;;(use-package dap-dlv-gou)
   (use-package go-fill-struct)
   (use-package go-impl)
 
