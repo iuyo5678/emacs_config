@@ -33,8 +33,7 @@
 ;; https://github.com/emacs-lsp/lsp-mode#supported-languages
 (use-package lsp-mode
   :diminish
-  :defines (lsp-diagnostics-disabled-modes
-            lsp-clients-python-library-directories
+  :defines (lsp-clients-python-library-directories
             lsp-rust-server)
   :commands (lsp-enable-which-key-integration
              lsp-format-buffer
@@ -47,7 +46,7 @@
                        ;; Integrate `which-key'
                        (lsp-enable-which-key-integration)
                        ;; Format and organize imports
-                       (unless (apply #'derived-mode-p centaur-lsp-format-on-save-ignore-modes)
+                       (unless (apply #'derived-mode-p lsp-format-on-save-ignore-modes)
                          (add-hook 'before-save-hook #'lsp-format-buffer t t)
                          (add-hook 'before-save-hook #'lsp-organize-imports t t)))))
   :bind (:map lsp-mode-map
@@ -72,17 +71,9 @@
 
         lsp-enable-indentation nil
         lsp-enable-on-type-formatting nil
-        lsp-diagnostics-disabled-modes '(markdown-mode gfm-mode)
         ;; For `lsp-clients'
         lsp-clients-python-library-directories '("/usr/local/" "/usr/"))
   :config
-  (with-no-warnings
-    (defun my-lsp--init-if-visible (func &rest args)
-      "Not enabling lsp in `git-timemachine-mode'."
-      (unless (bound-and-true-p git-timemachine-mode)
-        (apply func args)))
-    (advice-add #'lsp--init-if-visible :around #'my-lsp--init-if-visible))
-
   (defun lsp-update-server ()
     "Update LSP server."
     (interactive)
@@ -204,20 +195,7 @@
           ,(all-the-icons-material "control_point" :height 0.9 :v-adjust -0.15) ; Operator - 25
           ,(all-the-icons-faicon "arrows" :height 0.9 :v-adjust -0.02) ; TypeParameter - 26
           ))
-
-      (lsp-defun my-lsp-ivy--format-symbol-match
-        ((sym &as &SymbolInformation :kind :location (&Location :uri))
-         project-root)
-        "Convert the match returned by `lsp-mode` into a candidate string."
-        (let* ((sanitized-kind (if (< kind (length lsp-ivy-symbol-kind-icons)) kind 0))
-               (type (elt lsp-ivy-symbol-kind-icons sanitized-kind))
-               (typestr (if lsp-ivy-show-symbol-kind (format "%s " type) ""))
-               (pathstr (if lsp-ivy-show-symbol-filename
-                            (propertize (format " · %s" (file-relative-name (lsp--uri-to-path uri) project-root))
-                                        'face font-lock-comment-face)
-                          "")))
-          (concat typestr (lsp-render-symbol-information sym ".") pathstr)))
-      (advice-add #'lsp-ivy--format-symbol-match :override #'my-lsp-ivy--format-symbol-match))))
+      )))
 
 ;; Debug
 (when (>= emacs-major-version 26)
@@ -236,14 +214,12 @@
            (java-mode . (lambda () (require 'dap-java)))
            ((c-mode c++-mode objc-mode swift-mode) . (lambda () (require 'dap-lldb)))
            (php-mode . (lambda () (require 'dap-php)))
-           (elixir-mode . (lambda () (require 'dap-elixir)))
            ((js-mode js2-mode) . (lambda () (require 'dap-chrome)))
            (powershell-mode . (lambda () (require 'dap-pwsh))))
     :init
     (when (executable-find "python3")
       (setq dap-python-executable "python3"))))
 
-;; `lsp-mode' and `treemacs' integration
 
 ;; Python: pyright
 (use-package lsp-pyright
@@ -261,14 +237,15 @@
 
 ;; C/C++/Objective-C support
 (use-package ccls
-  :init (setq ccls-executable "/opt/local/bin/ccls")
+  :init (setq ccls-executable "/usr/local/bin/ccls")
   :defines projectile-project-root-files-bottom-up
   :hook ((c-mode c++-mode objc-mode cuda-mode) . (lambda () (require 'ccls)))
   :init (setq ccls-initialization-options
               '(
                 :completion (:detailedLabel t)
-                :clang (:resourceDir "/opt/homebrew/Cellar/llvm/14.0.6")
-                :cache (:directory "/Users/zhangguhua/.ccls-cache")
+                :compilationDatabaseDirectory "/home/drakezhang/QQMail"
+                :clang (:resourceDir "/usr/local/lib/clang/11.0.0")
+                :cache (:directory "/home/drakezhang/QQMail/.ccls-cache")
                 :index (:trackDependency 1
                         :initialBlacklist ["."])
                 )
@@ -278,12 +255,6 @@
     (setq projectile-project-root-files-bottom-up
           (append '("BUILD" "compile_commands.json" ".ccls")
                   projectile-project-root-files-bottom-up))))
-
-;; Swift/C/C++/Objective-C
-(when sys/macp
-  (use-package lsp-sourcekit
-    :init (setq lsp-sourcekit-executable
-                "/Library/Developer/CommandLineTools/usr/bin/sourcekit-lsp")))
 
 ;; whichkey
 (use-package which-key
@@ -295,7 +266,6 @@
   ;; https://github.com/emacs-lsp/lsp-mode/issues/377
   (cl-defmacro lsp-org-babel-enable (lang)
     "Support LANG in org source code block."
-    (cl-check-type lang stringp)
     (let* ((edit-pre (intern (format "org-babel-edit-prep:%s" lang)))
            (intern-pre (intern (format "lsp--%s" (symbol-name edit-pre)))))
       `(progn

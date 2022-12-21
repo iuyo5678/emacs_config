@@ -117,7 +117,7 @@ decrease this. If you experience stuttering, increase this.")
 
     ;; Download `Symbola'
     ;; See https://dn-works.com/wp-content/uploads/2020/UFAS-Fonts/Symbola.zip
-    (let* ((url (concat centaur-homepage "/files/6135060/symbola.zip"))
+    (let* ((url "https://dn-works.com/wp-content/uploads/2020/UFAS-Fonts/Symbola.zip")
            (temp-file (make-temp-file "symbola-" nil ".zip"))
            (dir (concat (file-name-directory temp-file) "/symbola/"))
            (unzip-script (cond ((executable-find "unzip")
@@ -210,25 +210,21 @@ like argument of `define-key'."
 
 (defcustom centaur-benchmark-init nil
   "Enable the initialization benchmark or not."
-  :group 'zgh-person
+  :group 'zgh-personal
   :type 'boolean)
 
 (defcustom zgh-icon (display-graphic-p)
   "Display icons or not."
-  :group 'zgh-person
+  :group 'zgh-personal
   :type 'boolean)
 
 (defcustom zgh-logo (expand-file-name
                      (if (display-graphic-p) "logo.png" "banner.txt")
                      my-emacs-doc-path)
   "Set Centaur logo. nil means official logo."
-  :group 'zgh-person
+  :group 'zgh-personal
   :type 'string)
 
-;;temp set here
-(custom-set-variables
- '(tab-width 4)
- '(indent-tabs-mode nil))
 
 (defun icons-displayable-p ()
   "Return non-nil if `all-the-icons' is displayable."

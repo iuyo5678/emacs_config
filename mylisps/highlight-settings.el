@@ -63,20 +63,20 @@ FACE defaults to inheriting from default and highlight."
           (blink-matching-open))))
     (advice-add #'show-paren-function :after #'show-paren-off-screen)))
 
+
 ;; Highlight symbols
 (use-package symbol-overlay
-  :diminish
-  :functions (turn-off-symbol-overlay turn-on-symbol-overlay)
+  ;;:if (display-graphic-p)
   :custom-face
-  (symbol-overlay-default-face ((t (:background ,(doom-color 'region)))))
-  (symbol-overlay-face-1 ((t (:background ,(doom-blend 'blue 'bg 0.5)    :foreground ,(doom-color 'fg)))))
-  (symbol-overlay-face-2 ((t (:background ,(doom-blend 'violet 'bg 0.5)  :foreground ,(doom-color 'fg)))))
-  (symbol-overlay-face-3 ((t (:background ,(doom-blend 'yellow 'bg 0.5)  :foreground ,(doom-color 'fg)))))
-  (symbol-overlay-face-4 ((t (:background ,(doom-blend 'orange 'bg 0.5)  :foreground ,(doom-color 'fg)))))
-  (symbol-overlay-face-5 ((t (:background ,(doom-blend 'red 'bg 0.5)     :foreground ,(doom-color 'fg)))))
-  (symbol-overlay-face-6 ((t (:background ,(doom-blend 'magenta 'bg 0.5) :foreground ,(doom-color 'fg)))))
-  (symbol-overlay-face-7 ((t (:background ,(doom-blend 'green 'bg 0.5)   :foreground ,(doom-color 'fg)))))
-  (symbol-overlay-face-8 ((t (:background ,(doom-blend 'cyan 'bg 0.5)    :foreground ,(doom-color 'fg)))))
+  (symbol-overlay-default-face ((t (:inherit region :background unspecified :foreground unspecified))))
+  (symbol-overlay-face-1 ((t (:inherit all-the-icons-blue :background unspecified :foreground unspecified :inverse-video t))))
+  (symbol-overlay-face-2 ((t (:inherit all-the-icons-pink :background unspecified :foreground unspecified :inverse-video t))))
+  (symbol-overlay-face-3 ((t (:inherit all-the-icons-yellow :background unspecified :foreground unspecified :inverse-video t))))
+  (symbol-overlay-face-4 ((t (:inherit all-the-icons-orange :background unspecified :foreground unspecified :inverse-video t))))
+  (symbol-overlay-face-5 ((t (:inherit all-the-icons-red :background unspecified :foreground unspecified :inverse-video t))))
+  (symbol-overlay-face-6 ((t (:inherit all-the-icons-maroon :background unspecified :foreground unspecified :inverse-video t))))
+  (symbol-overlay-face-7 ((t (:inherit all-the-icons-green :background unspecified :foreground unspecified :inverse-video t))))
+  (symbol-overlay-face-8 ((t (:inherit all-the-icons-cyan :background unspecified :foreground unspecified :inverse-video t))))
   :bind (("M-i" . symbol-overlay-put)
          ("M-n" . symbol-overlay-jump-next)
          ("M-p" . symbol-overlay-jump-prev)
@@ -84,74 +84,57 @@ FACE defaults to inheriting from default and highlight."
          ("M-P" . symbol-overlay-switch-backward)
          ("M-C" . symbol-overlay-remove-all)
          ([M-f3] . symbol-overlay-remove-all))
-  :hook (((prog-mode yaml-mode) . symbol-overlay-mode)
-         (iedit-mode            . turn-off-symbol-overlay)
-         (iedit-mode-end        . turn-on-symbol-overlay))
-  :init (setq symbol-overlay-idle-time 0.1)
-  :config
-  ;; Disable symbol highlighting while selecting
-  (defun turn-off-symbol-overlay (&rest _)
-    "Turn off symbol highlighting."
-    (interactive)
-    (symbol-overlay-mode -1))
-  (advice-add #'set-mark :after #'turn-off-symbol-overlay)
-
-  (defun turn-on-symbol-overlay (&rest _)
-    "Turn on symbol highlighting."
-    (interactive)
-    (when (derived-mode-p 'prog-mode 'yaml-mode)
-      (symbol-overlay-mode 1)))
-  (advice-add #'deactivate-mark :after #'turn-on-symbol-overlay))
+  )
 
 ;; Highlight indentions
 (if (display-graphic-p)
-  (use-package highlight-indent-guides
-    :diminish
-    :hook ((prog-mode yaml-mode) . (lambda ()
-                                   "Highlight indentations in small files for better performance."
-                                   (unless (too-long-file-p)
-                                     (highlight-indent-guides-mode 1))))
-  :init (setq highlight-indent-guides-method 'character
-              highlight-indent-guides-responsive 'top
-              highlight-indent-guides-suppress-auto-error t)
-  :config
-  (with-no-warnings
-    ;; Don't display first level of indentation
-    (defun my-indent-guides-for-all-but-first-column (level responsive display)
-      (unless (< level 1)
-        (highlight-indent-guides--highlighter-default level responsive display)))
-    (setq highlight-indent-guides-highlighter-function
-          #'my-indent-guides-for-all-but-first-column)
+    (use-package highlight-indent-guides
+      :diminish
+      :hook ((prog-mode yaml-mode) . (lambda ()
+                                       "Highlight indentations in small files for better performance."
+                                       (unless (too-long-file-p)
+					 (highlight-indent-guides-mode 1))))
+      :init (setq highlight-indent-guides-method 'character
+		  highlight-indent-guides-responsive 'top
+		  highlight-indent-guides-suppress-auto-error t)
+      :config
+      (with-no-warnings
+	;; Don't display first level of indentation
+	(defun my-indent-guides-for-all-but-first-column (level responsive display)
+	  (unless (< level 1)
+            (highlight-indent-guides--highlighter-default level responsive display)))
+	(setq highlight-indent-guides-highlighter-function
+              #'my-indent-guides-for-all-but-first-column)
 
-    ;; Disable in `macrostep' expanding
-    (with-eval-after-load 'macrostep
-      (advice-add #'macrostep-expand
-                  :after (lambda (&rest _)
-                           (when highlight-indent-guides-mode
-                             (highlight-indent-guides-mode -1))))
-      (advice-add #'macrostep-collapse
-                  :after (lambda (&rest _)
-                           (when (derived-mode-p 'prog-mode 'yaml-mode)
-                             (highlight-indent-guides-mode 1)))))
+	;; Disable in `macrostep' expanding
+	(with-eval-after-load 'macrostep
+	  (advice-add #'macrostep-expand
+                      :after (lambda (&rest _)
+                               (when highlight-indent-guides-mode
+				 (highlight-indent-guides-mode -1))))
+	  (advice-add #'macrostep-collapse
+                      :after (lambda (&rest _)
+                               (when (derived-mode-p 'prog-mode 'yaml-mode)
+				 (highlight-indent-guides-mode 1)))))
 
-    ;; Don't display indentations in `swiper'
-    ;; https://github.com/DarthFennec/highlight-indent-guides/issues/40
-    (with-eval-after-load 'ivy
-      (defun my-ivy-cleanup-indentation (str)
-        "Clean up indentation highlighting in ivy minibuffer."
-        (let ((pos 0)
-              (next 0)
-              (limit (length str))
-              (prop 'highlight-indent-guides-prop))
-          (while (and pos next)
-            (setq next (text-property-not-all pos limit prop nil str))
-            (when next
-              (setq pos (text-property-any next limit prop nil str))
-              (ignore-errors
-                (remove-text-properties next pos '(display nil face nil) str))))))
-      (advice-add #'ivy-cleanup-string :after #'my-ivy-cleanup-indentation))))
+	;; Don't display indentations in `swiper'
+	;; https://github.com/DarthFennec/highlight-indent-guides/issues/40
+	(with-eval-after-load 'ivy
+	  (defun my-ivy-cleanup-indentation (str)
+            "Clean up indentation highlighting in ivy minibuffer."
+            (let ((pos 0)
+		  (next 0)
+		  (limit (length str))
+		  (prop 'highlight-indent-guides-prop))
+              (while (and pos next)
+		(setq next (text-property-not-all pos limit prop nil str))
+		(when next
+		  (setq pos (text-property-any next limit prop nil str))
+		  (ignore-errors
+                    (remove-text-properties next pos '(display nil face nil) str))))))
+	  (advice-add #'ivy-cleanup-string :after #'my-ivy-cleanup-indentation))))
   (use-package highlight-indentation)
-)
+  )
 ;; Colorize color names in buffers
 (use-package rainbow-mode
   :diminish
@@ -197,9 +180,9 @@ FACE defaults to inheriting from default and highlight."
 ;; Highlight uncommitted changes using VC
 (use-package diff-hl
   :custom-face
-  (diff-hl-change ((t (:foreground ,(face-background 'highlight) :background nil))))
-  (diff-hl-insert ((t (:background nil))))
-  (diff-hl-delete ((t (:background nil))))
+  (diff-hl-change ((t (:foreground ,(face-background 'highlight) :background unspecified))))
+  (diff-hl-insert ((t (:background unspecified))))
+  (diff-hl-delete ((t (:background unspecified))))
   :bind (:map diff-hl-command-map
          ("SPC" . diff-hl-mark-hunk))
   :hook ((after-init . global-diff-hl-mode)

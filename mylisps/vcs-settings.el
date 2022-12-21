@@ -143,7 +143,7 @@
                                 :width (round (* (frame-width) 0.62))
                                 :height (round (* (frame-height) 0.62))
                                 :internal-border-width 1
-                                :internal-border-color (face-foreground 'font-lock-comment-face nil t)
+                                :internal-border-color (face-foreground 'font-lock-comment-face unspecified t)
                                 :background-color (face-background 'tooltip nil t))
                  (unwind-protect
                      (push (read-event) unread-command-events)

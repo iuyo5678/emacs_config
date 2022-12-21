@@ -16,7 +16,6 @@
     (push (expand-file-name dir user-emacs-directory) load-path)))
 (advice-add #'package-initialize :after #'update-load-path)
 (update-load-path)
-
 (require 'zgh-startup)
 
 ;;初始化配置elpa
@@ -61,6 +60,7 @@
 (require 'elisp-settings)
 
 (require 'c-settings)
+
 (require 'go-settings)
 
 (require 'python-settings)

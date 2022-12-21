@@ -6,7 +6,6 @@
 ;;
 
 ;;; Code:
-
 (use-package company
   :diminish
   :defines (company-dabbrev-ignore-case company-dabbrev-downcase)
@@ -160,7 +159,7 @@
         (company-box--render-buffer string on-update)
 
         (let ((frame (company-box--get-frame))
-              (border-color (face-foreground 'font-lock-comment-face nil t)))
+              (border-color (face-foreground 'font-lock-comment-face unspecified t)))
           (unless frame
             (setq frame (company-box--make-frame))
             (company-box--set-frame frame))
@@ -213,7 +212,7 @@
                       (propertize " "
                                   'display '(space :height (1))
                                   'company-box-doc--replace-hr t
-                                  'face `(:background ,(face-foreground 'font-lock-comment-face nil t)))
+                                  'face `(:background ,(face-foreground 'font-lock-comment-face unspecified t)))
                       (propertize " " 'display '(space :height (1)))
                       (and (not (equal after ?\n)) (propertize " \n" 'face '(:height 0.5))))))))
 
@@ -242,7 +241,7 @@
                                 (company-box-doc--fetch-doc-buffer candidate)))
                        (doc (company-box-doc--make-buffer doc)))
             (let ((frame (frame-local-getq company-box-doc-frame))
-                  (border-color (face-foreground 'font-lock-comment-face nil t)))
+                  (border-color (face-foreground 'font-lock-comment-face unspecified t)))
               (unless (frame-live-p frame)
                 (setq frame (company-box-doc--make-frame doc))
                 (frame-local-setq company-box-doc-frame frame))

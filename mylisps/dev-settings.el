@@ -30,8 +30,6 @@
      ("\\[\\|]" . yellow-face)
      ("<\\|>" . cyan-face)
      ("{\\|}" . green-face))))
-
-
 ;; Prettify Symbols
 ;; e.g. display “lambda” as “λ”
 (use-package prog-mode
@@ -41,11 +39,12 @@
   (setq-default prettify-symbols-alist centaur-prettify-symbols-alist)
   (setq prettify-symbols-unprettify-at-point 'right-edge))
 
+
 (use-package tree-sitter
- :ensure tree-sitter-langs
- :diminish
- :hook ((after-init . global-tree-sitter-mode)
-        (tree-sitter-after-on . tree-sitter-hl-mode)))
+  :ensure tree-sitter-langs
+  :diminish
+  :hook ((after-init . global-tree-sitter-mode)
+         (tree-sitter-after-on . tree-sitter-hl-mode)))
 
 ;; Jump to definition
 (use-package dumb-jump
@@ -84,32 +83,39 @@
 
 (when (>= emacs-major-version 27)
   (use-package devdocs
-    :commands (devdocs--installed-docs devdocs--available-docs)
+    :autoload (devdocs--installed-docs devdocs--available-docs)
     :bind (:map prog-mode-map
            ("M-<f1>" . devdocs-dwim)
            ("C-h D"  . devdocs-dwim))
     :init
-    (add-hook 'c-mode-hook
-              (lambda () (setq-local devdocs-current-docs '("c"))))
-    (add-hook 'c++-mode-hook
-          (lambda () (setq-local devdocs-current-docs '("cpp"))))
+    (defconst devdocs-major-mode-docs-alist
+      '((c-mode          . ("c"))
+        (c++-mode        . ("cpp"))
+        (python-mode     . ("python~3.10" "python~2.7"))
+        (ruby-mode       . ("ruby~3.1"))
+        (go-mode         . ("go"))
+        (rustic-mode     . ("rust"))
+        (css-mode        . ("css"))
+        (html-mode       . ("html"))
+        (julia-mode      . ("julia~1.8"))
+        (js-mode         . ("javascript" "jquery"))
+        (js2-mode        . ("javascript" "jquery"))
+        (emacs-lisp-mode . ("elisp")))
+      "Alist of major-mode and docs.")
     (add-hook 'python-mode-hook
-          (lambda () (setq-local devdocs-current-docs '("python~3.10" "python~2.7"))))
-    (add-hook 'go-mode-hook
-              (lambda () (setq-local devdocs-current-docs '("go"))))
-    (add-hook 'html-mode-hook
-              (lambda () (setq-local devdocs-current-docs '("html"))))
-    (add-hook 'css-mode-hook
-          (lambda () (setq-local devdocs-current-docs '("css"))))
-    (add-hook 'js-mode-hook
-          (lambda () (setq-local devdocs-current-docs '("javascript" "jquery"))))
-    (add-hook 'js2-mode-hook
-              (lambda () (setq-local devdocs-current-docs '("javascript" "jquery"))))
-    (add-hook 'rustic-mode
-              (lambda () (setq-local devdocs-current-docs '("rust"))))
+          (lambda () (setq-local devdocs-current-docs '("python~3.9"))))
     (add-hook 'emacs-lisp-mode-hook
           (lambda () (setq-local devdocs-current-docs '("elisp"))))
-
+    (add-hook 'go-mode-hook
+          (lambda () (setq-local devdocs-current-docs '("go"))))
+    (add-hook 'c-mode-hook
+          (lambda () (setq-local devdocs-current-docs '("c"))))
+    (add-hook 'c++-mode-hook
+          (lambda () (setq-local devdocs-current-docs '("cpp"))))
+    (add-hook 'rustic-mode-hook
+              (lambda () (setq-local devdocs-current-docs '("rust"))))
+    (add-hook 'css-
+          (lambda () (setq-local devdocs-current-docs '("c"))))
 
     (setq devdocs-data-dir (expand-file-name "devdocs" user-emacs-directory))
 
@@ -135,21 +141,16 @@ Install the doc if it's not installed."
       ;; Lookup the symbol at point
       (devdocs-lookup nil (thing-at-point 'symbol t)))))
 
+
 (use-package rustic)
 (use-package rust-playground)
 
 (use-package cask-mode)
-(use-package csharp-mode)
 (use-package csv-mode)
-(use-package julia-mode)
 (use-package lua-mode)
 (use-package mermaid-mode)
 (use-package plantuml-mode)
-(use-package powershell)
 (use-package rmsbolt)                   ; A compiler output viewer
-(use-package scala-mode)
-(use-package swift-mode)
-(use-package vimrc-mode)
 (use-package cmake-mode)
 (use-package protobuf-mode
   :hook (protobuf-mode . (lambda ()

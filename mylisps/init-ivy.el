@@ -393,7 +393,7 @@
   (use-package ivy-prescient
     :commands ivy-prescient-re-builder
     :custom-face
-    (ivy-minibuffer-match-face-1 ((t (:inherit font-lock-doc-face :foreground nil))))
+    (ivy-minibuffer-match-face-1 ((t (:inherit font-lock-doc-face :foreground unspecified))))
     :init
     (defun ivy-prescient-non-fuzzy (str)
       "Generate an Ivy-formatted non-fuzzy regexp list for the given STR.
@@ -423,8 +423,7 @@ This is for use in `ivy-re-builders-alist'."
             counsel-grep counsel-git-grep counsel-rg counsel-ag
             counsel-ack counsel-fzf counsel-pt counsel-imenu
             counsel-org-capture counsel-load-theme counsel-yank-pop
-            counsel-recentf counsel-buffer-or-recentf
-            centaur-load-theme))
+            counsel-recentf counsel-buffer-or-recentf))
 
     (ivy-prescient-mode 1))
   ;; Additional key bindings for Ivy

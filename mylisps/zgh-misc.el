@@ -48,10 +48,9 @@
 	    scroll-margin 3
 	    scroll-step 1
 	    scroll-conservatively 100000
-	    show-paren-mode 1  ;; 显示匹配的括号
 	    visible-bell t
-        save-place-mode t
-        global-font-lock-mode t
+            save-place-mode t
+            global-font-lock-mode t
 	    inhibit-compacting-font-caches t  ; Don’t compact font caches during GC.
 	    delete-by-moving-to-trash t       ; Deleting files go to OS's trash folder
 	    auto-save-default t
@@ -66,8 +65,7 @@
 	    delete-old-versions t ; 自动删除旧的备份文件
 	    kept-new-versions 3 ; 保留最近的3个备份文件
 	    kept-old-versions 1 ; 保留最早的1个备份文件
-	    version-control t) ; 多次备份
-  )
+	    ))
 (global-set-key (kbd "C-x m") 'get-mode-name)
 
 (use-package exec-path-from-shell
@@ -129,8 +127,8 @@
   :ensure nil
   :init (setq display-time-24hr-format t
               display-time-day-and-date t
-              system-time-locale "zh_CN.UTF-8"
-              display-time-format "%A %B%d %H:%M"
+              ;system-time-locale "zh_CN.UTF-8"
+              ;display-time-format "%A %B%d %H:%M"
               )
   :config
   (display-time-mode t)
@@ -221,7 +219,6 @@ deletion, or > if it is flagged for displaying."
 
 ;; Pass a URL to a WWW browser
 (use-package browse-url
-  :ensure nil
   :defines dired-mode-map
   :bind (("C-c C-z ." . browse-url-at-point)
          ("C-c C-z b" . browse-url-of-buffer)
@@ -242,8 +239,7 @@ deletion, or > if it is flagged for displaying."
 
 
 (use-package esup
-  :ensure t
-  ;; To use MELPA Stable use ":pin melpa-stable",
+  ;; To use MELPProcess *esup-child* exited abnormally with code 1
   :pin melpa)
 
 (provide 'zgh-misc)

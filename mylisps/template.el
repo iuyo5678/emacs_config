@@ -73,73 +73,73 @@
 
 ;; General Emacs/XEmacs-compatibility compile-time macros
 (eval-when-compile
-  (require 'cl)
+  (require 'cl-lib)
   (defmacro cond-emacs-xemacs (&rest args)
     (cond-emacs-xemacs-macfn
      args "`cond-emacs-xemacs' must return exactly one element"))
   (defun cond-emacs-xemacs-macfn (args &optional msg)
     (if (atom args) args
       (and (eq (car args) :@) (null msg) ; (:@ ...spliced...)
-	   (setq args (cdr args)
-		 msg "(:@ ....) must return exactly one element"))
+	       (setq args (cdr args)
+		         msg "(:@ ....) must return exactly one element"))
       (let ((ignore (if (string-match "XEmacs" emacs-version) :EMACS :XEMACS))
-	    (mode :BOTH) code)
-	(while (consp args)
-	  (if (memq (car args) '(:EMACS :XEMACS :BOTH)) (setq mode (pop args)))
-	  (if (atom args)
-	      (or args (error "Used selector %s without elements" mode))
-	    (or (eq ignore mode)
-		(push (cond-emacs-xemacs-macfn (car args)) code))
-	    (pop args)))
-	(cond (msg (if (or args (cdr code)) (error msg) (car code)))
-	      ((or (null args) (eq ignore mode)) (nreverse code))
-	      (t (nconc (nreverse code) args))))))
+	        (mode :BOTH) code)
+	    (while (consp args)
+	      (if (memq (car args) '(:EMACS :XEMACS :BOTH)) (setq mode (pop args)))
+	      (if (atom args)
+	          (or args (error "Used selector %s without elements" mode))
+	        (or (eq ignore mode)
+		        (push (cond-emacs-xemacs-macfn (car args)) code))
+	        (pop args)))
+	    (cond (msg (if (or args (cdr code)) (error msg) (car code)))
+	          ((or (null args) (eq ignore mode)) (nreverse code))
+	          (t (nconc (nreverse code) args))))))
   ;; Emacs/XEmacs-compatibility `defun': remove interactive "_" for Emacs, use
   ;; existing functions when they are `fboundp', provide shortcuts if they are
   ;; known to be defined in a specific Emacs branch (for short .elc)
   (defmacro defunx (name arglist &rest definition)
     (let ((xemacsp (string-match "XEmacs" emacs-version)) reuses first)
       (while (memq (setq first (car definition))
-		   '(:try :emacs-and-try :xemacs-and-try
-			  :emacs-only :xemacs-only))
-	(if (memq first (if xemacsp
-			    '(:xemacs-and-try :xemacs-only)
-			  '(:emacs-and-try :emacs-only)))
-	    (setq reuses (cadr definition)
-		  definition nil)
-	  (unless (memq first '(:emacs-only :xemacs-only))
-	    (push (cadr definition) reuses)))
-	(setq definition (cddr definition)))
+		           '(:try :emacs-and-try :xemacs-and-try
+			         :emacs-only :xemacs-only))
+	    (if (memq first (if xemacsp
+			                '(:xemacs-and-try :xemacs-only)
+			              '(:emacs-and-try :emacs-only)))
+	        (setq reuses (cadr definition)
+		          definition nil)
+	      (unless (memq first '(:emacs-only :xemacs-only))
+	        (push (cadr definition) reuses)))
+	    (setq definition (cddr definition)))
       (if (and reuses (symbolp reuses))
-	  `(defalias ',name ',reuses)
-	(let* ((docstring (if (stringp (car definition)) (pop definition)))
-	       (spec (and (not xemacsp)
-			  (eq (car-safe (car definition)) 'interactive)
-			  (null (cddar definition))
-			  (cadar definition))))
-	  (if (and (stringp spec)
-		   (not (string-equal spec ""))
-		   (eq (aref spec 0) ?_))
-	      (setq definition
-		    (cons (if (string-equal spec "_")
-			      '(interactive)
-			    `(interactive ,(substring spec 1)))
-			  (cdr definition))))
-	  (if (null reuses)
-	      `(defun ,name ,arglist ,docstring
-		 ,@(cond-emacs-xemacs-macfn definition))
-	    ;; no dynamic docstring in this case
-	    `(eval-and-compile		; no warnings in Emacs
-	       (defalias ',name
-		 (cond ,@(mapcar (lambda (func) `((fboundp ',func) ',func))
-				 (nreverse reuses))
-		       (t ,(if definition
-			       `(lambda ,arglist ,docstring
-				  ,@(cond-emacs-xemacs-macfn definition))
-			     'ignore)))))))))))
+	      `(defalias ',name ',reuses)
+	    (let* ((docstring (if (stringp (car definition)) (pop definition)))
+	           (spec (and (not xemacsp)
+			              (eq (car-safe (car definition)) 'interactive)
+			              (null (cddar definition))
+			              (cadar definition))))
+	      (if (and (stringp spec)
+		           (not (string-equal spec ""))
+		           (eq (aref spec 0) ?_))
+	          (setq definition
+		            (cons (if (string-equal spec "_")
+			                  '(interactive)
+			                `(interactive ,(substring spec 1)))
+			              (cdr definition))))
+	      (if (null reuses)
+	          `(defun ,name ,arglist ,docstring
+		              ,@(cond-emacs-xemacs-macfn definition))
+	        ;; no dynamic docstring in this case
+	        `(eval-and-compile		; no warnings in Emacs
+	           (defalias ',name
+		         (cond ,@(mapcar (lambda (func) `((fboundp ',func) ',func))
+				                 (nreverse reuses))
+		               (t ,(if definition
+			                   `(lambda ,arglist ,docstring
+				                  ,@(cond-emacs-xemacs-macfn definition))
+			                 'ignore)))))))))))
 
 (eval-when-compile
-  (require 'cl)
+  (require 'cl-lib)
   (defvar init-file-loaded)		; would be useful in Emacs, too...
   (defvar file-name-buffer-file-type-alist))
 
@@ -1148,56 +1148,56 @@ successful invocation deletes the remaining empty lines from the current
 line on."
   (interactive "*P")
   (let* ((orig (point-marker))
-	 (syntax (progn
-		   (end-of-line)
-		   (skip-chars-backward " \t\n\f")
-		   (template-comment-syntax orig))))
+	     (syntax (progn
+		           (end-of-line)
+		           (skip-chars-backward " \t\n\f")
+		           (template-comment-syntax orig))))
     (when (cdr syntax)
       (goto-char orig)
       (error "Command only works with comments terminated by end-of-line"))
-    
+
     (if (and (eq last-command 'template-block-comment-success)
-	     (looking-at "[ \t]*$"))
-	(template-insert-newline "" nil (1- (template-point-at-bol)))
+	         (looking-at "[ \t]*$"))
+	    (template-insert-newline "" nil (1- (template-point-at-bol)))
       (let* ((prefix (concat "[ \t]*" (regexp-quote (car syntax))))
-	     (sepline (concat prefix "[ \t]*"
-			      (template-comment-separator-regexp syntax)))
-	     old block-beg block-end def)
-	;; go to the first line with same comment prefix ---------------------
-	(beginning-of-line)
-	(while (and (not (bobp)) (looking-at prefix))
-	  (beginning-of-line 0))
-	(or (looking-at prefix) (beginning-of-line 2))
-	(while (looking-at sepline)
-	  (setq old (buffer-substring (1- (match-end 0)) (match-end 0)))
-	  (kill-line 1))
-	(setq block-beg (point-marker))
-	;; go to the last line with same comment prefix ----------------------
-	(while (looking-at prefix)
-	  (template-indent-according-to-mode)
-	  (beginning-of-line 2))
-	(if (eobp) (newline))
-	(setq block-end (copy-marker (point) t))
-	(while (progn (forward-line -1) (looking-at sepline))
-	  (setq old (buffer-substring (1- (match-end 0)) (match-end 0)))
-	  (kill-line 1))
-	;; insert separator lines --------------------------------------------
-	(goto-char block-beg)
-	(set-marker block-beg nil)
-	(back-to-indentation)
-	(setq def (template-comment-specification arg old syntax))
-	(beginning-of-line)
-	(template-insert-newline (cadr def))
-	(template-insert-separator (car def) (car syntax) syntax)
-	(goto-char block-end)
-	(set-marker block-end nil)
-	(template-insert-separator (car def) (car syntax) syntax)
-	(template-insert-newline (caddr def)
-				 (and (cadddr def)
-				      (save-excursion
-					(forward-line (cadddr def))
-					(point))))
-	(setq this-command 'template-block-comment-success)))
+	         (sepline (concat prefix "[ \t]*"
+			                  (template-comment-separator-regexp syntax)))
+	         old block-beg block-end def)
+	    ;; go to the first line with same comment prefix ---------------------
+	    (beginning-of-line)
+	    (while (and (not (bobp)) (looking-at prefix))
+	      (beginning-of-line 0))
+	    (or (looking-at prefix) (beginning-of-line 2))
+	    (while (looking-at sepline)
+	      (setq old (buffer-substring (1- (match-end 0)) (match-end 0)))
+	      (kill-line 1))
+	    (setq block-beg (point-marker))
+	    ;; go to the last line with same comment prefix ----------------------
+	    (while (looking-at prefix)
+	      (template-indent-according-to-mode)
+	      (beginning-of-line 2))
+	    (if (eobp) (newline))
+	    (setq block-end (copy-marker (point) t))
+	    (while (progn (forward-line -1) (looking-at sepline))
+	      (setq old (buffer-substring (1- (match-end 0)) (match-end 0)))
+	      (kill-line 1))
+	    ;; insert separator lines --------------------------------------------
+	    (goto-char block-beg)
+	    (set-marker block-beg nil)
+	    (back-to-indentation)
+	    (setq def (template-comment-specification arg old syntax))
+	    (beginning-of-line)
+	    (template-insert-newline (cadr def))
+	    (template-insert-separator (car def) (car syntax) syntax)
+	    (goto-char block-end)
+	    (set-marker block-end nil)
+	    (template-insert-separator (car def) (car syntax) syntax)
+	    (template-insert-newline (caddr def)
+				                 (and (cadddr def)
+				                      (save-excursion
+					                    (forward-line (cadddr def))
+					                    (point))))
+	    (setq this-command 'template-block-comment-success)))
     (template-indent-according-to-mode)
     (back-to-indentation)))
 (put 'template-block-comment 'template-secure-command t)
@@ -1805,23 +1805,23 @@ do not use a template."
   ;; check template and file name --------------------------------------------
   (if template
       (if (file-readable-p template)
-	  (if (file-directory-p template)
-	      (error "Template %s is a directory" template))
-	(if (null (yes-or-no-p (format "Template %s does not exist.  Create? "
-				       template)))
-	    (error "No template file to use")
-	  (template-make-directory (file-name-directory template))
-	  (template-find-template template)
-	  (error "You should create this template first"))))
+	      (if (file-directory-p template)
+	          (error "Template %s is a directory" template))
+	    (if (null (yes-or-no-p (format "Template %s does not exist.  Create? "
+				                       template)))
+	        (error "No template file to use")
+	      (template-make-directory (file-name-directory template))
+	      (template-find-template template)
+	      (error "You should create this template first"))))
   (if (not file)
       (switch-to-buffer (current-buffer))
     (and (or (get-file-buffer file) (file-exists-p file))
-	 (null (yes-or-no-p (format "File %s exists.  Delete contents? " file)))
-	 (error "Cannot use templates for existing files"))
+	     (null (yes-or-no-p (format "File %s exists.  Delete contents? " file)))
+	     (error "Cannot use templates for existing files"))
     (let ((auto-mode-alist nil)
-	  (enable-local-variables nil)
-	  (find-file-not-found-hooks nil)
-	  (enable-local-eval nil))
+	      (enable-local-variables nil)
+	      (find-file-not-found-hooks nil)
+	      (enable-local-eval nil))
       (switch-to-buffer (find-file-noselect file))))
   (when template
     (or with-undo (setq buffer-undo-list t))
@@ -1836,109 +1836,109 @@ If WITH-UNDO is non-nil, store corresponding changes in
   (or with-undo (set-buffer-modified-p nil))
   (goto-char (point-min))
   (setq template-secure t
-	template-point nil
-	template-mark nil
-	template-modified nil
-	template-point-messages nil
-	template-before-messages nil
-	template-after-messages nil
-	template-local-alist nil
-	template-register-alist nil
-	template-string-alist nil)
+	    template-point nil
+	    template-mark nil
+	    template-modified nil
+	    template-point-messages nil
+	    template-before-messages nil
+	    template-after-messages nil
+	    template-local-alist nil
+	    template-register-alist nil
+	    template-string-alist nil)
   (let ((form-selector nil)
-	(pre-command-list nil)
-	(post-command-list nil)
-	(local-variable-list nil)
-	val)
+	    (pre-command-list nil)
+	    (post-command-list nil)
+	    (local-variable-list nil)
+	    val)
     ;; read per-template definition section ----------------------------------
     (goto-char (point-min))
     (when (re-search-forward
-	   (concat "^[ \t]*" template-definition-start "[ \t]*$") nil t)
+	       (concat "^[ \t]*" template-definition-start "[ \t]*$") nil t)
       (condition-case ()
-	  (while t
-	    (setq val (read (current-buffer)))
-	    (cond (;; ("KEY" . xxx): ask user --------------------------------
-		   (and (consp val) (stringp (car val)))
-		   (let* ((def (cdr val)) ; expansion forms
-			  (msg (cond ((null template-message-prompt-format)
-				      nil)
-				     ((stringp def) def)
-				     ((and (consp def) (stringp (car def)))
-				      (car def)))))
-		     (when msg		; list prompts in before-messages
-		       (or template-before-messages
-			   (null template-message-prompt-intro)
-			   (push template-message-prompt-intro
-				 template-before-messages))
-		       (push (format template-message-prompt-format msg)
-			     template-before-messages))
-		     (push (cons (car val) (template-translate-definition def))
-			   template-local-alist)))
-		  ;; :before, :after, :eval-before, :eval-after --------------
-		  ((null val)		; nil is deprecated
-		   (setq form-selector
-			 (cond ((null form-selector) :old-before)
-			       ((eq form-selector :old-before) :old-after)
-			       ((eq form-selector :old-after)
-				(error "More than two (obsolete) nil forms"))
-			       (t
-				(error "Used obsolete nil form with new form selectors")))))
-		  ((memq val '(:before :after :eval-before :eval-after))
-		   (setq form-selector val))
-		  ;; "MESSAGE" -----------------------------------------------
-		  ((stringp val)
-		   (cond ((eq form-selector :before)
-			  (push val template-before-messages))
-			 ((eq form-selector :after)
-			  (push val template-after-messages))
-			 (t
-			  (push val template-point-messages))))
-		  ;; (CHAR . xxx): set register ------------------------------
-		  ((and (consp val) (template-char-or-char-int-p (car val)))
-		   (let ((reg (template-char-or-int-to-char (car val))))
-		     (if (atom (cdr val))
-			 (set-register reg (cdr val))
-		       (set-register reg (cadr val))
-		       (when template-message-register-format
-			 (let ((msg (format template-message-register-format
-					    reg (cadr val)
-					    (or (caddr val) ""))))
-			   (if template-message-buffer
-			       (progn
-				 (if template-before-messages
-				     (push msg template-before-messages))
-				 (or template-after-messages
-				     (null template-message-register-intro)
-				     (push template-message-register-intro
-					   template-after-messages))
-				 (push msg template-after-messages))
-			     (push msg template-point-messages)))))))
-		  ;; set var, execute command and sexpr ----------------------
-		  ((and (memq form-selector '(nil :before :after))
-			(consp val)
-			(symbolp (car val)))
-		   (or (and (functionp (get (car val) 'template-secure-value))
-			    (funcall (get (car val) 'template-secure-value)
-				     (cdr val)))
-		       (setq template-secure nil))
-		   (push val local-variable-list))
-		  ((memq form-selector '(:eval-before :old-before))
-		   (push (template-elisp-in-definition val)
-			 pre-command-list))
-		  ((memq form-selector '(:eval-after :old-after))
-		   (push (template-elisp-in-definition val)
-			 post-command-list))
-		  (t
-		   (error "Illegal form"))))
-	(error nil))
+	      (while t
+	        (setq val (read (current-buffer)))
+	        (cond (;; ("KEY" . xxx): ask user --------------------------------
+		           (and (consp val) (stringp (car val)))
+		           (let* ((def (cdr val)) ; expansion forms
+			              (msg (cond ((null template-message-prompt-format)
+				                      nil)
+				                     ((stringp def) def)
+				                     ((and (consp def) (stringp (car def)))
+				                      (car def)))))
+		             (when msg		; list prompts in before-messages
+		               (or template-before-messages
+			               (null template-message-prompt-intro)
+			               (push template-message-prompt-intro
+				                 template-before-messages))
+		               (push (format template-message-prompt-format msg)
+			                 template-before-messages))
+		             (push (cons (car val) (template-translate-definition def))
+			               template-local-alist)))
+		          ;; :before, :after, :eval-before, :eval-after --------------
+		          ((null val)		; nil is deprecated
+		           (setq form-selector
+			             (cond ((null form-selector) :old-before)
+			                   ((eq form-selector :old-before) :old-after)
+			                   ((eq form-selector :old-after)
+				                (error "More than two (obsolete) nil forms"))
+			                   (t
+				                (error "Used obsolete nil form with new form selectors")))))
+		          ((memq val '(:before :after :eval-before :eval-after))
+		           (setq form-selector val))
+		          ;; "MESSAGE" -----------------------------------------------
+		          ((stringp val)
+		           (cond ((eq form-selector :before)
+			              (push val template-before-messages))
+			             ((eq form-selector :after)
+			              (push val template-after-messages))
+			             (t
+			              (push val template-point-messages))))
+		          ;; (CHAR . xxx): set register ------------------------------
+		          ((and (consp val) (template-char-or-char-int-p (car val)))
+		           (let ((reg (template-char-or-int-to-char (car val))))
+		             (if (atom (cdr val))
+			             (set-register reg (cdr val))
+		               (set-register reg (cadr val))
+		               (when template-message-register-format
+			             (let ((msg (format template-message-register-format
+					                        reg (cadr val)
+					                        (or (caddr val) ""))))
+			               (if template-message-buffer
+			                   (progn
+				                 (if template-before-messages
+				                     (push msg template-before-messages))
+				                 (or template-after-messages
+				                     (null template-message-register-intro)
+				                     (push template-message-register-intro
+					                       template-after-messages))
+				                 (push msg template-after-messages))
+			                 (push msg template-point-messages)))))))
+		          ;; set var, execute command and sexpr ----------------------
+		          ((and (memq form-selector '(nil :before :after))
+			            (consp val)
+			            (symbolp (car val)))
+		           (or (and (functionp (get (car val) 'template-secure-value))
+			                (funcall (get (car val) 'template-secure-value)
+				                     (cdr val)))
+		               (setq template-secure nil))
+		           (push val local-variable-list))
+		          ((memq form-selector '(:eval-before :old-before))
+		           (push (template-elisp-in-definition val)
+			             pre-command-list))
+		          ((memq form-selector '(:eval-after :old-after))
+		           (push (template-elisp-in-definition val)
+			             post-command-list))
+		          (t
+		           (error "Illegal form"))))
+	    (error nil))
       (skip-chars-forward " \t\n\f")
       (or (eobp)
-	  (error "Invalid definition in line %d (pos %d) of the template file"
-		 (count-lines 1 (point)) (point)))
+	      (error "Invalid definition in line %d (pos %d) of the template file"
+		         (count-lines 1 (point)) (point)))
       (or template-secure
-	  (null (default-value template-confirm-insecure))
-	  (y-or-n-p "Have you checked the template functions? ")
-	  (error "Failed security check"))
+	      (null (default-value template-confirm-insecure))
+	      (y-or-n-p "Have you checked the template functions? ")
+	      (error "Failed security check"))
       (delete-region (match-beginning 0) (point-max)))
     ;; expand ----------------------------------------------------------------
     (template-display-messages template-before-messages)
@@ -1950,22 +1950,22 @@ If WITH-UNDO is non-nil, store corresponding changes in
     (goto-char (point-min))
     (while (re-search-forward template-expansion-regexp nil t)
       (setq template-current (buffer-substring (match-beginning 1)
-					       (match-end 1))
-	    val (assoc template-current template-local-alist))
+					                           (match-end 1))
+	        val (assoc template-current template-local-alist))
       (unless val
-	(if (setq val (assoc template-current template-key-alias-alist))
-	    (setq template-current (cdr val)))
-	(setq val (or (assoc template-current template-expansion-alist)
-		      (assoc template-current
-			     template-default-expansion-alist))))
+	    (if (setq val (assoc template-current template-key-alias-alist))
+	        (setq template-current (cdr val)))
+	    (setq val (or (assoc template-current template-expansion-alist)
+		              (assoc template-current
+			                 template-default-expansion-alist))))
       (delete-region (match-beginning 0) (match-end 0))
       (cond (val
-	     (eval (cons 'progn (cdr val))))
-	    ((string-match template-register-regexp template-current)
-	     (template-register))
-	    (t
-	     (template-read (format "Replacement for `%s': "
-				    template-current)))))
+	         (eval (cons 'progn (cdr val))))
+	        ((string-match template-register-regexp template-current)
+	         (template-register))
+	        (t
+	         (template-read (format "Replacement for `%s': "
+				                    template-current)))))
     (eval (cons 'progn (nreverse post-command-list)))
     (save-restriction
       (widen)
@@ -1975,17 +1975,17 @@ If WITH-UNDO is non-nil, store corresponding changes in
     ;; message ---------------------------------------------------------------
     (template-display-messages template-after-messages)
     (cond ((null template-register-alist)
-	   (message "%s, no buffer location in register"
-		    (if template-mark "Mark set" "No mark")))
-	  (t (message "%s, buffer location in register: %s"
-		      (if template-mark "Mark set" "No mark")
-		      (mapconcat (function
-				  (lambda (x)
-				    (if (cdr x)
-					(concat (char-to-string (car x)) "*")
-				      (char-to-string (car x)))))
-				 (nreverse template-register-alist)
-				 ", "))))
+	       (message "%s, no buffer location in register"
+		            (if template-mark "Mark set" "No mark")))
+	      (t (message "%s, buffer location in register: %s"
+		              (if template-mark "Mark set" "No mark")
+		              (mapconcat (function
+				                  (lambda (x)
+				                    (if (cdr x)
+					                    (concat (char-to-string (car x)) "*")
+				                      (char-to-string (car x)))))
+				                 (nreverse template-register-alist)
+				                 ", "))))
     (or with-undo (set-buffer-modified-p template-modified))
     (goto-char (point-min))
     (when template-point
@@ -1996,23 +1996,23 @@ If WITH-UNDO is non-nil, store corresponding changes in
       (set-marker template-mark nil)
       (if (fboundp 'zmacs-activate-region) (zmacs-activate-region)))
     (when (and template-point-messages
-	       (or (cdr template-point-messages)
-		   (not (string-equal (car template-point-messages) ""))))
+	           (or (cdr template-point-messages)
+		           (not (string-equal (car template-point-messages) ""))))
       (let ((beg (point))
-	    end)
-	(if (cdr template-point-messages)
-	    (insert (mapconcat 'identity
-			       (nreverse template-point-messages)
-			       "\n")
-		    "\n")
-	  (insert (car template-point-messages)))
-	(setq end (point))
-	(goto-char beg)
-	(and (fboundp 'make-extent) (fboundp 'set-extent-face)
-	     (set-extent-face (make-extent beg end) 'template-message-face))
-	(recenter)
-	(sit-for template-message-timeout)
-	(delete-region beg end))))
+	        end)
+	    (if (cdr template-point-messages)
+	        (insert (mapconcat 'identity
+			                   (nreverse template-point-messages)
+			                   "\n")
+		            "\n")
+	      (insert (car template-point-messages)))
+	    (setq end (point))
+	    (goto-char beg)
+	    (and (fboundp 'make-extent) (fboundp 'set-extent-face)
+	         (set-extent-face (make-extent beg end) 'template-message-face))
+	    (recenter)
+	    (sit-for template-message-timeout)
+	    (delete-region beg end))))
   (recenter)
   (unless with-undo
     (setq buffer-undo-list nil)
@@ -2023,8 +2023,8 @@ If WITH-UNDO is non-nil, store corresponding changes in
     (setq messages (nreverse messages))
     (with-output-to-temp-buffer template-message-buffer
       (while messages
-	(princ (pop messages))
-	(if messages (princ "\n"))))))
+	    (princ (pop messages))
+	    (if messages (princ "\n"))))))
 
 
 ;;;===========================================================================
@@ -2042,16 +2042,16 @@ matching entry can be found in `template-derivation-alist'."
   ;; Get all templates -------------------------------------------------------
   (setq template-all-templates nil)
   (let* ((dir (file-name-directory full))
-	 (len (length dir))
-	 (case-fold-search (memq system-type '(vax-vms ms-dos windows-nt))))
+	     (len (length dir))
+	     (case-fold-search (memq system-type '(vax-vms ms-dos windows-nt))))
     (while (and dir
-		(not (and template-stop-derivation
-			  (fboundp template-stop-derivation)
-			  (funcall template-stop-derivation dir))))
+		        (not (and template-stop-derivation
+			              (fboundp template-stop-derivation)
+			              (funcall template-stop-derivation dir))))
       (template-all-templates template-subdirectories dir)
       (setq dir (file-name-directory (directory-file-name dir)))
       (or (> len (setq len (length dir)))
-	  (setq dir nil)))
+	      (setq dir nil)))
     (template-all-templates template-default-directories)
     (setq template-all-templates (nreverse template-all-templates)))
   ;; Get template file -------------------------------------------------------
@@ -2059,43 +2059,43 @@ matching entry can be found in `template-derivation-alist'."
       (error "You cannot use templates for directories"))
   (setq template-file (template-split-filename full))
   (let ((tests template-derivation-alist)
-	test template file)
+	    test template file)
     (while tests
       (setq test (caar tests)
-	    file (cdar tests))
+	        file (cdar tests))
       (if (setq template
-		(if (functionp (car test))
-		    (apply (car test) (cdr test))
-		  (apply 'template-default-template test)))
-	  (setq tests nil)
-	(setq tests (cdr tests))))
+		        (if (functionp (car test))
+		            (apply (car test) (cdr test))
+		          (apply 'template-default-template test)))
+	      (setq tests nil)
+	    (setq tests (cdr tests))))
     (if template
-	(or arg
-	    (if (functionp (car file))
-		(apply (car file) template (cdr file))
-	      (apply 'template-unique-file template file)))
+	    (or arg
+	        (if (functionp (car file))
+		        (apply (car file) template (cdr file))
+	          (apply 'template-unique-file template file)))
       (or no-default
-	  (setq template (template-split-filename
-			  "DEFAULT"
-			  (template-default-directory)))))
+	      (setq template (template-split-filename
+			              "DEFAULT"
+			              (template-default-directory)))))
     (if template
-	(cons (expand-file-name (cadr template-file) (car template-file))
-	      (expand-file-name (concat (cadr template) template-extension)
-				(car template))))))
+	    (cons (expand-file-name (cadr template-file) (car template-file))
+	          (expand-file-name (concat (cadr template) template-extension)
+				                (car template))))))
 
 (defun template-default-directory ()
   "Return directory of file \"DEFAULT.tpl\"."
   (let ((dirs template-default-directories)
-	(name (concat "DEFAULT" template-extension))
-	dir)
+	    (name (concat "DEFAULT" template-extension))
+	    dir)
     (while dirs
       (setq dir (pop dirs))
       (if (file-readable-p (expand-file-name name dir))
-	  (setq dirs nil)
-	(setq dir nil)))
+	      (setq dirs nil)
+	    (setq dir nil)))
     (or dir
-	(car template-default-directories)
-	(expand-file-name "~/.templates/"))))
+	    (car template-default-directories)
+	    (expand-file-name "~/.templates/"))))
 
 
 ;;;===========================================================================
@@ -2105,9 +2105,9 @@ matching entry can be found in `template-derivation-alist'."
 (defun template-make-directory (dir)
   "Create DIR if it does not exists yet."
   (cond ((file-exists-p dir))
-	((yes-or-no-p (format "The directory %s does not exist.  Create? " dir))
-	 (make-directory dir t))
-	(t (error "You should create a directory \"%s\"" dir)))
+	    ((yes-or-no-p (format "The directory %s does not exist.  Create? " dir))
+	     (make-directory dir t))
+	    (t (error "You should create a directory \"%s\"" dir)))
   dir)
 
 (defun template-split-filename (file &optional dir)
@@ -2115,56 +2115,56 @@ matching entry can be found in `template-derivation-alist'."
 If DIR is nil, FILE is a fully expanded file name, otherwise FILE is a
 file name without its directory part DIR.  See `template-file'."
   (or dir (setq dir (template-make-directory (file-name-directory file))
-		file (file-name-nondirectory file)))
+		        file (file-name-nondirectory file)))
   (let* ((ext (string-match "\\.[^.]*\\'" file))
-	 (raw (substring file 0 ext))
-	 (num (string-match "[^0-9][0-9]+\\'" raw)))
+	     (raw (substring file 0 ext))
+	     (num (string-match "[^0-9][0-9]+\\'" raw)))
     (if num
-	(list dir file
-	      (substring raw 0 (1+ num))
-	      (substring raw (1+ num))
-	      (if ext (substring file ext) ""))
+	    (list dir file
+	          (substring raw 0 (1+ num))
+	          (substring raw (1+ num))
+	          (if ext (substring file ext) ""))
       (list dir file raw "" (if ext (substring file ext) "")))))
 
 (defun template-translate-definition (def)
   "Translate DEF of expansion and set `template-secure' accordingly."
   (cond ((null def) ; zero form
-	 nil)
-	((template-char-or-char-int-p def)
-	 `((template-register ,def)))
-	((stringp def)
-	 `((template-read ,def nil nil nil t)))
-	((symbolp def)
-	 `((insert (if (stringp ,def) ,def template-string-default))))
-	((and (consp def) (stringp (car def)))
-	 (if (consp (car-safe (cdr def)))
-	     `((template-choice ,(car def) (quote ,(cdr def))))
-	   `((apply (quote template-read) (quote ,def)))))
-	((consp (car-safe def))
-	 (setq template-secure nil)
-	 def)
-	(t
-	 (list (template-elisp-in-definition (car def) (cdr def))))))
+	     nil)
+	    ((template-char-or-char-int-p def)
+	     `((template-register ,def)))
+	    ((stringp def)
+	     `((template-read ,def nil nil nil t)))
+	    ((symbolp def)
+	     `((insert (if (stringp ,def) ,def template-string-default))))
+	    ((and (consp def) (stringp (car def)))
+	     (if (consp (car-safe (cdr def)))
+	         `((template-choice ,(car def) (quote ,(cdr def))))
+	       `((apply (quote template-read) (quote ,def)))))
+	    ((consp (car-safe def))
+	     (setq template-secure nil)
+	     def)
+	    (t
+	     (list (template-elisp-in-definition (car def) (cdr def))))))
 
 (defun template-elisp-in-definition (def &optional prefix)
   "Return valid elisp definition and set `template-secure' accordingly.
 DEF is the elisp form, PREFIX would be the prefix argument if DEF is a
 command."
   (cond ((consp def)
-	 (setq template-secure nil)
-	 def)
-	((or (symbolp def) (vectorp def))
-	 (or (and (symbolp def) (get def 'template-secure-command))
-	     (setq template-secure nil))
-	 (if (and (symbolp def)
-		  (functionp (get def 'template-secure-command))
-		  (listp prefix)
-		  (funcall (get def 'template-secure-command) prefix))
-	     `(apply (quote ,def) (quote ,prefix))
-	   `(progn (setq prefix-arg (quote ,prefix))
-		   (command-execute (quote ,def)))))
-	(t
-	 (error "Illegal form"))))
+	     (setq template-secure nil)
+	     def)
+	    ((or (symbolp def) (vectorp def))
+	     (or (and (symbolp def) (get def 'template-secure-command))
+	         (setq template-secure nil))
+	     (if (and (symbolp def)
+		          (functionp (get def 'template-secure-command))
+		          (listp prefix)
+		          (funcall (get def 'template-secure-command) prefix))
+	         `(apply (quote ,def) (quote ,prefix))
+	       `(progn (setq prefix-arg (quote ,prefix))
+		           (command-execute (quote ,def)))))
+	    (t
+	     (error "Illegal form"))))
 
 
 ;;;===========================================================================
@@ -2175,53 +2175,53 @@ command."
   "Read names of template files in DIRS relatively to BASE.
 Insert the names to internal variable `template-all-templates'."
   (let ((regexp (concat (regexp-quote template-extension) "\\'"))
-	(endpos (- (length template-extension)))
-	dir templates)
+	    (endpos (- (length template-extension)))
+	    dir templates)
     (while dirs
       (setq dir (expand-file-name (car dirs) base)
-	    dirs (cdr dirs))
+	        dirs (cdr dirs))
       (cond-emacs-xemacs
        (and (file-accessible-directory-p dir)
-	    (file-readable-p dir)
-	    (setq templates (directory-files dir t regexp :XEMACS nil t))
-	    (while templates
-	      (and :EMACS
-		   (not (file-directory-p (car templates)))
-		   :BOTH
-		   (file-readable-p (car templates))
-		   (push (template-split-filename (substring (car templates)
-							     0
-							     endpos))
-			 template-all-templates))
-	      (setq templates (cdr templates))))))))
+	        (file-readable-p dir)
+	        (setq templates (directory-files dir t regexp :XEMACS nil t))
+	        (while templates
+	          (and :EMACS
+		        (not (file-directory-p (car templates)))
+		        :BOTH
+		        (file-readable-p (car templates))
+		        (push (template-split-filename (substring (car templates)
+							                              0
+							                              endpos))
+			          template-all-templates))
+	          (setq templates (cdr templates))))))))
 
 (defun template-set-template-part (part file-part)
   "Set template part according to definition PART and FILE-PART.
 See `template-derivation-alist' for details."
   (when part
     (cond ((stringp part) part)
-	  ((eq part t) file-part)
-	  ((null (string= file-part "")) file-part))))
+	      ((eq part t) file-part)
+	      ((null (string= file-part "")) file-part))))
 
 (defun template-default-template (&optional raw num ext regexp)
   "Return template according to RAW, NUM, EXT and REGEXP.
 See `template-derivation-alist' for details."
   (if (or (null regexp) (string-match regexp (cadr template-file)))
       (let ((templates template-all-templates)
-	    (file-rne (cddr template-file))
-	    result template-rne)
-	(setq raw (template-set-template-part raw (car file-rne))
-	      num (template-set-template-part num (cadr file-rne))
-	      ext (template-set-template-part ext (caddr file-rne)))
-	(while templates
-	  (setq template-rne (cddar templates))
-	  (if (and (or (null raw) (string= (car template-rne) raw))
-		   (or (null num) (string= (cadr template-rne) num))
-		   (or (null ext) (string= (caddr template-rne) ext)))
-	      (setq result (car templates)
-		    templates nil)
-	    (setq templates (cdr templates))))
-	result)))
+	        (file-rne (cddr template-file))
+	        result template-rne)
+	    (setq raw (template-set-template-part raw (car file-rne))
+	          num (template-set-template-part num (cadr file-rne))
+	          ext (template-set-template-part ext (caddr file-rne)))
+	    (while templates
+	      (setq template-rne (cddar templates))
+	      (if (and (or (null raw) (string= (car template-rne) raw))
+		           (or (null num) (string= (cadr template-rne) num))
+		           (or (null ext) (string= (caddr template-rne) ext)))
+	          (setq result (car templates)
+		            templates nil)
+	        (setq templates (cdr templates))))
+	    result)))
 
 
 ;;;===========================================================================
@@ -2232,15 +2232,15 @@ See `template-derivation-alist' for details."
   "Refine file name according to TEMPLATE, RAW, NUM and EXT.
 The result is in `template-file'.  See `template-derivation-alist'."
   (let ((template-rne (cddr template))
-	(file-rne (cddr template-file)))
+	    (file-rne (cddr template-file)))
     (if raw
-	(if (eq raw t) (setq raw (car template-rne)))
+	    (if (eq raw t) (setq raw (car template-rne)))
       (setq raw (car file-rne)))
     (if num
-	(if (eq num t) (setq num (cadr template-rne)))
+	    (if (eq num t) (setq num (cadr template-rne)))
       (setq num (cadr file-rne)))
     (if ext
-	(if (eq ext t) (setq ext (caddr template-rne)))
+	    (if (eq ext t) (setq ext (caddr template-rne)))
       (setq ext (caddr file-rne)))
     (setcdr template-file (list (concat raw num ext) raw num ext))))
 
@@ -2250,48 +2250,48 @@ Use auto numbering if NUM is not \"\" or AUTO-NUM is non-nil.  The
 result is in `template-file'.  See `template-derivation-alist'."
   (template-default-file template raw num ext)
   (let* ((dir (car template-file))
-	 (full (expand-file-name (cadr template-file) dir)))
+	     (full (expand-file-name (cadr template-file) dir)))
     (when (if (string= (fourth template-file) "")
-	      auto-num
-	    (setq auto-num
-		  (and (or (get-file-buffer full)
-			   (file-readable-p full))
-		       (string-to-int (fourth template-file)))))
+	          auto-num
+	        (setq auto-num
+		          (and (or (get-file-buffer full)
+			               (file-readable-p full))
+		               (string-to-int (fourth template-file)))))
       (setq auto-num (1- auto-num)
-	    raw (third template-file)
-	    ext (fifth template-file))
+	        raw (third template-file)
+	        ext (fifth template-file))
       (let ((list (buffer-list))
-	    file1 dir1)
-	(while list
-	  (and (setq file1 (buffer-file-name (car list)))
-	       (setq dir1 (file-name-directory file1))
-	       (string= dir1 dir)
-	       (setq auto-num
-		     (max (template-filename-number
-			   (cddr (template-split-filename
-				  (file-name-nondirectory file1)
-				  dir1))
-			   raw ext)
-			  auto-num)))
-	  (setq list (cdr list)))
-	(setq list (directory-files dir nil nil t :XEMACS t))
-	(while list
-	  (unless (:EMACS file-directory-p (car list))
-	    (setq auto-num
-		  (max (template-filename-number
-			(cddr (template-split-filename (car list) dir))
-			raw ext)
-		       auto-num)
-		  list (cdr list))))
-	(template-default-file template raw
-			       (int-to-string (1+ auto-num))
-			       ext)))))
+	        file1 dir1)
+	    (while list
+	      (and (setq file1 (buffer-file-name (car list)))
+	           (setq dir1 (file-name-directory file1))
+	           (string= dir1 dir)
+	           (setq auto-num
+		             (max (template-filename-number
+			               (cddr (template-split-filename
+				                  (file-name-nondirectory file1)
+				                  dir1))
+			               raw ext)
+			              auto-num)))
+	      (setq list (cdr list)))
+	    (setq list (directory-files dir nil nil t :XEMACS t))
+	    (while list
+	      (unless (:EMACS file-directory-p (car list))
+	        (setq auto-num
+		          (max (template-filename-number
+			            (cddr (template-split-filename (car list) dir))
+			            raw ext)
+		               auto-num)
+		          list (cdr list))))
+	    (template-default-file template raw
+			                   (int-to-string (1+ auto-num))
+			                   ext)))))
 
 (defun template-filename-number (file-rne raw ext)
   "Return numbering in FILE-RNE if the RAW and EXT parts are equal."
   (or (and (string= (car file-rne) raw)
-	   (string= (caddr file-rne) ext)
-	   (string-to-int (cadr file-rne)))
+	       (string= (caddr file-rne) ext)
+	       (string-to-int (cadr file-rne)))
       0))
 
 
@@ -2304,8 +2304,8 @@ result is in `template-file'.  See `template-derivation-alist'."
 If FORMAT is not a string, it uses DEFAULT or `current-time-string'."
   (interactive)
   (insert (if (and (stringp format) (fboundp 'format-time-string))
-	      (format-time-string format (current-time))
-	    (or default (current-time-string)))))
+	          (format-time-string format (current-time))
+	        (or default (current-time-string)))))
 (put 'template-insert-time 'template-secure-command
      (lambda (args)
        (or (null args) (and (stringp (car args)) (null (cdr args))))))
@@ -2321,12 +2321,12 @@ That is, \\[jump-to-register] REGISTER jumps to the current position.
 If REGISTER is nil, use register corresponding to the last character in
 `template-current'."
   (let* ((char (if register
-		   (template-char-or-int-to-char register)
-		 (aref template-current (1- (length template-current)))))
-	 (elem (assoc char template-register-alist)))
+		           (template-char-or-int-to-char register)
+		         (aref template-current (1- (length template-current)))))
+	     (elem (assoc char template-register-alist)))
     (point-to-register char)
     (if elem
-	(setcdr elem t)
+	    (setcdr elem t)
       (push (list char) template-register-alist))))
 
 (defun template-read (prompt &optional prefix suffix default again-p)
@@ -2338,27 +2338,27 @@ is searched for expansion forms where STRING is marked as a literal
 environment, see `template-literal-environment'."
   (setq template-modified t)
   (let ((pos (point))
-	(elem (and (null again-p)
-		   (assoc template-current template-string-alist))))
+	    (elem (and (null again-p)
+		           (assoc template-current template-string-alist))))
     (if elem
-	(setq elem (cdr elem))
+	    (setq elem (cdr elem))
       (setq elem (read-from-minibuffer prompt nil nil nil
-				       'template-history)
-	    elem (cond ((string= elem "") (or default ""))
-		       ((eq again-p 'expand)
-			(concat prefix
-				(format template-expansion-format
-					(car template-literal-environment))
-				elem
-				(format template-expansion-format
-					(cdr template-literal-environment))
-				suffix
-				(format template-expansion-format
-					(car template-literal-environment))
-				(format template-expansion-format
-					(cdr template-literal-environment))))
-		       (t
-			(concat prefix elem suffix))))
+				                       'template-history)
+	        elem (cond ((string= elem "") (or default ""))
+		               ((eq again-p 'expand)
+			            (concat prefix
+				                (format template-expansion-format
+					                    (car template-literal-environment))
+				                elem
+				                (format template-expansion-format
+					                    (cdr template-literal-environment))
+				                suffix
+				                (format template-expansion-format
+					                    (car template-literal-environment))
+				                (format template-expansion-format
+					                    (cdr template-literal-environment))))
+		               (t
+			            (concat prefix elem suffix))))
       (or again-p (push (cons template-current elem) template-string-alist)))
     (insert elem)
     (if (eq again-p 'expand) (goto-char pos))))
@@ -2372,15 +2372,15 @@ string, otherwise ask a \"y or n\" question and use the result of
   (setq template-modified t)
   (let ((pos (point)))
     (insert (or (cdr (assoc (if (stringp (caar table))
-				(completing-read prompt table nil t nil
-						 'template-choice-history)
-			      (y-or-n-p prompt))
-			    table))
-		"")
-	    (format template-expansion-format
-		    (car template-literal-environment))
-	    (format template-expansion-format
-		    (cdr template-literal-environment)))
+				                (completing-read prompt table nil t nil
+						                         'template-choice-history)
+			                  (y-or-n-p prompt))
+			                table))
+		        "")
+	        (format template-expansion-format
+		            (car template-literal-environment))
+	        (format template-expansion-format
+		            (cdr template-literal-environment)))
     (goto-char pos)))
 
 
@@ -2392,15 +2392,15 @@ string, otherwise ask a \"y or n\" question and use the result of
   ;; checkdoc-params: (menu-items)
   "Menu filter for `template-creation-menu'."
   (let ((alist (append template-expansion-alist
-		       template-default-expansion-alist))
-	menu used key)
+		               template-default-expansion-alist))
+	    menu used key)
     (while alist
       (unless (member (setq key (car (pop alist))) used)
-	(push key used)
-	(push (vector (concat "Insert " key)
-		      (list 'template-insert-form current-prefix-arg key)
-		      t)
-	      menu)))
+	    (push key used)
+	    (push (vector (concat "Insert " key)
+		              (list 'template-insert-form current-prefix-arg key)
+		              t)
+	          menu)))
     (append menu-items (nreverse menu))))
 
 
@@ -2412,7 +2412,7 @@ string, otherwise ask a \"y or n\" question and use the result of
   "Return non-nil, if current buffer is likely to be a template file."
   (and buffer-file-name
        (string-match (concat (regexp-quote template-extension) "\\'")
-		     (file-name-sans-versions buffer-file-name))))
+		             (file-name-sans-versions buffer-file-name))))
 
 (defun template-open-template ()
   "If current buffer is no template file, open a new one."
@@ -2420,23 +2420,23 @@ string, otherwise ask a \"y or n\" question and use the result of
   (if (template-buffer-template-p)
       (barf-if-buffer-read-only)
     (let (name
-	  (dir (and (car template-subdirectories)
-		    (expand-file-name (car template-subdirectories)))))
+	      (dir (and (car template-subdirectories)
+		            (expand-file-name (car template-subdirectories)))))
       (if (null buffer-file-name)
-	  (setq name (concat "TEMPLATE" template-extension))
-	(setq name (file-name-sans-versions
-		    (file-name-nondirectory buffer-file-name)))
-	(if (string-match ".\\.[^.]*\\'" name)
-	    (setq name (concat "TEMPLATE"
-			       (substring name (1+ (match-beginning 0)))
-			       template-extension))
-	  (setq name (concat name template-extension)
-		;; dot file => template not specific for directory
-		dir (car template-default-directories))))
+	      (setq name (concat "TEMPLATE" template-extension))
+	    (setq name (file-name-sans-versions
+		            (file-name-nondirectory buffer-file-name)))
+	    (if (string-match ".\\.[^.]*\\'" name)
+	        (setq name (concat "TEMPLATE"
+			                   (substring name (1+ (match-beginning 0)))
+			                   template-extension))
+	      (setq name (concat name template-extension)
+		        ;; dot file => template not specific for directory
+		        dir (car template-default-directories))))
       (setq name (read-file-name "Open template file (empty=none): "
-				 dir nil nil name))
+				                 dir nil nil name))
       (or (string= name "")
-	  (template-find-template name)))))
+	      (template-find-template name)))))
 
 (defun template-insert-form (arg key)
   "Insert an expansion form according to KEY into template.
@@ -2445,16 +2445,16 @@ When called interactively, allow completion over all keys in
 If prefix ARG is nil, run `template-open-template' first."
   (interactive
    (list current-prefix-arg
-	 (completing-read "Insert key (0-9 for register position): "
-			  (append template-expansion-alist
-				  template-default-expansion-alist))))
+	     (completing-read "Insert key (0-9 for register position): "
+			              (append template-expansion-alist
+				                  template-default-expansion-alist))))
   (or arg (template-open-template))
   (insert (format template-expansion-format key))
   (if (equal key (car template-literal-environment))
       (let ((pos (point)))
-	(insert (format template-expansion-format
-			(cdr template-literal-environment)))
-	(goto-char pos))))
+	    (insert (format template-expansion-format
+			            (cdr template-literal-environment)))
+	    (goto-char pos))))
 
 (defun template-define-start (arg &rest args)
   "Insert a definition section and definition into template.
@@ -2466,8 +2466,8 @@ See `template-definition-start'.  If ARGS is non-nil, pass ARGS to
   (save-excursion
     (goto-char (point-min))
     (unless (re-search-forward (concat "^[ \t]*"
-				       template-definition-start
-				       "[ \t]*$") nil t)
+				                       template-definition-start
+				                       "[ \t]*$") nil t)
       (goto-char (point-max))
       (or (bolp) (insert "\n"))
       (insert template-definition-start))
@@ -2487,22 +2487,22 @@ For ARG, see `template-define-start'."
 For ARG, see `template-define-start'."
   (interactive "P\nsExpansion key: \nsExpansion prompt: \nsPrefix for non-empty input: \nsSuffix for non-empty input: \nsDefault for empty input: ")
   (template-define-start arg "(%S %S %S %S %S)"
-			 key prompt prefix suffix default))
+			             key prompt prefix suffix default))
 
 (defun template-define-register (arg register)
   "Insert a setting of REGISTER into template.
 For ARG, see `template-define-start'."
   (interactive "P\ncDefine register: ")
   (let* ((old (get-register register))
-	 (contents (read-from-minibuffer "Register contents: "
-				    (and (stringp old)
-					 (not (string-match "\n" old))
-					 old)))
-	 (comment (read-from-minibuffer "Comment (empty=none): ")))
+	     (contents (read-from-minibuffer "Register contents: "
+				                         (and (stringp old)
+					                          (not (string-match "\n" old))
+					                          old)))
+	     (comment (read-from-minibuffer "Comment (empty=none): ")))
     (if (string= comment "")
-	(template-define-start arg "(%S %S)" register contents)
+	    (template-define-start arg "(%S %S)" register contents)
       (template-define-start arg "(%S %S %S)" register contents comment))))
-  
+
 
 ;;;===========================================================================
 ;;;  Initialization

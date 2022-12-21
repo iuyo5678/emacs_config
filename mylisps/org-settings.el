@@ -34,7 +34,7 @@
   :ensure nil
   :defer t
   :commands (org-dynamic-block-define)
-  :custom-face (org-ellipsis ((t (:foreground nil))))
+  :custom-face (org-ellipsis ((t (:foreground unspecified))))
   :pretty-hydra
   ((:title (pretty-hydra-title "Org Template" 'fileicon "org" :face 'all-the-icons-green :height 1.1 :v-adjust 0.0)
     :color blue :quit-key "q")
@@ -288,8 +288,7 @@ prepended to the element after the #+HEADER: tag."
                 (list
                  (when org-agenda-files
                    (cfw:org-create-source "YellowGreen"))
-                 (when (bound-and-true-p centaur-ical)
-                   (cfw:ical-create-source "gcal" centaur-ical "IndianRed")))))
+                 )))
       (cfw:open-calendar-buffer))))
 
 (provide 'org-settings)
