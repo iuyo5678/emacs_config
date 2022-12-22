@@ -31,7 +31,7 @@
 (use-package ace-window
   :pretty-hydra
   ((:title (pretty-hydra-title "Window Management" 'faicon "th" :height 1.1 :v-adjust -0.1)
-    :foreign-keys warn :quit-key "q")
+           :foreign-keys warn :quit-key "q")
    ("Actions"
     (("TAB" other-window "switch")
      ("x" ace-delete-window "delete" :exit t)
@@ -58,8 +58,7 @@
      ("-" text-scale-decrease "out")
      ("0" (text-scale-increase 0) "reset"))
     "Appearance"
-    (("F" set-frame-font "font")
-     ("T" centaur-load-theme "theme"))))
+    (("F" set-frame-font "font"))))
   :custom-face
   (aw-leading-char-face ((t (:inherit font-lock-keyword-face :bold t :height 2.0))))
   (aw-minibuffer-leading-char-face ((t (:inherit font-lock-keyword-face :bold t :height 1.0))))
@@ -125,7 +124,6 @@
     (bind-switch-to-terminal (1+ n))
     )
   )
-
 
 
 (use-package shackle

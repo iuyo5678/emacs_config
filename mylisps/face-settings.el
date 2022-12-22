@@ -299,29 +299,20 @@ Nil to use font supports ligatures."
     (set-char-table-parent composition-ligature-table composition-function-table)))
 
 
-(if (centaur-compatible-theme-p centaur-theme)
-    (progn
-      ;; Make certain buffers grossly incandescent
-      (use-package solaire-mode
-        :hook (after-load-theme . solaire-global-mode))
+(use-package solaire-mode
+  :hook (after-load-theme . solaire-global-mode))
 
-      (use-package doom-themes
-        :bind ("C-c T" . centaur-load-theme)
-        :custom (doom-themes-treemacs-theme "doom-colors")
-        :init (centaur-load-theme centaur-theme t)
-        :config
-        ;; Enable flashing mode-line on errors
-        (doom-themes-visual-bell-config)
+(use-package doom-themes
+  :config
+  ;; Enable flashing mode-line on errors
+  (setq doom-themes-enable-bold t    ; if nil, bold is universally disabled
+        doom-themes-enable-italic t) ; if nil, italics is universally disabled
+  (load-theme 'tsdh-dark t)
+  (doom-themes-visual-bell-config)
+  ;; Enable custom neotree theme
+  (doom-themes-neotree-config)  ; all-the-icons fonts must be installed!
+  )
 
-
-
-        ;; Enable customized theme
-        ;; FIXME: https://github.com/emacs-lsp/lsp-treemacs/issues/89
-        (with-eval-after-load 'lsp-treemacs
-          (doom-themes-treemacs-config))))
-  (progn
-    (warn "The current theme is incompatible!")
-    (centaur-load-theme centaur-theme t)))
 
 (use-package doom-modeline
   :hook (after-init . doom-modeline-mode)
