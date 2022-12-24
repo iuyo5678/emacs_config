@@ -38,7 +38,6 @@
         markdown-make-gfm-checkboxes-buttons t
         markdown-gfm-uppercase-checkbox t
         markdown-fontify-code-blocks-natively t
-
         markdown-content-type "application/xhtml+xml"
         markdown-css-paths '("https://cdn.jsdelivr.net/npm/github-markdown-css/github-markdown.min.css"
                              "https://cdn.jsdelivr.net/gh/highlightjs/cdn-release/build/styles/github.min.css")
@@ -87,15 +86,21 @@ mermaid.initialize({
     (advice-add #'markdown--style-map-prompt   :override #'ignore))
   :config
   (add-to-list 'markdown-code-lang-modes '("mermaid" . mermaid-mode))
-
+  (exec-path-from-shell-copy-envs '("LANG" "LC_ALL" "LC_CTYPES"))
   ;; Preview with built-in webkit
   (with-no-warnings
+    ;; Use `which-key' instead
+    (advice-add #'markdown--command-map-prompt :override #'ignore)
+    (advice-add #'markdown--style-map-prompt   :override #'ignore)
+
+    ;; Preview with built-in webkit
     (defun my-markdown-export-and-preview (fn)
       "Preview with `xwidget' if applicable, otherwise with the default browser."
       (if (featurep 'xwidget-internal)
           (centaur-webkit-browse-url (concat "file://" (markdown-export)) t)
         (funcall fn)))
     (advice-add #'markdown-export-and-preview :around #'my-markdown-export-and-preview))
+
 
   ;; Preview via `grip'
   ;; Install: pip install grip
@@ -111,7 +116,26 @@ mermaid.initialize({
   ;; Table of contents
   (use-package markdown-toc
     :bind (:map markdown-mode-command-map
-           ("r" . markdown-toc-generate-or-refresh-toc))))
+           ("r" . markdown-toc-generate-or-refresh-toc))
+    :hook (markdown-mode . markdown-toc-mode)
+    :init (setq markdown-toc-indentation-space 2
+                markdown-toc-header-toc-title "\n## Table of Contents"
+                markdown-toc-user-toc-structure-manipulation-fn 'cdr)
+    :config
+    (with-no-warnings
+      (define-advice markdown-toc-generate-toc (:around (fn &rest args) lsp)
+        "Generate or refresh toc after disabling lsp."
+        (cond
+         ((bound-and-true-p lsp-managed-mode)
+          (lsp-managed-mode -1)
+          (apply fn args)
+          (lsp-managed-mode 1))
+         ((bound-and-true-p eglot--manage-mode)
+          (eglot--manage-mode -1)
+          (apply fn args)
+          (eglot--manage-mode 1))
+         (t
+          (apply fn args)))))))
 
 
 

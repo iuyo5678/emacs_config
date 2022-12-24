@@ -117,7 +117,7 @@ decrease this. If you experience stuttering, increase this.")
 
     ;; Download `Symbola'
     ;; See https://dn-works.com/wp-content/uploads/2020/UFAS-Fonts/Symbola.zip
-    (let* ((url (concat centaur-homepage "/files/6135060/symbola.zip"))
+    (let* ((url "https://dn-works.com/wp-content/uploads/2020/UFAS-Fonts/Symbola.zip")
            (temp-file (make-temp-file "symbola-" nil ".zip"))
            (dir (concat (file-name-directory temp-file) "/symbola/"))
            (unzip-script (cond ((executable-find "unzip")
