@@ -2,6 +2,13 @@
 
 ;; Time-stamp: <2021-03-15 18:05:25 Monday by zhangguhua>
 ;;外观的配置
+(use-package cursor-chg
+  :ensure nil
+  :demand t
+  :if (display-graphic-p)
+  :config
+  (change-cursor-mode 1)
+  (toggle-cursor-type-when-idle 1))
 
 (use-package cal-china-x
   :ensure t
@@ -31,6 +38,7 @@
           (holiday-fixed 12 25 "圣诞节")
           (holiday-float 5 0 2 "母亲节")
           (holiday-float 6 0 3 "父亲节")
+          (holiday-float 10 24 "程序员节")
           (holiday-float 11 4 4 "感恩节")))
   (setq calendar-holidays
         (append cal-china-x-important-holidays
