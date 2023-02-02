@@ -41,11 +41,10 @@
   (setq-default prettify-symbols-alist centaur-prettify-symbols-alist)
   (setq prettify-symbols-unprettify-at-point 'right-edge))
 
-(use-package tree-sitter
- :ensure tree-sitter-langs
- :diminish
- :hook ((after-init . global-tree-sitter-mode)
-        (tree-sitter-after-on . tree-sitter-hl-mode)))
+
+(use-package treesit-auto
+  :hook (after-init . global-treesit-auto-mode)
+  )
 
 ;; Jump to definition
 (use-package dumb-jump

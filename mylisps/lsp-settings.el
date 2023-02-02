@@ -261,13 +261,13 @@
 
 ;; C/C++/Objective-C support
 (use-package ccls
-  :init (setq ccls-executable "/opt/local/bin/ccls")
+  :init (setq ccls-executable "/opt/homebrew/bin/ccls")
   :defines projectile-project-root-files-bottom-up
   :hook ((c-mode c++-mode objc-mode cuda-mode) . (lambda () (require 'ccls)))
   :init (setq ccls-initialization-options
               '(
                 :completion (:detailedLabel t)
-                :clang (:resourceDir "/opt/homebrew/Cellar/llvm/14.0.6")
+                :clang (:resourceDir "/opt/homebrew/Cellar/llvm/15.0.7_1")
                 :cache (:directory "/Users/zhangguhua/.ccls-cache")
                 :index (:trackDependency 1
                         :initialBlacklist ["."])

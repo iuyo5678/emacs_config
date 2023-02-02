@@ -47,6 +47,9 @@ decrease this. If you experience stuttering, increase this.")
 
 (defvar default-file-name-handler-alist file-name-handler-alist)
 
+;;第三方包不用开启native-comp
+(setq inhibit-automatic-native-compilation t)
+
 (defconst sys/win32p
   (eq system-type 'windows-nt)
   "Are we running on a WinTel system?")
