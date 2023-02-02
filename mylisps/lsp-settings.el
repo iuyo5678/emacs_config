@@ -244,7 +244,7 @@
               '(
                 :completion (:detailedLabel t)
                 :compilationDatabaseDirectory "/home/drakezhang/QQMail"
-                :clang (:resourceDir "/usr/local/lib/clang/11.0.0")
+                :clang (:resourceDir "/usr/local/lib/clang/16.0.0")
                 :cache (:directory "/home/drakezhang/QQMail/.ccls-cache")
                 :index (:trackDependency 1
                         :initialBlacklist ["."])

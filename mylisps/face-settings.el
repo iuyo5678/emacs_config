@@ -3,6 +3,14 @@
 ;; Time-stamp: <2021-03-15 18:05:25 Monday by zhangguhua>
 ;;外观的配置
 
+(use-package cursor-chg
+  :ensure nil
+  :demand t
+  :if (display-graphic-p)
+  :config
+  (change-cursor-mode 1)
+  (toggle-cursor-type-when-idle 1))
+
 
 (use-package cal-china-x
   :ensure t

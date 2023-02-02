@@ -50,6 +50,10 @@
           (append '("Dockerfile" "go.sum" "go.mod")
                   projectile-project-root-files-bottom-up)))
 
+  (add-hook 'go-mode-hook
+            (lambda ()
+              (setq indent-tabs-mode 1)
+              (setq tab-width 4)))
   ;; Install or update tools
   (defconst go--tools
     '("golang.org/x/tools/gopls"

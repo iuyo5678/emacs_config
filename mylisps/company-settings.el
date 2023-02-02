@@ -6,15 +6,22 @@
 ;;
 
 ;;; Code:
+(use-package yasnippet
+  :diminish yas-minor-mode
+  :hook (after-init . yas-global-mode))
+
+;; Collection of yasnippet snippets
+(use-package yasnippet-snippets)
+
 (use-package company
   :diminish
   :defines (company-dabbrev-ignore-case company-dabbrev-downcase)
   :bind (("M-/"       . company-complete)
          ("C-M-i"     . company-complete)
          :map company-mode-map
-         ("<backtab>" . company-yasnippet)
+         ("<tab>" . company-yasnippet)
          :map company-active-map
-         ("<backtab>" . my-company-yasnippet))
+         ("<tab>" . my-company-yasnippet))
   :hook (after-init . global-company-mode)
   :init
   (setq company-tooltip-align-annotations t
@@ -26,12 +33,21 @@
         company-require-match nil
         company-dabbrev-ignore-case nil
         company-dabbrev-downcase nil
+	company-show-numbers t
+	company-transformers '(company-sort-by-occurrence)
         company-global-modes '(not erc-mode message-mode help-mode
                                    gud-mode eshell-mode shell-mode)
         company-backends '((company-capf :with company-yasnippet)
                            (company-dabbrev-code company-keywords company-files)
                            company-dabbrev))
   :config
+  (setq company-text-icons-add-background t)
+  (custom-set-faces
+   '(company-tooltip  ((t (:foreground "MistyRose2"))))
+   '(company-tooltip-selection
+     ((t (:background "white" :foreground "MistyRose4"))))
+   '(company-tooltip-common ((t (:weight bold :foreground "cornflower blue"))))
+   '(company-tooltip-annotation ((t (:foreground "cyan")))))
   (with-no-warnings
     ;; Company anywhere
     ;; @see https://github.com/zk-phi/company-anywhere
