@@ -508,16 +508,15 @@ Nil to use font supports ligatures."
           (insert (format "%s\n\n" (propertize title 'face 'dashboard-banner-logo-title)))))))
   (advice-add #'dashboard-insert-image-banner :override #'my-dashboard-insert-image-banner)
 
-  ;; FIXME: Insert copyright
   ;; @see https://github.com/emacs-dashboard/emacs-dashboard/issues/219
   (defun my-dashboard-insert-copyright ()
     "Insert copyright in the footer."
     (when dashboard-set-footer
       (dashboard-insert-center
-      (propertize (format "Package by Drake Zhang, Powered by Centaur Emacs  %s\n" (format-time-string "%Y"))
-                  'face font-lock-comment-face))))
+       (propertize (format "Package by Drake Zhang, Powered by Centaur Emacs  %s\n" (format-time-string "%Y"))
+                   'face font-lock-comment-face))))
   (advice-add #'dashboard-insert-footer :after #'my-dashboard-insert-copyright)
-)
+  )
 
 ;;(require 'dashboard)
 (provide 'face-settings)
