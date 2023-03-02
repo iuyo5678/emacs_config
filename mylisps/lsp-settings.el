@@ -40,7 +40,7 @@
              lsp-organize-imports
              lsp-install-server)
   :hook ((prog-mode . (lambda ()
-                        (unless (derived-mode-p 'emacs-lisp-mode 'lisp-mode)
+                        (unless (derived-mode-p 'protobuf-mode 'emacs-lisp-mode 'lisp-mode)
                           (lsp-deferred))))
          (lsp-mode . (lambda ()
                        ;; Integrate `which-key'
@@ -63,16 +63,16 @@
         lsp-modeline-code-actions-enable nil
         lsp-modeline-diagnostics-enable nil
         lsp-modeline-workspace-status-enable nil
-        lsp-lens-enable nil
-        lsp-enable-file-watchers nil
+	lsp-lens-enable nil
+	lsp-enable-file-watchers nil
         lsp-enable-folding nil
         lsp-enable-symbol-highlighting nil
-        lsp-enable-text-document-color nil
-
-        lsp-enable-indentation nil
-        lsp-enable-on-type-formatting nil
-        ;; For `lsp-clients'
-        lsp-clients-python-library-directories '("/usr/local/" "/usr/"))
+	lsp-enable-text-document-color nil
+					;lsp-enable-indentation nil
+	lsp-enable-on-type-formatting nil
+	;; For `lsp-clients'
+	lsp-clients-python-library-directories '("/usr/local/" "/usr/"))
+  (setq lsp-clients-clangd-args '("--clang-tidy"  "--all-scopes-completion" "--completion-style=detailed" "--background-index" "--j=5" "--log=error"))
   :config
   (defun lsp-update-server ()
     "Update LSP server."
@@ -236,25 +236,30 @@
           (setq lsp-pyright-python-executable-cmd "python3")))
 
 ;; C/C++/Objective-C support
-(use-package ccls
-  :init (setq ccls-executable "/usr/local/bin/ccls")
-  :defines projectile-project-root-files-bottom-up
-  :hook ((c-mode c++-mode objc-mode cuda-mode) . (lambda () (require 'ccls)))
-  :init (setq ccls-initialization-options
-              '(
-                :completion (:detailedLabel t)
-                :compilationDatabaseDirectory "/home/drakezhang/QQMail"
-                :clang (:resourceDir "/usr/local/lib/clang/16.0.0")
-                :cache (:directory "/home/drakezhang/QQMail/.ccls-cache")
-                :index (:trackDependency 1
-                        :initialBlacklist ["."])
-                )
-              )
-  :config
-  (with-eval-after-load 'projectile
-    (setq projectile-project-root-files-bottom-up
-          (append '("BUILD" "compile_commands.json" ".ccls")
-                  projectile-project-root-files-bottom-up))))
+;; (use-package ccls
+;;   :init (setq ccls-executable "/usr/local/bin/ccls")
+;;   :defines projectile-project-root-files-bottom-up
+;;   :hook ((c-mode c++-mode objc-mode cuda-mode) . (lambda () (require 'ccls)))
+;;   :init (setq ccls-initialization-options
+;;               '(
+;;                 :completion (:detailedLabel t)
+;;                 :compilationDatabaseDirectory "/home/drakezhang/QQMail"
+;;                 :clang (:resourceDir "/usr/local/lib/clang/16.0.0")
+;;                 :cache (:directory "/home/drakezhang/QQMail/.ccls-cache")
+;;                 :index (:trackDependency 1
+;;                         :initialBlacklist ["."])
+;;                 )
+;;               )
+;;   :config
+;;   (with-eval-after-load 'projectile
+;;     (setq projectile-project-root-files-bottom-up
+;;           (append '("BUILD" "compile_commands.json" ".ccls")
+;;                   projectile-project-root-files-bottom-up))))
+
+(with-eval-after-load 'projectile
+  (setq projectile-project-root-files-bottom-up
+        (append '("BUILD" "compile_commands.json" ".ccls")
+                projectile-project-root-files-bottom-up)))
 
 ;; whichkey
 (use-package which-key
