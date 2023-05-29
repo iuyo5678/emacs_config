@@ -41,7 +41,7 @@
              lsp-organize-imports
              lsp-install-server)
   :hook ((prog-mode . (lambda ()
-                        (unless (derived-mode-p 'emacs-lisp-mode 'lisp-mode)
+                        (unless (derived-mode-p 'protobuf-mode 'emacs-lisp-mode 'lisp-mode)
                           (lsp-deferred))))
          (lsp-mode . (lambda ()
                        ;; Integrate `which-key'
@@ -75,6 +75,7 @@
         lsp-diagnostics-disabled-modes '(markdown-mode gfm-mode)
         ;; For `lsp-clients'
         lsp-clients-python-library-directories '("/usr/local/" "/usr/"))
+  (setq lsp-clients-clangd-args '("--clang-tidy"  "--all-scopes-completion" "--completion-style=detailed" "--background-index" "--j=5" "--log=error"))
   :config
   (with-no-warnings
     (defun my-lsp--init-if-visible (func &rest args)
@@ -260,24 +261,10 @@
           (setq lsp-pyright-python-executable-cmd "python3")))
 
 ;; C/C++/Objective-C support
-(use-package ccls
-  :init (setq ccls-executable "/opt/homebrew/bin/ccls")
-  :defines projectile-project-root-files-bottom-up
-  :hook ((c-mode c++-mode objc-mode cuda-mode) . (lambda () (require 'ccls)))
-  :init (setq ccls-initialization-options
-              '(
-                :completion (:detailedLabel t)
-                :clang (:resourceDir "/opt/homebrew/Cellar/llvm/15.0.7_1")
-                :cache (:directory "/Users/zhangguhua/.ccls-cache")
-                :index (:trackDependency 1
-                        :initialBlacklist ["."])
-                )
-              )
-  :config
-  (with-eval-after-load 'projectile
-    (setq projectile-project-root-files-bottom-up
-          (append '("BUILD" "compile_commands.json" ".ccls")
-                  projectile-project-root-files-bottom-up))))
+(with-eval-after-load 'projectile
+  (setq projectile-project-root-files-bottom-up
+        (append '("BUILD" "compile_commands.json" ".ccls")
+                projectile-project-root-files-bottom-up)))
 
 ;; Swift/C/C++/Objective-C
 (when sys/macp
@@ -295,7 +282,6 @@
   ;; https://github.com/emacs-lsp/lsp-mode/issues/377
   (cl-defmacro lsp-org-babel-enable (lang)
     "Support LANG in org source code block."
-    (cl-check-type lang stringp)
     (let* ((edit-pre (intern (format "org-babel-edit-prep:%s" lang)))
            (intern-pre (intern (format "lsp--%s" (symbol-name edit-pre)))))
       `(progn

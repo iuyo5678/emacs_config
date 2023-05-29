@@ -15,7 +15,7 @@
   (when sys/macp
     ;; Suppress the warning: `ls does not support --dired'.
     (setq dired-use-ls-dired nil)
-
+    (setq dired-dwim-target t)
     (when (executable-find "gls")
       ;; Use GNU ls as `gls' from `coreutils' if available.
       (setq insert-directory-program "gls")))
@@ -48,7 +48,7 @@
     :init (diredfl-global-mode 1))
 
 
-    ;; Shows icons
+  ;; Shows icons
   (use-package all-the-icons-dired
     :diminish
     :hook (dired-mode . (lambda ()

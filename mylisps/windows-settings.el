@@ -110,19 +110,6 @@
             (aw-switch-to-window win)))
         (unless found
           (message "No specified window: %d" number)))))
-
-  (defun bind-switch-to-terminal (num)
-    (lexical-let* ((buf-num num)
-                   (switch-func
-                    (lambda ()
-                      (interactive)
-                      (aw--select-window buf-num))))
-      (global-set-key
-       (kbd (format "M-%d" buf-num))
-       switch-func)))
-  (dotimes (n 9)
-    (bind-switch-to-terminal (1+ n))
-    )
   )
 
 

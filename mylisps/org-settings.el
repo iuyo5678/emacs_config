@@ -62,6 +62,7 @@
      ("p" (hot-expand "<s" "perl") "perl")
      ("r" (hot-expand "<s" "ruby") "ruby")
      ("S" (hot-expand "<s" "sh") "sh")
+     ("j" (hot-expand "<s" "json") "json")
      ("g" (hot-expand "<s" "go :imports '\(\"fmt\"\)") "golang"))
     "Misc"
     (("u" (hot-expand "<s" "plantuml :file CHANGE.png") "plantuml")
@@ -132,7 +133,7 @@ prepended to the element after the #+HEADER: tag."
 
         org-agenda-files `(,my-org-file-path)
         org-todo-keywords
-        '((sequence "TODO(t)" "DOING(i)" "HANGUP(h)" "|" "DONE(d)" "CANCEL(c)")
+        '((sequence "TODO(t)" "DOING(i@/!)" "HANGUP(h@/!)" "|" "DONE(d@/!)" "CANCEL(c@/!)")
           (sequence "⚑(T)" "🏴(I)" "❓(H)" "|" "✔(D)" "✘(C)"))
         org-todo-keyword-faces '(("HANGUP" . warning)
                                  ("❓" . warning))
@@ -227,7 +228,8 @@ prepended to the element after the #+HEADER: tag."
 
   ;; Preview
   (use-package org-preview-html
-    :diminish)
+    :diminish
+    :init (setq org-preview-html-viewer 'xwidget))
 
   (use-package ob-rust
     :init (cl-pushnew '(rust . t) load-language-list))
@@ -264,33 +266,34 @@ prepended to the element after the #+HEADER: tag."
     (org-pomodoro-mode-line-break ((t (:inherit success))))
     :bind (:map org-agenda-mode-map
            ("P" . org-pomodoro)))
+  (use-package howm)
+
+  ;; Better views of calendar
+  (use-package calfw
+    :commands cfw:open-calendar-buffer
+    ;; :bind ("<C-f12>" . open-calendar)
+    :init
+    (use-package calfw-org
+      :commands (cfw:open-org-calendar cfw:org-create-source))
+
+    (use-package calfw-ical
+      :commands (cfw:open-ical-calendar cfw:ical-create-source))
+
+    (defun open-calendar ()
+      "Open calendar."
+      (interactive)
+      (unless (ignore-errors
+                (cfw:open-calendar-buffer
+                 :contents-sources
+                 (list
+                  (when org-agenda-files
+                    (cfw:org-create-source "YellowGreen"))
+                  (when (bound-and-true-p centaur-ical)
+                    (cfw:ical-create-source "gcal" centaur-ical "IndianRed")))))
+        (cfw:open-calendar-buffer))))
+
   )
 
-(use-package howm)
-
-;; Better views of calendar
-(use-package calfw
-  :commands cfw:open-calendar-buffer
-  ;; :bind ("<C-f12>" . open-calendar)
-  :init
-  (use-package calfw-org
-    :commands (cfw:open-org-calendar cfw:org-create-source))
-
-  (use-package calfw-ical
-    :commands (cfw:open-ical-calendar cfw:ical-create-source))
-
-  (defun open-calendar ()
-    "Open calendar."
-    (interactive)
-    (unless (ignore-errors
-              (cfw:open-calendar-buffer
-               :contents-sources
-                (list
-                 (when org-agenda-files
-                   (cfw:org-create-source "YellowGreen"))
-                 (when (bound-and-true-p centaur-ical)
-                   (cfw:ical-create-source "gcal" centaur-ical "IndianRed")))))
-      (cfw:open-calendar-buffer))))
 
 (provide 'org-settings)
 
