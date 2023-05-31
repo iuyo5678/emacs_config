@@ -31,13 +31,14 @@
 ;;; Code:
 ;; Emacs client for the Language Server Protocol
 ;; https://github.com/emacs-lsp/lsp-mode#supported-languages
+
 (use-package lsp-mode
   :diminish
   :defines (lsp-diagnostics-disabled-modes
             lsp-clients-python-library-directories
             lsp-rust-server)
-  :commands (lsp-enable-which-key-integration
-             lsp-format-buffer
+  :autoload lsp-enable-which-key-integration
+  :commands (lsp-format-buffer
              lsp-organize-imports
              lsp-install-server)
   :hook ((prog-mode . (lambda ()
@@ -78,23 +79,79 @@
   (setq lsp-clients-clangd-args '("--clang-tidy"  "--all-scopes-completion" "--completion-style=detailed" "--background-index" "--j=5" "--log=error"))
   :config
   (with-no-warnings
-    (defun my-lsp--init-if-visible (func &rest args)
-      "Not enabling lsp in `git-timemachine-mode'."
+    ;; Disable `lsp-mode' in `git-timemachine-mode'
+    (defun my-lsp--init-if-visible (fn &rest args)
       (unless (bound-and-true-p git-timemachine-mode)
-        (apply func args)))
-    (advice-add #'lsp--init-if-visible :around #'my-lsp--init-if-visible))
+        (apply fn args)))
+    (advice-add #'lsp--init-if-visible :around #'my-lsp--init-if-visible)
 
-  (defun lsp-update-server ()
-    "Update LSP server."
-    (interactive)
-    ;; Equals to `C-u M-x lsp-install-server'
-    (lsp-install-server t)))
+    ;; Enable `lsp-mode' in sh/bash/zsh
+    (defun my-lsp-bash-check-sh-shell (&rest _)
+      (and (memq major-mode '(sh-mode bash-ts-mode))
+           (memq sh-shell '(sh bash zsh))))
+    (advice-add #'lsp-bash-check-sh-shell :override #'my-lsp-bash-check-sh-shell)
+    (add-to-list 'lsp-language-id-configuration '(bash-ts-mode . "shellscript"))
+
+    ;; Only display icons in GUI
+    (defun my-lsp-icons-get-symbol-kind (fn &rest args)
+      (and (icons-displayable-p) (apply fn args)))
+    (advice-add #'lsp-icons-get-by-symbol-kind :around #'my-lsp-icons-get-symbol-kind)
+
+    ;; For `lsp-headerline'
+    (defun my-lsp-icons-get-by-file-ext (fn &rest args)
+      (and (icons-displayable-p) (apply fn args)))
+    (advice-add #'lsp-icons-get-by-file-ext :around #'my-lsp-icons-get-by-file-ext)
+
+    (defun my-lsp-icons-get-by-file-ext (file-ext &optional feature)
+      (when (and file-ext
+                 (lsp-icons--enabled-for-feature feature))
+        (nerd-icons-icon-for-extension file-ext)))
+    (advice-add #'lsp-icons-get-by-file-ext :override #'my-lsp-icons-get-by-file-ext)
+    (defvar lsp-symbol-alist
+      '(
+        (misc          nerd-icons-codicon "nf-cod-symbol_namespace" :face font-lock-warning-face)
+        (document      nerd-icons-codicon "nf-cod-symbol_file" :face font-lock-string-face)
+        (namespace     nerd-icons-codicon "nf-cod-symbol_namespace" :face font-lock-type-face)
+        (string        nerd-icons-codicon "nf-cod-symbol_string" :face font-lock-doc-face)
+        (boolean-data  nerd-icons-codicon "nf-cod-symbol_boolean" :face font-lock-builtin-face)
+        (numeric       nerd-icons-codicon "nf-cod-symbol_numeric" :face font-lock-builtin-face)
+        (method        nerd-icons-codicon "nf-cod-symbol_method" :face font-lock-function-name-face)
+        (field         nerd-icons-codicon "nf-cod-symbol_field" :face font-lock-variable-name-face)
+        (localvariable nerd-icons-codicon "nf-cod-symbol_variable" :face font-lock-variable-name-face)
+        (class         nerd-icons-codicon "nf-cod-symbol_class" :face font-lock-type-face)
+        (interface     nerd-icons-codicon "nf-cod-symbol_interface" :face font-lock-type-face)
+        (property      nerd-icons-codicon "nf-cod-symbol_property" :face font-lock-variable-name-face)
+        (indexer       nerd-icons-codicon "nf-cod-symbol_enum" :face font-lock-builtin-face)
+        (enumerator    nerd-icons-codicon "nf-cod-symbol_enum" :face font-lock-builtin-face)
+        (enumitem      nerd-icons-codicon "nf-cod-symbol_enum_member" :face font-lock-builtin-face)
+        (constant      nerd-icons-codicon "nf-cod-symbol_constant" :face font-lock-constant-face)
+        (structure     nerd-icons-codicon "nf-cod-symbol_structure" :face font-lock-variable-name-face)
+        (event         nerd-icons-codicon "nf-cod-symbol_event" :face font-lock-warning-face)
+        (operator      nerd-icons-codicon "nf-cod-symbol_operator" :face font-lock-comment-delimiter-face)
+        (template      nerd-icons-codicon "nf-cod-symbol_snippet" :face font-lock-type-face)))
+    (defun my-lsp-icons-get-by-symbol-kind (kind &optional feature)
+      (when (and kind
+                 (lsp-icons--enabled-for-feature feature))
+        (let* ((icon (cdr (assoc (lsp-treemacs-symbol-kind->icon kind) lsp-symbol-alist)))
+               (args (cdr icon)))
+          (apply (car icon) args))))
+    (advice-add #'lsp-icons-get-by-symbol-kind :override #'my-lsp-icons-get-by-symbol-kind)
+
+    (setq lsp-headerline-arrow (nerd-icons-octicon "nf-oct-chevron_right"
+                                                   :face 'lsp-headerline-breadcrumb-separator-face)))
+  )
+
+(defun lsp-update-server ()
+  "Update LSP server."
+  (interactive)
+  ;; Equals to `C-u M-x lsp-install-server'
+  (lsp-install-server t))
 
 (use-package lsp-ui
   :custom-face
   (lsp-ui-sideline-code-action ((t (:inherit warning))))
   :pretty-hydra
-  ((:title (pretty-hydra-title "LSP UI" 'faicon "rocket" :face 'all-the-icons-green)
+  ((:title (pretty-hydra-title "LSP UI" 'faicon "rocket" :face 'nerd-icons-green)
     :color amaranth :quit-key "q")
    ("Doc"
     (("d e" (progn
@@ -177,35 +234,34 @@
   (with-no-warnings
     (when (icons-displayable-p)
       (defvar lsp-ivy-symbol-kind-icons
-        `(,(all-the-icons-material "find_in_page" :height 0.9 :v-adjust -0.15) ; Unknown - 0
-          ,(all-the-icons-faicon "file-o" :height 0.9 :v-adjust -0.02) ; File - 1
-          ,(all-the-icons-material "view_module" :height 0.9 :v-adjust -0.15 :face 'all-the-icons-lblue) ; Module - 2
-          ,(all-the-icons-material "view_module" :height 0.95 :v-adjust -0.15 :face 'all-the-icons-lblue) ; Namespace - 3
-          ,(all-the-icons-octicon "package" :height 0.9 :v-adjust -0.15) ; Package - 4
-          ,(all-the-icons-material "settings_input_component" :height 0.9 :v-adjust -0.15 :face 'all-the-icons-orange) ; Class - 5
-          ,(all-the-icons-faicon "cube" :height 0.9 :v-adjust -0.02 :face 'all-the-icons-purple) ; Method - 6
-          ,(all-the-icons-faicon "wrench" :height 0.8 :v-adjust -0.02) ; Property - 7
-          ,(all-the-icons-octicon "tag" :height 0.95 :v-adjust 0 :face 'all-the-icons-lblue) ; Field - 8
-          ,(all-the-icons-faicon "cube" :height 0.9 :v-adjust -0.02 :face 'all-the-icons-lpurple) ; Constructor - 9
-          ,(all-the-icons-material "storage" :height 0.9 :v-adjust -0.15 :face 'all-the-icons-orange) ; Enum - 10
-          ,(all-the-icons-material "share" :height 0.9 :v-adjust -0.15 :face 'all-the-icons-lblue) ; Interface - 11
-          ,(all-the-icons-faicon "cube" :height 0.9 :v-adjust -0.02 :face 'all-the-icons-purple) ; Function - 12
-          ,(all-the-icons-octicon "tag" :height 0.95 :v-adjust 0 :face 'all-the-icons-lblue) ; Variable - 13
-          ,(all-the-icons-faicon "cube" :height 0.9 :v-adjust -0.02 :face 'all-the-icons-purple) ; Constant - 14
-          ,(all-the-icons-faicon "text-width" :height 0.9 :v-adjust -0.02) ; String - 15
-          ,(all-the-icons-material "format_list_numbered" :height 0.95 :v-adjust -0.15) ; Number - 16
-          ,(all-the-icons-octicon "tag" :height 0.9 :v-adjust 0.0 :face 'all-the-icons-lblue) ; Boolean - 17
-          ,(all-the-icons-material "view_array" :height 0.95 :v-adjust -0.15) ; Array - 18
-          ,(all-the-icons-octicon "tag" :height 0.9 :v-adjust 0.0 :face 'all-the-icons-blue) ; Object - 19
-          ,(all-the-icons-faicon "key" :height 0.9 :v-adjust -0.02) ; Key - 20
-          ,(all-the-icons-octicon "tag" :height 0.9 :v-adjust 0.0) ; Null - 21
-          ,(all-the-icons-material "format_align_right" :height 0.95 :v-adjust -0.15 :face 'all-the-icons-lblue) ; EnumMember - 22
-          ,(all-the-icons-material "settings_input_component" :height 0.9 :v-adjust -0.15 :face 'all-the-icons-orange) ; Struct - 23
-          ,(all-the-icons-octicon "zap" :height 0.9 :v-adjust 0 :face 'all-the-icons-orange) ; Event - 24
-          ,(all-the-icons-material "control_point" :height 0.9 :v-adjust -0.15) ; Operator - 25
-          ,(all-the-icons-faicon "arrows" :height 0.9 :v-adjust -0.02) ; TypeParameter - 26
+        `(,(nerd-icons-codicon "nf-cod-symbol_namespace") ; Unknown - 0
+          ,(nerd-icons-codicon "nf-cod-symbol_file") ; File - 1
+          ,(nerd-icons-codicon "nf-cod-symbol_namespace" :face 'nerd-icons-lblue) ; Module - 2
+          ,(nerd-icons-codicon "nf-cod-symbol_namespace" :face 'nerd-icons-lblue) ; Namespace - 3
+          ,(nerd-icons-codicon "nf-cod-package") ; Package - 4
+          ,(nerd-icons-codicon "nf-cod-symbol_class" :face 'nerd-icons-orange) ; Class - 5
+          ,(nerd-icons-codicon "nf-cod-symbol_method" :face 'nerd-icons-purple) ; Method - 6
+          ,(nerd-icons-codicon "nf-cod-symbol_property") ; Property - 7
+          ,(nerd-icons-codicon "nf-cod-symbol_field" :face 'nerd-icons-lblue) ; Field - 8
+          ,(nerd-icons-codicon "nf-cod-symbol_method" :face 'nerd-icons-lpurple) ; Constructor - 9
+          ,(nerd-icons-codicon "nf-cod-symbol_enum" :face 'nerd-icons-orange) ; Enum - 10
+          ,(nerd-icons-codicon "nf-cod-symbol_interface" :face 'nerd-icons-lblue) ; Interface - 11
+          ,(nerd-icons-codicon "nf-cod-symbol_method" :face 'nerd-icons-purple) ; Function - 12
+          ,(nerd-icons-codicon "nf-cod-symbol_variable" :face 'nerd-icons-lblue) ; Variable - 13
+          ,(nerd-icons-codicon "nf-cod-symbol_constant") ; Constant - 14
+          ,(nerd-icons-codicon "nf-cod-symbol_string") ; String - 15
+          ,(nerd-icons-codicon "nf-cod-symbol_numeric") ; Number - 16
+          ,(nerd-icons-codicon "nf-cod-symbol_boolean" :face 'nerd-icons-lblue) ; Boolean - 17
+          ,(nerd-icons-codicon "nf-cod-symbol_array") ; Array - 18
+          ,(nerd-icons-codicon "nf-cod-symbol_class" :face 'nerd-icons-blue) ; Object - 19
+          ,(nerd-icons-codicon "nf-cod-symbol_key") ; Key - 20
+          ,(nerd-icons-codicon "nf-cod-symbol_numeric" :face 'nerd-icons-dsilver) ; Null - 21
+          ,(nerd-icons-codicon "nf-cod-symbol_enum_member" :face 'nerd-icons-lblue) ; EnumMember - 22
+          ,(nerd-icons-codicon "nf-cod-symbol_structure" :face 'nerd-icons-orange) ; Struct - 23
+          ,(nerd-icons-codicon "nf-cod-symbol_event" :face 'nerd-icons-orange) ; Event - 24
+          ,(nerd-icons-codicon "nf-cod-symbol_operator") ; Operator - 25
+          ,(nerd-icons-codicon "nf-cod-symbol_class") ; TypeParameter - 26
           ))
-
       (lsp-defun my-lsp-ivy--format-symbol-match
         ((sym &as &SymbolInformation :kind :location (&Location :uri))
          project-root)
@@ -315,5 +371,13 @@
   (add-to-list 'org-babel-lang-list (if (>= emacs-major-version 25.2) "shell" "sh"))
   (dolist (lang org-babel-lang-list)
     (eval `(lsp-org-babel-enable ,lang))))
+
+(use-package kind-icon
+  :ensure t
+  :after corfu
+  :custom
+  (kind-icon-default-face 'corfu-default) ; to compute blended backgrounds correctly
+  :config
+  (add-to-list 'corfu-margin-formatters #'kind-icon-margin-formatter))
 
 (provide 'lsp-settings)

@@ -89,92 +89,25 @@ FUN-LIST can be a symbol, also can be a list whose element is a symbol."
 (use-package unicode-fonts
   :init (unicode-fonts-setup)
   :config
-  (set-frame-font "Monaco")  ;;默认字体
+  (set-frame-font "SauceCodePro Nerd Font")  ;;默认字体
   (face-spec-set 'default `((t (:height , 150)))) ;;默认大小
   )
+
+(use-package nerd-icons
+  :demand t
+  :custom
+  ;; The Nerd Font you want to use in GUI
+  ;; "Symbols Nerd Font Mono" is the default and is recommended
+  ;; but you can use any other Nerd Font if you want
+  (nerd-icons-font-family "Symbols Nerd Font JetBrains Mono")
+  )
+
 
 (use-package hide-mode-line
   :hook (((completion-list-mode
            completion-in-region-mode
            pdf-annot-list-mode
            flycheck-error-list-mode) . hide-mode-line-mode)))
-
-;; Icons
-;; NOTE: Must run `M-x all-the-icons-install-fonts', and install fonts manually on Windows
-(use-package all-the-icons
-  :if (display-graphic-p)
-  :init  (unless (or sys/win32p
-                     (daemonp)
-                     (font-installed-p "all-the-icons"))
-           (zgh-install-fonts))
-  :config
-  ;; Support more icons
-  (let ((extension-icon-alist
-         '(("bat"  all-the-icons-alltheicon "terminal" :face all-the-icons-lsilver)
-           ("cmd"  all-the-icons-alltheicon "terminal" :face all-the-icons-lsilver)
-           ("conf" all-the-icons-octicon "settings"    :v-adjust 0.0 :face all-the-icons-yellow)
-           ("eln"  all-the-icons-octicon "file-binary" :v-adjust 0.0 :face all-the-icons-dsilver)
-           ("epub" all-the-icons-faicon "book"         :height 1.0 :v-adjust -0.1 :face all-the-icons-green)
-           ("exe"  all-the-icons-octicon "file-binary" :v-adjust 0.0 :face all-the-icons-dsilver)
-           ("make" all-the-icons-fileicon "gnu"        :face all-the-icons-dorange)
-           ("rss"  all-the-icons-octicon "rss"         :height 1.1 :v-adjust 0.0 :face all-the-icons-lorange)
-           ("toml" all-the-icons-octicon "settings"    :v-adjust 0.0 :face all-the-icons-yellow)
-           ("tsx"  all-the-icons-fileicon "tsx"        :height 1.0 :v-adjust -0.1 :face all-the-icons-cyan-alt)
-           ("xpm"  all-the-icons-octicon "file-media"  :v-adjust 0.0 :face all-the-icons-dgreen))))
-    (dolist (icon extension-icon-alist)
-      (add-to-list 'all-the-icons-extension-icon-alist icon)))
-
-  (let ((regexp-icon-alist
-         '(("\\.[bB][iI][nN]$"               all-the-icons-octicon "file-binary" :v-adjust 0.0 :face all-the-icons-yellow)
-           ("^config$"                       all-the-icons-octicon "settings"    :v-adjust 0.0 :face all-the-icons-dorange)
-           ("\\.\\(ba\\|z\\)shrc$"           all-the-icons-alltheicon "script"   :height 0.9 :face all-the-icons-dpink)
-           ("\\.\\(bash\\|zsh\\)*_?profile$" all-the-icons-alltheicon "script"   :height 0.9 :face all-the-icons-dred)
-           ("\\.\\(ba\\|z\\)sh_history$"     all-the-icons-alltheicon "script"   :height 0.9 :face all-the-icons-dsilver)
-           ("\\.zshenv$"                     all-the-icons-alltheicon "script"   :height 0.9 :face all-the-icons-dred)
-           ("Cask\\'"                        all-the-icons-fileicon "elisp"      :height 1.0 :v-adjust -0.2 :face all-the-icons-blue)
-           ("NEWS$"                          all-the-icons-faicon "newspaper-o"  :height 0.9 :v-adjust -0.2)
-           ("^Rakefile$"                     all-the-icons-alltheicon "ruby-alt" :face all-the-icons-red))))
-    (dolist (icon regexp-icon-alist)
-      (add-to-list 'all-the-icons-regexp-icon-alist icon)))
-
-  (let ((mode-icon-alist
-         '((xwidget-webkit-mode           all-the-icons-faicon "chrome"          :v-adjust -0.1 :face all-the-icons-blue)
-           (bongo-playlist-mode           all-the-icons-material "queue_music"   :height 1.3 :face all-the-icons-green)
-           (bongo-library-mode            all-the-icons-material "library_music" :height 1.1 :face all-the-icons-green)
-           (simple-mpc-mode               all-the-icons-faicon "music"           :v-adjust -0.1 :face all-the-icons-green)
-           (mingus-playlist-mode          all-the-icons-faicon "music"           :v-adjust -0.1 :face all-the-icons-green)
-           (mingus-help-mode              all-the-icons-material "music_note"    :height 1.2 :face all-the-icons-green)
-           (mingus-browse-mode            all-the-icons-material "library_music" :height 1.1 :face all-the-icons-green)
-           (mingus-burn-mode              all-the-icons-material "queue_music"   :height 1.3 :face all-the-icons-green)
-           (gnus-group-mode               all-the-icons-fileicon "gnu"           :face all-the-icons-silver)
-           (gnus-summary-mode             all-the-icons-octicon "inbox"          :height 1.0 :v-adjust 0.0 :face all-the-icons-orange)
-           (gnus-article-mode             all-the-icons-octicon "mail"           :height 1.1 :v-adjust 0.0 :face all-the-icons-lblue)
-           (message-mode                  all-the-icons-octicon "mail"           :height 1.1 :v-adjust 0.0 :face all-the-icons-lblue)
-           (diff-mode                     all-the-icons-octicon "git-compare"    :v-adjust 0.0 :face all-the-icons-lred)
-           (flycheck-error-list-mode      all-the-icons-octicon "checklist"      :height 1.1 :v-adjust 0.0 :face all-the-icons-lred)
-           (newsticker-mode               all-the-icons-faicon "rss-square"      :v-adjust -0.1 :face all-the-icons-orange)
-           (newsticker-treeview-mode      all-the-icons-faicon "rss-square"      :v-adjust -0.1 :face all-the-icons-orange)
-           (newsticker-treeview-list-mode all-the-icons-octicon "rss"            :height 1.1 :v-adjust 0.0 :face all-the-icons-orange)
-           (newsticker-treeview-item-mode all-the-icons-octicon "rss"            :height 1.1 :v-adjust 0.0 :face all-the-icons-lorange)
-           (conf-mode                     all-the-icons-octicon "settings"       :v-adjust 0.0 :face all-the-icons-yellow)
-           (conf-space-mode               all-the-icons-octicon "settings"       :v-adjust 0.0 :face all-the-icons-yellow)
-           (gitconfig-mode                all-the-icons-octicon "settings"       :v-adjust 0.0 :face all-the-icons-dorange)
-           (forge-topic-mode              all-the-icons-alltheicon "git"         :face all-the-icons-blue)
-           (help-mode                     all-the-icons-faicon "info-circle"     :height 1.1 :v-adjust -0.1 :face all-the-icons-purple)
-           (helpful-mode                  all-the-icons-faicon "info-circle"     :height 1.1 :v-adjust -0.1 :face all-the-icons-purple)
-           (Info-mode                     all-the-icons-faicon "info-circle"     :height 1.1 :v-adjust -0.1)
-           (cask-mode                     all-the-icons-fileicon "elisp"         :height 1.0 :v-adjust -0.2 :face all-the-icons-blue)
-           (ein:notebooklist-mode         all-the-icons-faicon "book"            :face all-the-icons-lorange)
-           (ein:notebook-mode             all-the-icons-fileicon "jupyter"       :height 1.2 :face all-the-icons-orange)
-           (ein:notebook-multilang-mode   all-the-icons-fileicon "jupyter"       :height 1.2 :face all-the-icons-dorange)
-           (nov-mode                      all-the-icons-faicon "book"            :height 1.0 :v-adjust -0.1 :face all-the-icons-green)
-           (gfm-mode                      all-the-icons-octicon "markdown"       :face all-the-icons-lblue)
-           (osx-dictionary-mode           all-the-icons-material "library_books" :face all-the-icons-lblue)
-           (youdao-dictionary-mode        all-the-icons-material "library_books" :face all-the-icons-lblue)
-           (fanyi-mode                    all-the-icons-material "library_books" :face all-the-icons-lblue))))
-    (dolist (icon mode-icon-alist)
-      (add-to-list 'all-the-icons-mode-icon-alist icon)))
-  )
 
 
 ;; Show native line numbers if possible, otherwise use `linum'
@@ -316,7 +249,7 @@ Nil to use font supports ligatures."
   (load-theme 'doom-dracula t)
   (doom-themes-visual-bell-config)
   ;; Enable custom neotree theme
-  (doom-themes-neotree-config)  ; all-the-icons fonts must be installed!
+  (doom-themes-neotree-config)
   )
 
 
@@ -324,9 +257,9 @@ Nil to use font supports ligatures."
   :hook (after-init . doom-modeline-mode)
   :init
   (setq doom-modeline-icon zgh-icon
-        doom-modeline-height 1
-        doom-modeline-modal-icon nil
+        ;;doom-modeline-height 1
         find-file-visit-truename t
+        doom-modeline-window-width-limit 110
         doom-modeline-project-detection 'project
         doom-modeline-minor-modes t)
   (unless after-init-time
@@ -334,8 +267,8 @@ Nil to use font supports ligatures."
   :bind (:map doom-modeline-mode-map
          ("C-<f6>" . doom-modeline-hydra/body))
   :pretty-hydra
-  ((:title (pretty-hydra-title "Mode Line" 'fileicon "emacs" :face 'all-the-icons-purple :v-adjust -0.1)
-    :color amaranth :quit-key "q")
+  ((:title (pretty-hydra-title "Mode Line" 'sucicon "nf-custom-emacs" :face 'nerd-icons-purple)
+    :color amaranth :quit-key ("q" "C-g")
    ("Icon"
     (("i" (setq doom-modeline-icon (not doom-modeline-icon))
       "display icons" :toggle doom-modeline-icon)
@@ -447,19 +380,20 @@ Nil to use font supports ligatures."
      ("z h" (counsel-read-setq-expression 'doom-modeline-height) "set height")
      ("z w" (counsel-read-setq-expression 'doom-modeline-bar-width) "set bar width")
      ("z g" (counsel-read-setq-expression 'doom-modeline-github-interval) "set github interval")
-     ("z n" (counsel-read-setq-expression 'doom-modeline-gnus-timer) "set gnus interval")))))
+     ("z n" (counsel-read-setq-expression 'doom-modeline-gnus-timer) "set gnus interval"))))
+   ))
 
 (use-package dashboard
   :diminish (dashboard-mode page-break-lines-mode)
-  :functions (all-the-icons-faicon
-              all-the-icons-material
+  :functions (nerd-icons-faicon
+              nerd-icons-oction
               winner-undo
               widget-forward)
   :custom-face (dashboard-heading ((t (:inherit (font-lock-string-face bold)))))
   :hook (dashboard-mode . (lambda () (setq-local frame-title-format "")))
   :init
   (setq
-   dashboard-startup-banner (or zgh-logo 'official)
+
    dashboard-center-content t
    dashboard-show-shortcuts nil
    dashboard-items '((recents  . 8)
@@ -469,22 +403,22 @@ Nil to use font supports ligatures."
    dashboard-set-init-info t
    dashboard-set-file-icons zgh-icon
    dashboard-set-heading-icons zgh-icon
-   dashboard-heading-icons '((recents   . "file-text")
-                             (bookmarks . "bookmark")
-                             (agenda    . "calendar")
-                             (projects  . "briefcase")
-                             (registers . "database"))
-
+   dashboard-heading-icons '((recents   . "nf-oct-history")
+                             (bookmarks . "nf-oct-bookmark")
+                             (agenda    . "nf-oct-calendar")
+                             (projects  . "nf-oct-briefcase")
+                             (registers . "nf-oct-database"))
    dashboard-set-footer t
-   dashboard-footer-icon (cond ((icons-displayable-p)
-                                (all-the-icons-faicon "heart"
-                                                      :height 1.1
-                                                      :v-adjust -0.05
-                                                      :face 'error))
-                               ((char-displayable-p ?🧡) "🧡 ")
-                               (t (propertize ">" 'face 'dashboard-footer)))
+   dashboard-footer-icon (cond
+                          ((icons-displayable-p)
+                           (nerd-icons-octicon "nf-oct-heart" :height 1.2 :face 'nerd-icons-lred))
 
-   dashboard-set-navigator t)
+                          (t (propertize ">" 'face 'dashboard-footer)))
+
+
+   dashboard-set-navigator t
+   )
+
   (dashboard-setup-startup-hook)
   :config
   ;; WORKAROUND: fix differnct background color of the banner image.
@@ -513,10 +447,10 @@ Nil to use font supports ligatures."
     "Insert copyright in the footer."
     (when dashboard-set-footer
       (dashboard-insert-center
-      (propertize (format "Package by Drake Zhang, Powered by Centaur Emacs  %s\n" (format-time-string "%Y"))
-                  'face font-lock-comment-face))))
+       (propertize (format "Package by Drake Zhang, Powered by Centaur Emacs  %s\n" (format-time-string "%Y"))
+                   'face font-lock-comment-face))))
   (advice-add #'dashboard-insert-footer :after #'my-dashboard-insert-copyright)
-)
+  )
 
 ;;(require 'dashboard)
 (provide 'face-settings)

@@ -111,13 +111,6 @@ decrease this. If you experience stuttering, increase this.")
 
     (unless (file-directory-p font-dest) (mkdir font-dest t))
 
-    ;; Download `all-the-fonts'
-    (when (bound-and-true-p all-the-icons-font-names)
-      (let ((url-format "https://raw.githubusercontent.com/domtronn/all-the-icons.el/master/fonts/%s"))
-        (mapc (lambda (font)
-                (url-copy-file (format url-format font) (expand-file-name font font-dest) t))
-              all-the-icons-font-names)))
-
     ;; Download `Symbola'
     ;; See https://dn-works.com/wp-content/uploads/2020/UFAS-Fonts/Symbola.zip
     (let* ((url "https://dn-works.com/wp-content/uploads/2020/UFAS-Fonts/Symbola.zip")
@@ -234,10 +227,10 @@ like argument of `define-key'."
  '(indent-tabs-mode nil))
 
 (defun icons-displayable-p ()
-  "Return non-nil if `all-the-icons' is displayable."
+  "Return non-nil if `nerd-icons' is displayable."
   (and zgh-icon
        (display-graphic-p)
-       (require 'all-the-icons nil t)))
+       (require 'nerd-icons nil t)))
 
 (provide 'zgh-startup)
 ;;; startup.el ends here

@@ -465,13 +465,6 @@ This is for use in `ivy-re-builders-alist'."
     :bind (:map counsel-mode-map
            ("C-c c T" . counsel-tramp))))
 
-(if zgh-icon
-    ;; Better experience with icons
-    ;; Enable it before`ivy-rich-mode' for better performance
-    (use-package all-the-icons-ivy-rich
-      :hook (ivy-mode . all-the-icons-ivy-rich-mode)))
-
-
 ;; More friendly display transformer for Ivy
 (use-package ivy-rich
   :hook (;; Must load after `counsel-projectile'
@@ -483,6 +476,14 @@ This is for use in `ivy-re-builders-alist'."
   :init
   ;; For better performance
   (setq ivy-rich-parse-remote-buffer nil))
+
+;; Better experience with icons
+;; Enable it before`ivy-rich-mode' for better performance
+(use-package nerd-icons-ivy-rich
+  :ensure t
+  :init
+  (nerd-icons-ivy-rich-mode 1)
+  (ivy-rich-mode 1))
 
 (provide 'init-ivy)
 

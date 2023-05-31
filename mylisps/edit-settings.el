@@ -328,21 +328,21 @@
   :bind ("s-<f12>" . pomidor)
   :init
   (setq alert-default-style 'mode-line)
-  (with-eval-after-load 'all-the-icons
+  (with-eval-after-load 'nerd-icons
     (setq alert-severity-faces
-          '((urgent   . all-the-icons-red)
-            (high     . all-the-icons-orange)
-            (moderate . all-the-icons-yellow)
-            (normal   . all-the-icons-green)
-            (low      . all-the-icons-blue)
-            (trivial  . all-the-icons-purple))
+          '((urgent   . nerd-icons-red)
+            (high     . nerd-icons-orange)
+            (moderate . nerd-icons-yellow)
+            (normal   . nerd-icons-green)
+            (low      . nerd-icons-blue)
+            (trivial  . nerd-icons-purple))
           alert-severity-colors
-          `((urgent   . ,(face-foreground 'all-the-icons-red))
-            (high     . ,(face-foreground 'all-the-icons-orange))
-            (moderate . ,(face-foreground 'all-the-icons-yellow))
-            (normal   . ,(face-foreground 'all-the-icons-green))
-            (low      . ,(face-foreground 'all-the-icons-blue))
-            (trivial  . ,(face-foreground 'all-the-icons-purple)))))
+          `((urgent   . ,(face-foreground 'nerd-icons-red))
+            (high     . ,(face-foreground 'nerd-icons-orange))
+            (moderate . ,(face-foreground 'nerd-icons-yellow))
+            (normal   . ,(face-foreground 'nerd-icons-green))
+            (low      . ,(face-foreground 'nerd-icons-blue))
+            (trivial  . ,(face-foreground 'nerd-icons-purple)))))
   (when sys/macp
     (setq pomidor-play-sound-file
           (lambda (file)
@@ -356,9 +356,9 @@
   :init (setq ibuffer-filter-group-name-face '(:inherit (font-lock-string-face bold)))
   :config
   ;; Display icons for buffers
-  (use-package all-the-icons-ibuffer
-    :hook (ibuffer-mode . all-the-icons-ibuffer-mode)
-    :init (setq all-the-icons-ibuffer-icon zgh-icon))
+  (use-package nerd-icons-ibuffer
+    :ensure t
+    :hook (ibuffer-mode . nerd-icons-ibuffer-mode))
 
   (with-eval-after-load 'counsel
     (with-no-warnings
@@ -375,7 +375,7 @@
 
 ;; Group ibuffer's list by project root
 (use-package ibuffer-projectile
-  :functions all-the-icons-octicon ibuffer-do-sort-by-alphabetic
+  :functions nerd-icons-insert-octicon ibuffer-do-sort-by-alphabetic
   :hook ((ibuffer . (lambda ()
                       (ibuffer-projectile-set-filter-groups)
                       (unless (eq ibuffer-sorting-mode 'alphabetic)
@@ -384,10 +384,10 @@
   (setq ibuffer-projectile-prefix
         (if (icons-displayable-p)
             (concat
-             (all-the-icons-octicon "file-directory"
-                                    :face ibuffer-filter-group-name-face
-                                    :v-adjust 0.0
-                                    :height 1.0)
+             (nerd-icons-octicon "file-directory"
+                                 :face ibuffer-filter-group-name-face
+                                 :v-adjust 0.0
+                                 :height 1.0)
              " ")
           "Project: ")))
 
