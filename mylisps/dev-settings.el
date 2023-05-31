@@ -39,9 +39,9 @@
   (setq-default prettify-symbols-alist centaur-prettify-symbols-alist)
   (setq prettify-symbols-unprettify-at-point 'right-edge))
 
+
 (use-package treesit-auto
-  :config
-  (global-treesit-auto-mode)
+  :hook (after-init . global-treesit-auto-mode)
   )
 
 ;; Jump to definition
@@ -78,7 +78,6 @@
   :bind (("C-<f5>" . quickrun)
          ("C-c X" . quickrun)))
 
-
 (when (>= emacs-major-version 27)
   (use-package devdocs
     :autoload (devdocs--installed-docs devdocs--available-docs)
@@ -101,19 +100,19 @@
         (emacs-lisp-mode . ("elisp")))
       "Alist of major-mode and docs.")
     (add-hook 'python-mode-hook
-          (lambda () (setq-local devdocs-current-docs '("python~3.9"))))
+              (lambda () (setq-local devdocs-current-docs '("python~3.9"))))
     (add-hook 'emacs-lisp-mode-hook
-          (lambda () (setq-local devdocs-current-docs '("elisp"))))
+              (lambda () (setq-local devdocs-current-docs '("elisp"))))
     (add-hook 'go-mode-hook
-          (lambda () (setq-local devdocs-current-docs '("go"))))
+              (lambda () (setq-local devdocs-current-docs '("go"))))
     (add-hook 'c-mode-hook
-          (lambda () (setq-local devdocs-current-docs '("c"))))
+              (lambda () (setq-local devdocs-current-docs '("c"))))
     (add-hook 'c++-mode-hook
-          (lambda () (setq-local devdocs-current-docs '("cpp"))))
+              (lambda () (setq-local devdocs-current-docs '("cpp"))))
     (add-hook 'rustic-mode-hook
               (lambda () (setq-local devdocs-current-docs '("rust"))))
     (add-hook 'css-
-          (lambda () (setq-local devdocs-current-docs '("c"))))
+              (lambda () (setq-local devdocs-current-docs '("c"))))
 
     (setq devdocs-data-dir (expand-file-name "devdocs" user-emacs-directory))
 

@@ -31,7 +31,7 @@
 (use-package ace-window
   :pretty-hydra
   ((:title (pretty-hydra-title "Window Management" 'faicon "th" :height 1.1 :v-adjust -0.1)
-    :foreign-keys warn :quit-key "q")
+           :foreign-keys warn :quit-key "q")
    ("Actions"
     (("TAB" other-window "switch")
      ("x" ace-delete-window "delete" :exit t)
@@ -110,21 +110,7 @@
             (aw-switch-to-window win)))
         (unless found
           (message "No specified window: %d" number)))))
-
-  (defun bind-switch-to-terminal (num)
-    (lexical-let* ((buf-num num)
-                   (switch-func
-                    (lambda ()
-                      (interactive)
-                      (aw--select-window buf-num))))
-      (global-set-key
-       (kbd (format "M-%d" buf-num))
-       switch-func)))
-  (dotimes (n 9)
-    (bind-switch-to-terminal (1+ n))
-    )
   )
-
 
 
 (use-package shackle

@@ -62,6 +62,7 @@
   (setq use-package-enable-imenu-support t))
 
 (eval-when-compile
+  (require 'cl)
   (require 'use-package))
 ;; Required by `use-package'
 (use-package diminish)

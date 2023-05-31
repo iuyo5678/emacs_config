@@ -25,7 +25,6 @@
 
 ;;
 
-
 (defalias 'move-beginning-of-line 'beginning-of-line)
 (defalias 'move-end-of-line       'end-of-line)
 

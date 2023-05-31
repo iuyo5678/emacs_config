@@ -68,14 +68,14 @@ FACE defaults to inheriting from default and highlight."
 (use-package symbol-overlay
   :custom-face
   (symbol-overlay-default-face ((t (:inherit region :background unspecified :foreground unspecified))))
-  (symbol-overlay-face-1 ((t (:inherit all-the-icons-blue :background unspecified :foreground unspecified :inverse-video t))))
-  (symbol-overlay-face-2 ((t (:inherit all-the-icons-pink :background unspecified :foreground unspecified :inverse-video t))))
-  (symbol-overlay-face-3 ((t (:inherit all-the-icons-yellow :background unspecified :foreground unspecified :inverse-video t))))
-  (symbol-overlay-face-4 ((t (:inherit all-the-icons-orange :background unspecified :foreground unspecified :inverse-video t))))
-  (symbol-overlay-face-5 ((t (:inherit all-the-icons-red :background unspecified :foreground unspecified :inverse-video t))))
-  (symbol-overlay-face-6 ((t (:inherit all-the-icons-maroon :background unspecified :foreground unspecified :inverse-video t))))
-  (symbol-overlay-face-7 ((t (:inherit all-the-icons-green :background unspecified :foreground unspecified :inverse-video t))))
-  (symbol-overlay-face-8 ((t (:inherit all-the-icons-cyan :background unspecified :foreground unspecified :inverse-video t))))
+  (symbol-overlay-face-1 ((t (:inherit nerd-icons-blue :background unspecified :foreground unspecified :inverse-video t))))
+  (symbol-overlay-face-2 ((t (:inherit nerd-icons-pink :background unspecified :foreground unspecified :inverse-video t))))
+  (symbol-overlay-face-3 ((t (:inherit nerd-icons-yellow :background unspecified :foreground unspecified :inverse-video t))))
+  (symbol-overlay-face-4 ((t (:inherit nerd-icons-orange :background unspecified :foreground unspecified :inverse-video t))))
+  (symbol-overlay-face-5 ((t (:inherit nerd-icons-red :background unspecified :foreground unspecified :inverse-video t))))
+  (symbol-overlay-face-6 ((t (:inherit nerd-icons-purple :background unspecified :foreground unspecified :inverse-video t))))
+  (symbol-overlay-face-7 ((t (:inherit nerd-icons-green :background unspecified :foreground unspecified :inverse-video t))))
+  (symbol-overlay-face-8 ((t (:inherit nerd-icons-cyan :background unspecified :foreground unspecified :inverse-video t))))
   :bind (("M-i" . symbol-overlay-put)
          ("M-n" . symbol-overlay-jump-next)
          ("M-p" . symbol-overlay-jump-prev)
@@ -84,7 +84,6 @@ FACE defaults to inheriting from default and highlight."
          ("M-C" . symbol-overlay-remove-all)
          ([M-f3] . symbol-overlay-remove-all))
   )
-
 ;; Highlight indentions
 (if (display-graphic-p)
     (use-package highlight-indent-guides
@@ -92,46 +91,46 @@ FACE defaults to inheriting from default and highlight."
       :hook ((prog-mode yaml-mode) . (lambda ()
                                        "Highlight indentations in small files for better performance."
                                        (unless (too-long-file-p)
-					 (highlight-indent-guides-mode 1))))
+                                         (highlight-indent-guides-mode 1))))
       :init (setq highlight-indent-guides-method 'character
-		  highlight-indent-guides-responsive 'top
-		  highlight-indent-guides-suppress-auto-error t)
+                  highlight-indent-guides-responsive 'top
+                  highlight-indent-guides-suppress-auto-error t)
       :config
       (with-no-warnings
-	;; Don't display first level of indentation
-	(defun my-indent-guides-for-all-but-first-column (level responsive display)
-	  (unless (< level 1)
+        ;; Don't display first level of indentation
+        (defun my-indent-guides-for-all-but-first-column (level responsive display)
+          (unless (< level 1)
             (highlight-indent-guides--highlighter-default level responsive display)))
-	(setq highlight-indent-guides-highlighter-function
+        (setq highlight-indent-guides-highlighter-function
               #'my-indent-guides-for-all-but-first-column)
 
-	;; Disable in `macrostep' expanding
-	(with-eval-after-load 'macrostep
-	  (advice-add #'macrostep-expand
+        ;; Disable in `macrostep' expanding
+        (with-eval-after-load 'macrostep
+          (advice-add #'macrostep-expand
                       :after (lambda (&rest _)
                                (when highlight-indent-guides-mode
-				 (highlight-indent-guides-mode -1))))
-	  (advice-add #'macrostep-collapse
+                                 (highlight-indent-guides-mode -1))))
+          (advice-add #'macrostep-collapse
                       :after (lambda (&rest _)
                                (when (derived-mode-p 'prog-mode 'yaml-mode)
-				 (highlight-indent-guides-mode 1)))))
+                                 (highlight-indent-guides-mode 1)))))
 
-	;; Don't display indentations in `swiper'
-	;; https://github.com/DarthFennec/highlight-indent-guides/issues/40
-	(with-eval-after-load 'ivy
-	  (defun my-ivy-cleanup-indentation (str)
+        ;; Don't display indentations in `swiper'
+        ;; https://github.com/DarthFennec/highlight-indent-guides/issues/40
+        (with-eval-after-load 'ivy
+          (defun my-ivy-cleanup-indentation (str)
             "Clean up indentation highlighting in ivy minibuffer."
             (let ((pos 0)
-		  (next 0)
-		  (limit (length str))
-		  (prop 'highlight-indent-guides-prop))
+                  (next 0)
+                  (limit (length str))
+                  (prop 'highlight-indent-guides-prop))
               (while (and pos next)
-		(setq next (text-property-not-all pos limit prop nil str))
-		(when next
-		  (setq pos (text-property-any next limit prop nil str))
-		  (ignore-errors
+                (setq next (text-property-not-all pos limit prop nil str))
+                (when next
+                  (setq pos (text-property-any next limit prop nil str))
+                  (ignore-errors
                     (remove-text-properties next pos '(display nil face nil) str))))))
-	  (advice-add #'ivy-cleanup-string :after #'my-ivy-cleanup-indentation))))
+          (advice-add #'ivy-cleanup-string :after #'my-ivy-cleanup-indentation))))
   (use-package highlight-indentation)
   )
 ;; Colorize color names in buffers

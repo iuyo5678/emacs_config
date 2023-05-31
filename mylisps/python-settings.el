@@ -41,7 +41,17 @@
     (exec-path-from-shell-copy-env "PYTHONPATH"))
 
   ;; Live Coding in Python
-  (use-package live-py-mode))
+  (use-package live-py-mode)
+  (use-package pipenv
+    :hook (python-mode . pipenv-mode)
+    :init
+    (setq
+     pipenv-projectile-after-switch-function
+     #'pipenv-projectile-after-switch-extended))
+  )
+(use-package ein
+  :defer t
+  )
 
 (use-package pipenv
   :hook (python-mode . pipenv-mode)

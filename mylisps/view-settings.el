@@ -122,7 +122,7 @@ NEW-SESSION specifies whether to create a new xwidget-webkit session."
 ;; Atom/RSS reader
 (use-package elfeed
   :pretty-hydra
-  ((:title (pretty-hydra-title "Elfeed" 'faicon "rss-square" :face 'all-the-icons-orange :height 1.1 :v-adjust -0.05)
+  ((:title (pretty-hydra-title "Elfeed" 'faicon "rss-square" :face 'nerd-icons-orange :height 1.1 :v-adjust -0.05)
     :color amaranth :quit-key ("q" "C-g"))
    ("Search"
     (("c" elfeed-db-compact "compact db")
@@ -155,14 +155,14 @@ NEW-SESSION specifies whether to create a new xwidget-webkit session."
               elfeed-show-entry-switch #'pop-to-buffer
               elfeed-show-entry-delete #'delete-window
               elfeed-feeds '(
-                ("http://feeds2.feedburner.com/cnbeta-full" cnBeta)
-                ("https://www.huxiu.com/rss/0.xml" 虎嗅)
-                ("https://36kr.com/feed" 36ker)
-                ("https://www.ifanr.com/feed" ifanr)
-                ("https://www.pingwest.com/feed/" pingwest)
-                ("https://www.zhihu.com/rss" 知乎)
-                ("https://www.feng.com/rss.xml" 威锋网)
-                ))
+                             ("http://feeds2.feedburner.com/cnbeta-full" cnBeta)
+                             ("https://www.huxiu.com/rss/0.xml" 虎嗅)
+                             ("https://36kr.com/feed" 36ker)
+                             ("https://www.ifanr.com/feed" ifanr)
+                             ("https://www.pingwest.com/feed/" pingwest)
+                             ("https://www.zhihu.com/rss" 知乎)
+                             ("https://www.feng.com/rss.xml" 威锋网)
+                             ))
   :config
   ;; Ignore db directory in recentf
   (push elfeed-db-directory recentf-exclude)
