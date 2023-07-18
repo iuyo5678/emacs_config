@@ -38,7 +38,7 @@
           (holiday-fixed 12 25 "圣诞节")
           (holiday-float 5 0 2 "母亲节")
           (holiday-float 6 0 3 "父亲节")
-          (holiday-float 10 24 "程序员节")
+          (holiday-fixed 10 24 "程序员节")
           (holiday-float 11 4 4 "感恩节")))
   (setq calendar-holidays
         (append cal-china-x-important-holidays
@@ -89,17 +89,12 @@ FUN-LIST can be a symbol, also can be a list whose element is a symbol."
 (use-package unicode-fonts
   :init (unicode-fonts-setup)
   :config
-  (set-frame-font "SauceCodePro Nerd Font")  ;;默认字体
+  (set-frame-font "JetBrainsMono Nerd Font Mono")  ;;默认字体
   (face-spec-set 'default `((t (:height , 150)))) ;;默认大小
   )
 
 (use-package nerd-icons
   :demand t
-  :custom
-  ;; The Nerd Font you want to use in GUI
-  ;; "Symbols Nerd Font Mono" is the default and is recommended
-  ;; but you can use any other Nerd Font if you want
-  (nerd-icons-font-family "Symbols Nerd Font JetBrains Mono")
   )
 
 
@@ -239,14 +234,16 @@ Nil to use font supports ligatures."
 
 
 (use-package solaire-mode
-  :hook (after-load-theme . solaire-global-mode))
+  :defer 0.1
+  :config (solaire-global-mode 1))
 
 (use-package doom-themes
-  :config
+  :ensure t
+  :init
   ;; Enable flashing mode-line on errors
   (setq doom-themes-enable-bold t    ; if nil, bold is universally disabled
         doom-themes-enable-italic t) ; if nil, italics is universally disabled
-  (load-theme 'doom-dracula t)
+  (load-theme 'doom-Iosvkem t)
   (doom-themes-visual-bell-config)
   ;; Enable custom neotree theme
   (doom-themes-neotree-config)
@@ -268,7 +265,7 @@ Nil to use font supports ligatures."
          ("C-<f6>" . doom-modeline-hydra/body))
   :pretty-hydra
   ((:title (pretty-hydra-title "Mode Line" 'sucicon "nf-custom-emacs" :face 'nerd-icons-purple)
-    :color amaranth :quit-key ("q" "C-g")
+    :color amaranth :quit-key ("q" "C-g"))
    ("Icon"
     (("i" (setq doom-modeline-icon (not doom-modeline-icon))
       "display icons" :toggle doom-modeline-icon)
@@ -364,11 +361,7 @@ Nil to use font supports ligatures."
       "disable"
       :toggle (eq doom-modeline-project-detection nil)))
     "Misc"
-    (("g" (progn
-            (message "Fetching GitHub notifications...")
-            (run-with-timer 300 nil #'doom-modeline--github-fetch-notifications)
-            (browse-url "https://github.com/notifications"))
-      "github notifications" :exit t)
+    (
      ("e" (if (bound-and-true-p flycheck-mode)
               (flycheck-list-errors)
             (flymake-show-diagnostics-buffer))
@@ -381,20 +374,25 @@ Nil to use font supports ligatures."
      ("z w" (counsel-read-setq-expression 'doom-modeline-bar-width) "set bar width")
      ("z g" (counsel-read-setq-expression 'doom-modeline-github-interval) "set github interval")
      ("z n" (counsel-read-setq-expression 'doom-modeline-gnus-timer) "set gnus interval"))))
-   ))
+  )
 
 (use-package dashboard
-  :diminish (dashboard-mode page-break-lines-mode)
+  :diminish (dashboard-mode)
   :functions (nerd-icons-faicon
-              nerd-icons-oction
+              nerd-icons-mdicon
               winner-undo
               widget-forward)
-  :custom-face (dashboard-heading ((t (:inherit (font-lock-string-face bold)))))
+  :custom-face
+  (dashboard-heading ((t (:inherit (font-lock-string-face bold)))))
+  (dashboard-items-face ((t (:weight normal))))
+  (dashboard-no-items-face ((t (:weight normal))))
   :hook (dashboard-mode . (lambda () (setq-local frame-title-format "")))
   :init
   (setq
-
+   dashboard-banner-logo-title "Hello DrakeZhang - Typing Programming & Life"
+   dashboard-startup-banner (or zgh-logo 'official)
    dashboard-center-content t
+   dashboard-path-max-length 60
    dashboard-show-shortcuts nil
    dashboard-items '((recents  . 8)
                      (bookmarks . 5)

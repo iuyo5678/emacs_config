@@ -7,6 +7,8 @@
   :ensure nil
   :bind (:map dired-mode-map
          ("C-c C-p" . wdired-change-to-wdired-mode))
+  :custom
+  (dired-kill-when-opening-new-dired-buffer t)
   :config
   ;; Always delete and copy recursively
   (setq dired-recursive-deletes 'always
@@ -87,12 +89,4 @@
 (when (executable-find "fd")
   (use-package fd-dired))
 
-(use-package dired-single
-  :after (dired)
-  :bind (:map dired-mode-map
-          ([remap dired-find-file] . dired-single-buffer)
-	      ([remap dired-mouse-find-file-other-window] . dired-single-buffer-mouse)
-	      ([remap dired-up-directory] . dired-single-up-directory)
-          ("C-x d" . dired-single-magic-buffer)
-           ))
 (provide 'dired-settings)

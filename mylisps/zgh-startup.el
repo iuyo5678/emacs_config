@@ -174,6 +174,9 @@ decrease this. If you experience stuttering, increase this.")
 
 ;;custom config saveto personal/personal.el
 (setq custom-file (expand-file-name "personal/personal-info.el" user-emacs-directory))
+(setq-default c-basic-offset   4
+              tab-width        4
+              indent-tabs-mode nil)
 
 ;;;###autoload
 (defun eal-define-keys-commonly (keymap key-defs)
