@@ -70,11 +70,11 @@
   )
 (global-set-key (kbd "C-x m") 'get-mode-name)
 
-(use-package exec-path-from-shell
-  :init
-  (setq exec-path-from-shell-variables '("PATH" "MANPATH" "GOPATH")
-	    exec-path-from-shell-arguments '("-l"))
-  (exec-path-from-shell-initialize))
+;; (use-package exec-path-from-shell
+;;   :init
+;;   (setq exec-path-from-shell-variables '("PATH" "MANPATH" "GOPATH")
+;; 	    exec-path-from-shell-arguments '("-l"))
+;;   (exec-path-from-shell-initialize))
 
 
 ;; Start server
