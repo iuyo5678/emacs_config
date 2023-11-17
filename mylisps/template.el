@@ -1155,7 +1155,7 @@ line on."
     (when (cdr syntax)
       (goto-char orig)
       (error "Command only works with comments terminated by end-of-line"))
-    
+
     (if (and (eq last-command 'template-block-comment-success)
 	     (looking-at "[ \t]*$"))
 	(template-insert-newline "" nil (1- (template-point-at-bol)))
@@ -1342,28 +1342,28 @@ initial spaces."
 The regexp also matches if the lines ends with parts of COMMENT-END in
 argument SYNTAX, see `template-comment-syntax'."
   (let ((estring (cadr syntax))
-	(alist template-comment-specification-alist)
-	(chars nil)
-	str i c)
-    (while alist
-      (setq str (car (pop alist)))
-      (when str
-	(setq i (length str))
-	(while (>= (decf i) 0)
+	    (alist template-comment-specification-alist)
+	    (chars nil)
+	    str i c)
+   (while alist
+   (setq str (car (pop alist)))
+   (when str
+	  (setq i (length str))
+	  (while (>= (cl-decf i) 0)
 	  ;; (pushnew (aref str i) chars), but requires cl at runtime:
 	  (or (memq (setq c (aref str i)) chars) (push c chars)))))
-    (concat "\\("
-	    (mapconcat (lambda (c) (regexp-quote (char-to-string c)))
-		       (or chars "#")
-		       "\\|")
-	    (if estring
-		(concat "\\)+[ \t]*"
-			(mapconcat (lambda (c)
-				     (regexp-quote (char-to-string c)))
-				   estring
-				   "?")
-			"?[ \t]*$")
-	      "\\)+[ \t]*$"))))
+   (concat "\\("
+	  (mapconcat (lambda (c) (regexp-quote (char-to-string c)))
+	           (or chars "#")
+	           "\\|")
+	  (if estring
+	  (concat "\\)+[ \t]*"
+	          (mapconcat (lambda (c)
+	                 (regexp-quote (char-to-string c)))
+		estring
+		"?")
+	          "?[ \t]*$")
+	  "\\)+[ \t]*$"))))
 
 (defun template-comment-specification (arg old syntax)
   "Return the comment specification to use.
@@ -2502,7 +2502,7 @@ For ARG, see `template-define-start'."
     (if (string= comment "")
 	(template-define-start arg "(%S %S)" register contents)
       (template-define-start arg "(%S %S %S)" register contents comment))))
-  
+
 
 ;;;===========================================================================
 ;;;  Initialization

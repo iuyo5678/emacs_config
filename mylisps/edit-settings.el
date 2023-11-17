@@ -42,34 +42,35 @@
 (use-package aggressive-indent
   :diminish
   :hook ((after-init . global-aggressive-indent-mode)
-         ;; NOTE: Disable in large files due to the performance issues
-         ;; https://github.com/Malabarba/aggressive-indent-mode/issues/73
-         (find-file . (lambda ()
-                        (when (too-long-file-p)
-                          (aggressive-indent-mode -1)))))
+      ;; NOTE: Disable in large files due to the performance issues
+      ;; https://github.com/Malabarba/aggressive-indent-mode/issues/73
+     (find-file . (lambda ()
+                   (when (too-long-file-p)
+                   (aggressive-indent-mode -1)))))
   :config
   ;; Disable in some modes
   (dolist (mode '(gitconfig-mode asm-mode web-mode html-mode css-mode go-mode scala-mode prolog-inferior-mode))
-    (push mode aggressive-indent-excluded-modes))
+   (push mode aggressive-indent-excluded-modes))
 
   ;; Disable in some commands
   (add-to-list 'aggressive-indent-protected-commands #'delete-trailing-whitespace t)
 
   ;; Be slightly less aggressive in C/C++/C#/Java/Go/Swift
   (add-to-list 'aggressive-indent-dont-indent-if
-               '(and (derived-mode-p 'c-mode 'c++-mode 'csharp-mode
-                                     'java-mode 'go-mode 'swift-mode)
-                     (null (string-match "\\([;{}]\\|\\b\\(if\\|for\\|while\\)\\b\\)"
-                                         (thing-at-point 'line))))))
+         '(and (derived-mode-p 'c-mode 'c++-mode 'csharp-mode
+                              'java-mode 'go-mode 'swift-mode)
+              (null (string-match "\\([;{}]\\|\\b\\(if\\|for\\|while\\)\\b\\)"
+                                  (thing-at-point 'line))))))
 
+(use-package evil-nerd-commenter)
 
 (use-package anzu
   :diminish
   :bind (([remap query-replace] . anzu-query-replace)
-         ([remap query-replace-regexp] . anzu-query-replace-regexp)
-         :map isearch-mode-map
-         ([remap isearch-query-replace] . anzu-isearch-query-replace)
-         ([remap isearch-query-replace-regexp] . anzu-isearch-query-replace-regexp))
+        ([remap query-replace-regexp] . anzu-query-replace-regexp)
+        :map isearch-mode-map
+        ([remap isearch-query-replace] . anzu-isearch-query-replace)
+        ([remap isearch-query-replace-regexp] . anzu-isearch-query-replace-regexp))
   :hook (after-init . global-anzu-mode))
 
 ;; A comprehensive visual interface to diff & patch
@@ -384,7 +385,7 @@
   (setq ibuffer-projectile-prefix
         (if (icons-displayable-p)
             (concat
-             (nerd-icons-octicon "file-directory"
+             (nerd-icons-octicon "nf-oct-file_directory"
                                  :face ibuffer-filter-group-name-face
                                  :v-adjust 0.0
                                  :height 1.0)

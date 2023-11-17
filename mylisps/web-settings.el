@@ -121,6 +121,12 @@
   :config
   (editorconfig-mode 1))
 
+(use-package typescript-mode
+  :mode "\\.ts\\'"
+  :hook (typescript-mode . lsp-deferred)
+  :config
+  (setq typescript-indent-level 2))
+
 (use-package haml-mode)
 (use-package php-mode)
 

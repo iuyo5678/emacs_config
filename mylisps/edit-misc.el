@@ -116,37 +116,17 @@ If NOT-WHOLE is non-nil, do not kill whole sexp."
   (interactive "p")
   (mark-defun allow-extend)
   (let (next-is-fun)
-    (save-excursion (forward-line) (setq next-is-fun (looking-at "[ \t]*(defun")))
-    (if (or (looking-at "$") (and next-is-fun (not (looking-at "[ \t]*(defun"))))
-        (forward-line))))
-
-;;;###autoload
-(defun comment (&optional arg)
-  "如果`mark-active'的话,就`comment-region',否则注释光标所在行"
-  (interactive "P")
-  (if mark-active
-      (comment-region (region-beginning) (region-end) arg)
-    (let (fun)
-      (if arg (setq fun 'uncomment-region) (setq fun 'comment-region))
-      (funcall fun (line-beginning-position) (line-end-position)))))
-
-;;;###autoload
-(defun uncomment (&optional arg)
-  "如果`mark-active'的话,就`uncomment-region',否则取消注释光标所在行"
-  (interactive "P")
-  (if mark-active
-      (uncomment-region (region-beginning) (region-end) arg)
-    (let (fun)
-      (if arg (setq fun 'comment-region) (setq fun 'uncomment-region))
-      (funcall fun (line-beginning-position) (line-end-position)))))
+   (save-excursion (forward-line) (setq next-is-fun (looking-at "[ \t]*(defun")))
+   (if (or (looking-at "$") (and next-is-fun (not (looking-at "[ \t]*(defun"))))
+     (forward-line))))
 
 ;;;###autoload
 (defun smart-kill ()
   "If `mark-active', call `kill-region', otherwise call `kill-whole-line'."
   (interactive)
   (if mark-active
-      (call-interactively 'kill-region)
-    (call-interactively 'kill-whole-line)))
+   (call-interactively 'kill-region)
+   (call-interactively 'kill-whole-line)))
 
 ;;显示当前buffer或region或函数的行数和字符数，绑定到按键C-x l
 (defun count-brf-lines (&optional is-fun)

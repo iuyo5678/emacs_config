@@ -70,17 +70,7 @@
   )
 (global-set-key (kbd "C-x m") 'get-mode-name)
 
-;; (use-package exec-path-from-shell
-;;   :init
-;;   (setq exec-path-from-shell-variables '("PATH" "MANPATH" "GOPATH")
-;; 	    exec-path-from-shell-arguments '("-l"))
-;;   (exec-path-from-shell-initialize))
-
-
-;; Start server
-(use-package server
-  :ensure nil
-  :hook (after-init . server-mode))
+(use-package exec-path-from-shell)
 
 (use-package recentf
   :ensure nil
@@ -88,12 +78,12 @@
   :bind (("C-x C-r" . recentf-open-files))
   :hook (after-init . recentf-mode)
   :init (setq recentf-max-saved-items 300
-              recentf-exclude
-              '("\\.?cache" ".cask" "url" "COMMIT_EDITMSG\\'" "bookmarks"
-                "\\.\\(?:gz\\|gif\\|svg\\|png\\|jpe?g\\|bmp\\|xpm\\)$"
-                "\\.?ido\\.last$" "\\.revive$" "/G?TAGS$" "/.elfeed/"
-                "^/tmp/" "^/var/folders/.+$" "^/ssh:" "/persp-confs/"
-                (lambda (file) (file-in-directory-p file package-user-dir))))
+        recentf-exclude
+     '("\\.?cache" ".cask" "url" "COMMIT_EDITMSG\\'" "bookmarks"
+      "\\.\\(?:gz\\|gif\\|svg\\|png\\|jpe?g\\|bmp\\|xpm\\)$"
+      "\\.?ido\\.last$" "\\.revive$" "/G?TAGS$" "/.elfeed/"
+      "^/tmp/" "^/var/folders/.+$" "^/ssh:" "/persp-confs/"
+      (lambda (file) (file-in-directory-p file package-user-dir))))
   :config
   (push (expand-file-name recentf-save-file) recentf-exclude)
   (add-to-list 'recentf-filename-handlers #'abbreviate-file-name))

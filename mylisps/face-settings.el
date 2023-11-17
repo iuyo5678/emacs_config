@@ -93,7 +93,7 @@ FUN-LIST can be a symbol, also can be a list whose element is a symbol."
 (use-package unicode-fonts
   :init (unicode-fonts-setup)
   :config
-  ;;(set-frame-font "JetBrainsMono Nerd Font")  ;;默认字体
+  (set-frame-font "JetBrainsMono NF")  ;;默认字体
   (face-spec-set 'default `((t (:height , 150)))) ;;默认大小
   )
 
