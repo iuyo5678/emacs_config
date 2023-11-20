@@ -384,7 +384,7 @@
   (setq ibuffer-projectile-prefix
         (if (icons-displayable-p)
             (concat
-             (nerd-icons-octicon "file-directory"
+             (nerd-icons-octicon "nf-oct-file_directory"
                                  :face ibuffer-filter-group-name-face
                                  :v-adjust 0.0
                                  :height 1.0)

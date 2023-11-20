@@ -229,7 +229,7 @@
                       (propertize " "
                                   'display '(space :height (1))
                                   'company-box-doc--replace-hr t
-                                  'face `(:background ,(face-foreground 'font-lock-comment-face nil t)))
+                                  'face `(:background ,(face-foreground 'font-lock-comment-face unspecified t)))
                       (propertize " " 'display '(space :height (1)))
                       (and (not (equal after ?\n)) (propertize " \n" 'face '(:height 0.5))))))))
 

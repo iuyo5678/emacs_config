@@ -97,6 +97,8 @@ FUN-LIST can be a symbol, also can be a list whose element is a symbol."
   :demand t
   )
 
+(use-package solaire-mode
+  :hook (after-load-theme . solaire-global-mode))
 
 (use-package hide-mode-line
   :hook (((completion-list-mode
