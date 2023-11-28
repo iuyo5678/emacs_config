@@ -97,6 +97,8 @@ FUN-LIST can be a symbol, also can be a list whose element is a symbol."
   :demand t
   )
 
+(use-package solaire-mode
+  :hook (after-load-theme . solaire-global-mode))
 
 (use-package hide-mode-line
   :hook (((completion-list-mode
@@ -407,11 +409,10 @@ Nil to use font supports ligatures."
                              (projects  . "nf-oct-briefcase")
                              (registers . "nf-oct-database"))
    dashboard-set-footer t
-   dashboard-footer-icon (cond
-                          ((icons-displayable-p)
-                           (nerd-icons-octicon "nf-oct-heart" :height 1.2 :face 'nerd-icons-lred))
-
-                          (t (propertize ">" 'face 'dashboard-footer)))
+   dashboard-footer-icon (if
+                             (icons-displayable-p)
+                             (nerd-icons-octicon "nf-oct-heart" :height 1.2 :face 'nerd-icons-lred)
+                           (propertize ">" 'face 'dashboard-footer-icon-face))
 
 
    dashboard-set-navigator t

@@ -39,8 +39,8 @@
   :bind (:map go-mode-map
          ("C-c R" . go-remove-unused-imports)
          ("<f1>" . godoc-at-point))
-  :init (setq godoc-at-point-function #'godoc-gogetdoc)
-  :config
+  :init
+  (setq godoc-at-point-function #'godoc-gogetdoc)
   ;; Env vars
   (with-eval-after-load 'exec-path-from-shell
     (exec-path-from-shell-copy-envs '("GOPATH" "GO111MODULE" "GOPROXY")))
@@ -49,7 +49,9 @@
     (setq projectile-project-root-files-bottom-up
           (append '("Dockerfile" "go.sum" "go.mod")
                   projectile-project-root-files-bottom-up)))
-
+  :config
+  (add-hook 'go-mode-hook (lambda () (setq tab-width 4)))
+  (add-hook 'go-mode-hook #'lsp)
   ;; Install or update tools
   (defconst go--tools
     '("golang.org/x/tools/gopls"
@@ -82,7 +84,8 @@
   ;; Try to install go tools if `gopls' is not found
   (unless (executable-find "gopls")
     (go-update-tools))
-
+  (use-package go-projectile
+    :init (go-projectile-tools-add-path))
   ;; Misc
   ;;(use-package dap-dlv-gou)
   (use-package go-fill-struct)

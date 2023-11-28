@@ -18,6 +18,11 @@
 	    ;;  自动的在文件末增加一新行
 	    require-final-newline t))
 
+(use-package treesit-auto
+  :hook (after-init . global-treesit-auto-mode)
+  :init (setq treesit-auto-install 'prompt)
+  :config (setq treesit-font-lock-level 4))
+
 (use-package undo-tree
   :diminish
   :hook (after-init . global-undo-tree-mode)

@@ -32,6 +32,8 @@
 
 
 (use-package pretty-hydra
+  :ensure t
+  :defer 0.1
   :bind ("s-6" . toggles-hydra/body)
   :init
   (cl-defun pretty-hydra-title (title &optional icon-type icon-name

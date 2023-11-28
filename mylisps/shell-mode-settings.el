@@ -200,6 +200,7 @@
            (executable-find "libtool")
            (executable-find "make"))
   (use-package vterm
+    :config (add-to-list 'vterm-eval-cmds '("update-pwd" (lambda (path) (setq default-directory path))))
     :bind (:map vterm-mode-map
            ([f9] . shell-pop))))
 
