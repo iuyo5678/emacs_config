@@ -129,13 +129,6 @@
         (event         nerd-icons-codicon "nf-cod-symbol_event" :face font-lock-warning-face)
         (operator      nerd-icons-codicon "nf-cod-symbol_operator" :face font-lock-comment-delimiter-face)
         (template      nerd-icons-codicon "nf-cod-symbol_snippet" :face font-lock-type-face)))
-    (defun my-lsp-icons-get-by-symbol-kind (kind &optional feature)
-      (when (and kind
-                 (lsp-icons--enabled-for-feature feature))
-        (let* ((icon (cdr (assoc (lsp-treemacs-symbol-kind->icon kind) lsp-symbol-alist)))
-               (args (cdr icon)))
-          (apply (car icon) args))))
-    (advice-add #'lsp-icons-get-by-symbol-kind :override #'my-lsp-icons-get-by-symbol-kind)
 
     (setq lsp-headerline-arrow (nerd-icons-octicon "nf-oct-chevron_right"
                                                    :face 'lsp-headerline-breadcrumb-separator-face)))

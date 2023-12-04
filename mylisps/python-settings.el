@@ -66,9 +66,7 @@
     (progn
       (with-eval-after-load 'ein-notebooklist
         ;; changing keybinding
-        (define-key ein:notebook-mode-map (kbd "C-s") 'ein:notebook-save-notebook-command)
-        (define-key ein:notebook-mode-map (kbd "<M-S-up>") 'ein:worksheet-move-cell-up)
-        (define-key ein:notebook-mode-map (kbd "<M-S-down>") 'ein:worksheet-move-cell-down))))
+        )))
   )
 
 (provide 'python-settings)
