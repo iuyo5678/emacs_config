@@ -1,4 +1,4 @@
-;; -*- Emacs-Lisp -*-
+;; ---- Initialize dev config.-*- lexical-binding: t -*-
 
 ;; Time-stamp: <2021-03-15 15:42:42 Monday by zhangguhua>
 
@@ -87,18 +87,17 @@
 (use-package devdocs
   :autoload (devdocs--installed-docs devdocs--available-docs)
   :bind (:map prog-mode-map
-         ("M-<f1>" . devdocs-lookup)
-         ("C-h D"  . devdocs-lookup))
+         ("M-<f1>" . devdocs-dwim)
+         ("C-h D"  . devdocs-dwim))
   :init
-  (add-hook 'c++-ts-mode-hook
-            (lambda () (setq-local devdocs-current-docs '("cpp"))))
   (defconst devdocs-major-mode-docs-alist
     '((c-mode          . ("c"))
       (c++-mode        . ("cpp"))
       (c++-ts-mode     . ("cpp"))
-      (python-mode     . ("python~3.10" "python~2.7"))
+      (python-ts-mode     . ("python~3.10" "python~2.7"))
       (ruby-mode       . ("ruby~3.1"))
       (go-mode         . ("go"))
+      (go-ts-mode         . ("go"))
       (rustic-mode     . ("rust"))
       (css-mode        . ("css"))
       (html-mode       . ("html"))
@@ -107,6 +106,13 @@
       (js2-mode        . ("javascript" "jquery"))
       (emacs-lisp-mode . ("elisp")))
     "Alist of major-mode and docs.")
+
+  (mapc
+   (lambda (mode)
+     (add-hook (intern (format "%s-hook" (car mode)))
+               (lambda ()
+                 (setq-local devdocs-current-docs (cdr mode)))))
+   devdocs-major-mode-docs-alist)
 
   (setq devdocs-data-dir (expand-file-name "devdocs" user-emacs-directory))
 
@@ -179,8 +185,8 @@ Install the doc if it's not installed."
   :init (setq flymake-no-changes-timeout nil
               flymake-fringe-indicator-position 'right-fringe)
   :config (setq elisp-flymake-byte-compile-load-path
-                (append elisp-flymake-byte-compile-load-path load-path)))
-
+                (append elisp-flymake-byte-compile-load-path load-path))
+  )
 (use-package sideline-flymake
   :diminish sideline-mode
   :hook (flymake-mode . sideline-mode)
