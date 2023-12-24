@@ -41,6 +41,7 @@
          ("<f1>" . godoc-at-point))
   :init
   (setq godoc-at-point-function #'godoc-gogetdoc)
+  (setq go-ts-mode-indent-offset 4)
   ;; Env vars
   (with-eval-after-load 'exec-path-from-shell
     (exec-path-from-shell-copy-envs '("GOPATH" "GO111MODULE" "GOPROXY")))
