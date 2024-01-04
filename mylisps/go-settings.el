@@ -1,6 +1,4 @@
-;;; -*- lexical-binding: t; -*-
-;;; go-settings.el ---
-
+;; go-settings.el --- Initialize Golang configurations.	-*- lexical-binding: t -*-
 ;; Copyright 2017 Zhang Guhua
 ;;
 ;; Author: iuyo5678@gmail.com
@@ -34,26 +32,21 @@
 
 ;; Golang
 (use-package go-mode
-  :functions go-update-tools
-  :commands godoc-gogetdoc
+  :functions  (go-install-tools exec-path-from-shell-copy-envs)
+  :autoload godoc-gogetdoc
   :bind (:map go-mode-map
          ("C-c R" . go-remove-unused-imports)
          ("<f1>" . godoc-at-point))
   :init
   (setq godoc-at-point-function #'godoc-gogetdoc)
   (setq go-ts-mode-indent-offset 4)
-  ;; Env vars
-  (with-eval-after-load 'exec-path-from-shell
-    (exec-path-from-shell-copy-envs '("GOPATH" "GO111MODULE" "GOPROXY")))
 
   (with-eval-after-load 'projectile
     (setq projectile-project-root-files-bottom-up
           (append '("Dockerfile" "go.sum" "go.mod")
                   projectile-project-root-files-bottom-up)))
-  :config
-  (add-hook 'go-mode-hook (lambda () (setq tab-width 4)))
-  (add-hook 'go-mode-hook #'lsp)
-  ;; Install or update tools
+
+  ;; Install tools
   (defconst go--tools
     '("golang.org/x/tools/gopls"
       "golang.org/x/tools/cmd/goimports"
@@ -66,7 +59,7 @@
       "github.com/davidrjenni/reftools/cmd/fillstruct")
     "All necessary go tools.")
 
-  (defun go-update-tools ()
+  (defun go-install-tools ()
     "Install or update go tools."
     (interactive)
     (unless (executable-find "go")
@@ -81,14 +74,16 @@
            (if (= 0 status)
                (message "Installed %s" pkg)
              (message "Failed to install %s: %d" pkg status)))))))
+  :config
+  ;; Env vars
+  (with-eval-after-load 'exec-path-from-shell
+    (exec-path-from-shell-copy-envs '("GOPATH" "GO111MODULE" "GOPROXY")))
 
   ;; Try to install go tools if `gopls' is not found
   (unless (executable-find "gopls")
-    (go-update-tools))
-  (use-package go-projectile
-    :init (go-projectile-tools-add-path))
+    (go-install-tools))
+  (use-package go-projectile)
   ;; Misc
-  ;;(use-package dap-dlv-gou)
   (use-package go-fill-struct)
   (use-package go-impl)
 
