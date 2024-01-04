@@ -42,9 +42,6 @@
   :init (setq godoc-at-point-function #'godoc-gogetdoc)
   :config
   ;; Env vars
-  (with-eval-after-load 'exec-path-from-shell
-    (exec-path-from-shell-copy-envs '("GOPATH" "GO111MODULE" "GOPROXY")))
-
   (with-eval-after-load 'projectile
     (setq projectile-project-root-files-bottom-up
           (append '("Dockerfile" "go.sum" "go.mod")

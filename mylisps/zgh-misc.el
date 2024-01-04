@@ -70,8 +70,6 @@
   )
 (global-set-key (kbd "C-x m") 'get-mode-name)
 
-(use-package exec-path-from-shell)
-
 (use-package recentf
   :ensure nil
   :defer 1

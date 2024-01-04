@@ -90,7 +90,6 @@ mermaid.initialize({
     (advice-add #'markdown--style-map-prompt   :override #'ignore))
   :config
   (add-to-list 'markdown-code-lang-modes '("mermaid" . mermaid-mode))
-  (exec-path-from-shell-copy-envs '("LANG" "LC_ALL" "LC_CTYPES"))
   ;; Preview with built-in webkit
   (with-no-warnings
     ;; Use `which-key' instead
