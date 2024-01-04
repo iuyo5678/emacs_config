@@ -98,6 +98,8 @@ FUN-LIST can be a symbol, also can be a list whose element is a symbol."
   )
 
 
+(use-package solaire-mode
+  :hook (after-load-theme . solaire-global-mode))
 
 (use-package hide-mode-line
   :hook (((completion-list-mode
@@ -113,14 +115,14 @@ FUN-LIST can be a symbol, also can be a list whose element is a symbol."
       :hook (prog-mode . display-line-numbers-mode))
   (use-package linum-off
     :defines linum-format
-    :hook (after-init . global-linum-mode)
+    :hook (after-init . global-display-line-numbers-mode)
     :init (setq linum-format "%4d ")
     :config
     ;; Highlight current line number
     (use-package hlinum
       :defines linum-highlight-in-all-buffersp
       :custom-face (linum-highlight-face ((t (:inherit default))))
-      :hook (global-linum-mode . hlinum-activate)
+      :hook (global-display-line-numbers-mode . hlinum-activate)
       :init (setq linum-highlight-in-all-buffersp t))))
 
 (defcustom centaur-prettify-org-symbols-alist
@@ -408,11 +410,10 @@ Nil to use font supports ligatures."
                              (projects  . "nf-oct-briefcase")
                              (registers . "nf-oct-database"))
    dashboard-set-footer t
-   dashboard-footer-icon (cond
-                          ((icons-displayable-p)
-                           (nerd-icons-octicon "nf-oct-heart" :height 1.2 :face 'nerd-icons-lred))
-
-                          (t (propertize ">" 'face 'dashboard-footer)))
+   dashboard-footer-icon (if
+                             (icons-displayable-p)
+                             (nerd-icons-octicon "nf-oct-heart" :height 1.2 :face 'nerd-icons-lred)
+                           (propertize ">" 'face 'dashboard-footer-icon-face))
 
 
    dashboard-set-navigator t

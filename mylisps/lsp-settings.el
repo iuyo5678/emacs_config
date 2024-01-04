@@ -1,4 +1,4 @@
-;;; lsp-settings.el ---
+;;; lsp-settings.el ---  Initialize LSP configurations.	-*- lexical-binding: t -*-
 
 ;; Copyright 2021 Zhang Guhua
 ;;
@@ -48,7 +48,7 @@
                        ;; Integrate `which-key'
                        (lsp-enable-which-key-integration)
                        ;; Format and organize imports
-                       (unless (apply #'derived-mode-p centaur-lsp-format-on-save-ignore-modes)
+                       (when (not (apply #'derived-mode-p centaur-lsp-format-on-save-ignore-modes))
                          (add-hook 'before-save-hook #'lsp-format-buffer t t)
                          (add-hook 'before-save-hook #'lsp-organize-imports t t)))))
   :bind (:map lsp-mode-map
@@ -129,13 +129,6 @@
         (event         nerd-icons-codicon "nf-cod-symbol_event" :face font-lock-warning-face)
         (operator      nerd-icons-codicon "nf-cod-symbol_operator" :face font-lock-comment-delimiter-face)
         (template      nerd-icons-codicon "nf-cod-symbol_snippet" :face font-lock-type-face)))
-    (defun my-lsp-icons-get-by-symbol-kind (kind &optional feature)
-      (when (and kind
-                 (lsp-icons--enabled-for-feature feature))
-        (let* ((icon (cdr (assoc (lsp-treemacs-symbol-kind->icon kind) lsp-symbol-alist)))
-               (args (cdr icon)))
-          (apply (car icon) args))))
-    (advice-add #'lsp-icons-get-by-symbol-kind :override #'my-lsp-icons-get-by-symbol-kind)
 
     (setq lsp-headerline-arrow (nerd-icons-octicon "nf-oct-chevron_right"
                                                    :face 'lsp-headerline-breadcrumb-separator-face)))
@@ -276,31 +269,6 @@
           (concat typestr (lsp-render-symbol-information sym ".") pathstr)))
       (advice-add #'lsp-ivy--format-symbol-match :override #'my-lsp-ivy--format-symbol-match))))
 
-;; Debug
-(when (>= emacs-major-version 26)
-  (use-package dap-mode
-    :defines dap-python-executable
-    :diminish
-    :bind (:map lsp-mode-map
-           ("<f5>" . dap-debug)
-           ("M-<f5>" . dap-hydra))
-    :hook ((after-init . dap-auto-configure-mode)
-           (dap-stopped . (lambda (_args) (dap-hydra)))
-
-           (python-mode . (lambda () (require 'dap-python)))
-           (ruby-mode . (lambda () (require 'dap-ruby)))
-           (go-mode . (lambda () (require 'dap-go)))
-           (java-mode . (lambda () (require 'dap-java)))
-           ((c-mode c++-mode objc-mode swift-mode) . (lambda () (require 'dap-lldb)))
-           (php-mode . (lambda () (require 'dap-php)))
-           (elixir-mode . (lambda () (require 'dap-elixir)))
-           ((js-mode js2-mode) . (lambda () (require 'dap-chrome)))
-           (powershell-mode . (lambda () (require 'dap-pwsh))))
-    :init
-    (when (executable-find "python3")
-      (setq dap-python-executable "python3"))))
-
-;; `lsp-mode' and `treemacs' integration
 
 ;; Python: pyright
 (use-package lsp-pyright

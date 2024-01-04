@@ -46,7 +46,7 @@ This issue has been addressed in 28."
 
 
 
-(defcustom centaur-lsp-format-on-save-ignore-modes '(c-mode c++-mode python-mode)
+(defcustom centaur-lsp-format-on-save-ignore-modes '(c-mode c++-mode python-mode c++-ts-mode)
   "The modes that don't auto format and organize imports while saving the buffers.
 `prog-mode' means ignoring all derived modes.
 "

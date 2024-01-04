@@ -34,11 +34,18 @@
         indent-tabs-mode nil
         default-tab-width 4)
   :config
-  ;; Default to Python 3. Prefer the versioned Python binaries since some
-  ;; systems stupidly make the unversioned one point at Python 2.
-  (when (and (executable-find "python3")
-             (string= python-shell-interpreter "python"))
-    (setq python-shell-interpreter "python3"))
+  (setq
+   python-shell-interpreter "ipython"
+   python-shell-interpreter-args "--colors=Linux --profile=default"
+   ;; python-shell-prompt-regexp "In \\[[0-9]+\\]: "
+   ;; python-shell-prompt-output-regexp "Out\\[[0-9]+\\]: "
+   ;; python-shell-completion-setup-code
+   ;; "from IPython.core.completerlib import module_completion"
+   ;; python-shell-completion-module-string-code
+   ;; "';'.join(module_completion('''%s'''))\n"
+   ;; python-shell-completion-string-code
+   ;; "';'.join(get_ipython().Completer.all_completions('''%s'''))\n"
+   )
 
 
   ;; Live Coding in Python
@@ -49,9 +56,14 @@
     (setq
      pipenv-projectile-after-switch-function
      #'pipenv-projectile-after-switch-extended))
-  )
-(use-package ein
-  :defer t
+  (use-package ein
+    :defer t
+    :commands ein:notebooklist-open
+    :init
+    (progn
+      (with-eval-after-load 'ein-notebooklist
+        ;; changing keybinding
+        )))
   )
 
 (provide 'python-settings)

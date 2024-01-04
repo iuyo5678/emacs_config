@@ -1,4 +1,4 @@
-;; -*- Emacs-Lisp -*-
+;; ---- Initialize dev config.-*- lexical-binding: t -*-
 
 ;; Time-stamp: <2021-03-15 15:42:42 Monday by zhangguhua>
 
@@ -43,6 +43,10 @@
 
 
 (use-package treesit-auto
+  :demand t
+  :config
+  (setq treesit-auto-install 'prompt)
+  (global-treesit-auto-mode)
   :hook (after-init . global-treesit-auto-mode)
   )
 
@@ -80,65 +84,59 @@
   :bind (("C-<f5>" . quickrun)
          ("C-c X" . quickrun)))
 
-(when (>= emacs-major-version 27)
-  (use-package devdocs
-    :autoload (devdocs--installed-docs devdocs--available-docs)
-    :bind (:map prog-mode-map
-           ("M-<f1>" . devdocs-dwim)
-           ("C-h D"  . devdocs-dwim))
-    :init
-    (defconst devdocs-major-mode-docs-alist
-      '((c-mode          . ("c"))
-        (c++-mode        . ("cpp"))
-        (python-mode     . ("python~3.10" "python~2.7"))
-        (ruby-mode       . ("ruby~3.1"))
-        (go-mode         . ("go"))
-        (rustic-mode     . ("rust"))
-        (css-mode        . ("css"))
-        (html-mode       . ("html"))
-        (julia-mode      . ("julia~1.8"))
-        (js-mode         . ("javascript" "jquery"))
-        (js2-mode        . ("javascript" "jquery"))
-        (emacs-lisp-mode . ("elisp")))
-      "Alist of major-mode and docs.")
-    (add-hook 'python-mode-hook
-              (lambda () (setq-local devdocs-current-docs '("python~3.9"))))
-    (add-hook 'emacs-lisp-mode-hook
-              (lambda () (setq-local devdocs-current-docs '("elisp"))))
-    (add-hook 'go-mode-hook
-              (lambda () (setq-local devdocs-current-docs '("go"))))
-    (add-hook 'c-mode-hook
-              (lambda () (setq-local devdocs-current-docs '("c"))))
-    (add-hook 'c++-mode-hook
-              (lambda () (setq-local devdocs-current-docs '("cpp"))))
-    (add-hook 'rustic-mode-hook
-              (lambda () (setq-local devdocs-current-docs '("rust"))))
-    (add-hook 'css-
-              (lambda () (setq-local devdocs-current-docs '("c"))))
+(use-package devdocs
+  :autoload (devdocs--installed-docs devdocs--available-docs)
+  :bind (:map prog-mode-map
+         ("M-<f1>" . devdocs-dwim)
+         ("C-h D"  . devdocs-dwim))
+  :init
+  (defconst devdocs-major-mode-docs-alist
+    '((c-mode          . ("c"))
+      (c++-mode        . ("cpp"))
+      (c++-ts-mode     . ("cpp"))
+      (python-ts-mode     . ("python~3.10" "python~2.7"))
+      (ruby-mode       . ("ruby~3.1"))
+      (go-mode         . ("go"))
+      (go-ts-mode         . ("go"))
+      (rustic-mode     . ("rust"))
+      (css-mode        . ("css"))
+      (html-mode       . ("html"))
+      (julia-mode      . ("julia~1.8"))
+      (js-mode         . ("javascript" "jquery"))
+      (js2-mode        . ("javascript" "jquery"))
+      (emacs-lisp-mode . ("elisp")))
+    "Alist of major-mode and docs.")
 
-    (setq devdocs-data-dir (expand-file-name "devdocs" user-emacs-directory))
+  (mapc
+   (lambda (mode)
+     (add-hook (intern (format "%s-hook" (car mode)))
+               (lambda ()
+                 (setq-local devdocs-current-docs (cdr mode)))))
+   devdocs-major-mode-docs-alist)
 
-    (defun devdocs-dwim()
-      "Look up a DevDocs documentation entry.
+  (setq devdocs-data-dir (expand-file-name "devdocs" user-emacs-directory))
+
+  (defun devdocs-dwim()
+    "Look up a DevDocs documentation entry.
 
 Install the doc if it's not installed."
-      (interactive)
-      ;; Install the doc if it's not installed
-      (mapc
-       (lambda (slug)
-         (unless (member slug (let ((default-directory devdocs-data-dir))
-                                (seq-filter #'file-directory-p
-                                            (when (file-directory-p devdocs-data-dir)
-                                              (directory-files "." nil "^[^.]")))))
-           (mapc
-            (lambda (doc)
-              (when (string= (alist-get 'slug doc) slug)
-                (devdocs-install doc)))
-            (devdocs--available-docs))))
-       (alist-get major-mode devdocs-major-mode-docs-alist))
+    (interactive)
+    ;; Install the doc if it's not installed
+    (mapc
+     (lambda (slug)
+       (unless (member slug (let ((default-directory devdocs-data-dir))
+                              (seq-filter #'file-directory-p
+                                          (when (file-directory-p devdocs-data-dir)
+                                            (directory-files "." nil "^[^.]")))))
+         (mapc
+          (lambda (doc)
+            (when (string= (alist-get 'slug doc) slug)
+              (devdocs-install doc)))
+          (devdocs--available-docs))))
+     (alist-get major-mode devdocs-major-mode-docs-alist))
 
-      ;; Lookup the symbol at point
-      (devdocs-lookup nil (thing-at-point 'symbol t)))))
+    ;; Lookup the symbol at point
+    (devdocs-lookup nil (thing-at-point 'symbol t))))
 
 (use-package rustic)
 (use-package rust-playground)
@@ -180,5 +178,19 @@ Install the doc if it's not installed."
   :hook (fish-mode . (lambda ()
                        (add-hook 'before-save-hook
                                  #'fish_indent-before-save))))
+
+(use-package flymake
+  :diminish
+  :hook (prog-mode . flymake-mode)
+  :init (setq flymake-no-changes-timeout nil
+              flymake-fringe-indicator-position 'right-fringe)
+  :config (setq elisp-flymake-byte-compile-load-path
+                (append elisp-flymake-byte-compile-load-path load-path))
+  )
+(use-package sideline-flymake
+  :diminish sideline-mode
+  :hook (flymake-mode . sideline-mode)
+  :init (setq sideline-flymake-display-mode 'point
+              sideline-backends-right '(sideline-flymake)))
 
 (provide 'dev-settings)

@@ -71,8 +71,6 @@
 (global-set-key (kbd "C-x m") 'get-mode-name)
 
 (use-package recentf
-  :ensure nil
-  :defer 1
   :bind (("C-x C-r" . recentf-open-files))
   :hook (after-init . recentf-mode)
   :init (setq recentf-max-saved-items 300
