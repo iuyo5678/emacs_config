@@ -41,14 +41,10 @@
   (setq-default prettify-symbols-alist centaur-prettify-symbols-alist)
   (setq prettify-symbols-unprettify-at-point 'right-edge))
 
-
 (use-package treesit-auto
-  :demand t
-  :config
-  (setq treesit-auto-install 'prompt)
-  (global-treesit-auto-mode)
   :hook (after-init . global-treesit-auto-mode)
-  )
+  :init (setq treesit-auto-install 'prompt)
+  :config (setq treesit-font-lock-level 4))
 
 ;; Jump to definition
 (use-package dumb-jump
