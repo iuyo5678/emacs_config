@@ -51,22 +51,4 @@
   (with-eval-after-load 'exec-path-from-shell
     (exec-path-from-shell-copy-env "PYTHONPATH"))
 
-  ;; Live Coding in Python
-  (use-package live-py-mode)
-  (use-package pipenv
-    :hook (python-mode . pipenv-mode)
-    :init
-    (setq
-     pipenv-projectile-after-switch-function
-     #'pipenv-projectile-after-switch-extended))
-  (use-package ein
-    :defer t
-    :commands ein:notebooklist-open
-    :init
-    (progn
-      (with-eval-after-load 'ein-notebooklist
-        ;; changing keybinding
-        )))
-  )
-
 (provide 'python-settings)
