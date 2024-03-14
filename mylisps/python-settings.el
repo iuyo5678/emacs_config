@@ -22,7 +22,6 @@
 ;; Python Mode
 ;; Install: pip install pyflakes autopep8
 (use-package python
-  :ensure nil
   :hook (inferior-python-mode . (lambda ()
                                   (process-query-on-exit-flag
                                    (get-process "Python"))))
@@ -37,18 +36,39 @@
   (setq
    python-shell-interpreter "ipython"
    python-shell-interpreter-args "--colors=Linux --profile=default"
-   ;; python-shell-prompt-regexp "In \\[[0-9]+\\]: "
-   ;; python-shell-prompt-output-regexp "Out\\[[0-9]+\\]: "
-   ;; python-shell-completion-setup-code
-   ;; "from IPython.core.completerlib import module_completion"
-   ;; python-shell-completion-module-string-code
-   ;; "';'.join(module_completion('''%s'''))\n"
-   ;; python-shell-completion-string-code
-   ;; "';'.join(get_ipython().Completer.all_completions('''%s'''))\n"
+   python-shell-prompt-regexp "In \\[[0-9]+\\]: "
+   python-shell-prompt-output-regexp "Out\\[[0-9]+\\]: "
+   python-shell-interpreter-args "--simple-prompt -i"
+   python-shell-completion-setup-code
+   "from IPython.core.completerlib import module_completion"
+   python-shell-completion-module-string-code
+   "';'.join(module_completion('''%s'''))\n"
+   python-shell-completion-string-code
+   "';'.join(get_ipython().Completer.all_completions('''%s'''))\n"
    )
 
   ;; Env vars
   (with-eval-after-load 'exec-path-from-shell
     (exec-path-from-shell-copy-env "PYTHONPATH"))
+  )
+
+
+(use-package python-black
+  :bind (("C-c b" . python-black-buffer)))
+
+(use-package pyvenv
+  :config
+  (pyvenv-mode 1))
+
+(use-package anaconda-mode
+  :bind (("C-c C-x" . next-error))
+  :config
+  (require 'pyvenv)
+  (add-hook 'python-mode-hook 'anaconda-mode))
+
+;; (use-package company-anaconda
+;;   :config
+;;   (eval-after-load "company"
+;;     '(add-to-list 'company-backends '(company-anaconda :with company-capf))))
 
 (provide 'python-settings)

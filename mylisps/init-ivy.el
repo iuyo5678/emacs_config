@@ -419,11 +419,11 @@ This is for use in `ivy-re-builders-alist'."
             (t . ivy-prescient-re-builder))
           ivy-prescient-sort-commands
           '(:not swiper swiper-isearch ivy-switch-buffer
-            lsp-ivy-workspace-symbol ivy-resume ivy--restore-session
-            counsel-grep counsel-git-grep counsel-rg counsel-ag
-            counsel-ack counsel-fzf counsel-pt counsel-imenu
-            counsel-org-capture counsel-load-theme counsel-yank-pop
-            counsel-recentf counsel-buffer-or-recentf))
+                 lsp-ivy-workspace-symbol ivy-resume ivy--restore-session
+                 counsel-grep counsel-git-grep counsel-rg counsel-ag
+                 counsel-ack counsel-fzf counsel-pt counsel-imenu
+                 counsel-org-capture counsel-load-theme counsel-yank-pop
+                 counsel-recentf counsel-buffer-or-recentf))
 
     (ivy-prescient-mode 1))
   ;; Additional key bindings for Ivy
@@ -451,7 +451,7 @@ This is for use in `ivy-re-builders-alist'."
   ;; Display world clock using Ivy
   (use-package counsel-world-clock
     :bind (:map counsel-mode-map
-           ("C-c c k" . counsel-world-clock)))
+                ("C-c c k" . counsel-world-clock)))
 
   (cond
    (sys/linux-x-p
@@ -459,11 +459,11 @@ This is for use in `ivy-re-builders-alist'."
    (sys/macp
     (use-package counsel-osx-app
       :bind (:map counsel-mode-map
-             ("s-<f6>" . counsel-osx-app)))))
+                  ("s-<f6>" . counsel-osx-app)))))
   ;; Tramp ivy interface
   (use-package counsel-tramp
     :bind (:map counsel-mode-map
-           ("C-c c T" . counsel-tramp))))
+                ("C-c c T" . counsel-tramp))))
 
 ;; More friendly display transformer for Ivy
 (use-package ivy-rich

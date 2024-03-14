@@ -6,7 +6,6 @@
 ;;
 
 ;;; Code:
-
 (use-package yasnippet
   :diminish yas-minor-mode
   :hook (after-init . yas-global-mode))
@@ -33,7 +32,7 @@
         company-require-match nil
         company-dabbrev-ignore-case nil
         company-dabbrev-downcase nil
-        company-show-numbers t
+        company-show-quick-access t
         company-transformers '(company-sort-by-occurrence)
         company-global-modes '(not erc-mode message-mode help-mode
                                    gud-mode eshell-mode shell-mode)
@@ -121,24 +120,8 @@
         (setq company-backends
               (remove 'company-backends (remq 'company-capf company-backends))))
       (advice-add #'lsp-completion--enable :after #'my-lsp-fix-company-capf)
-
-      (defun my-company-yasnippet-disable-inline (fn cmd &optional arg &rest _ignore)
-        "Enable yasnippet but disable it inline."
-        (if (eq cmd  'prefix)
-            (when-let ((prefix (funcall fn 'prefix)))
-              (unless (memq (char-before (- (point) (length prefix)))
-                            '(?. ?< ?> ?\( ?\) ?\[ ?{ ?} ?\" ?' ?`))
-                prefix))
-          (progn
-            (when (and (bound-and-true-p lsp-mode)
-                       arg (not (get-text-property 0 'yas-annotation-patch arg)))
-              (let* ((name (get-text-property 0 'yas-annotation arg))
-                     (snip (format "%s (Snippet)" name))
-                     (len (length arg)))
-                (put-text-property 0 len 'yas-annotation snip arg)
-                (put-text-property 0 len 'yas-annotation-patch t arg)))
-            (funcall fn cmd arg))))
-      (advice-add #'company-yasnippet :around #'my-company-yasnippet-disable-inline)))
+      )
+    )
 
   ;; Better sorting
   (use-package prescient
