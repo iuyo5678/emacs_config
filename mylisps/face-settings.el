@@ -2,13 +2,6 @@
 
 ;; Time-stamp: <2021-03-15 18:05:25 Monday by zhangguhua>
 ;;外观的配置
-(use-package cursor-chg
-  :ensure nil
-  :demand t
-  :if (display-graphic-p)
-  :config
-  (change-cursor-mode 1)
-  (toggle-cursor-type-when-idle 1))
 
 (use-package cal-china-x
   :ensure t
@@ -49,10 +42,11 @@
 (use-package ahei-face
   :ensure nil
   :demand t
-  :config
+  :init
+  (scroll-bar-mode -1)
   (menu-bar-mode -1)
   (tool-bar-mode -1)
-  (setq scroll-bar-mode nil)
+  :config
   ;;Suppress GUI features
   (setq use-file-dialog nil
 	    use-dialog-box nil
@@ -89,7 +83,7 @@ FUN-LIST can be a symbol, also can be a list whose element is a symbol."
 (use-package unicode-fonts
   :init (unicode-fonts-setup)
   :config
-  (set-frame-font "JetBrainsMono Nerd Font Mono")  ;;默认字体
+  (set-frame-font "JetBrainsMono Nerd Font")  ;;默认字体
   (face-spec-set 'default `((t (:height , 150)))) ;;默认大小
   )
 

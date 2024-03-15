@@ -202,7 +202,30 @@
   (use-package vterm
     :config (add-to-list 'vterm-eval-cmds '("update-pwd" (lambda (path) (setq default-directory path))))
     :bind (:map vterm-mode-map
-           ([f9] . shell-pop))))
+           ([f9] . shell-pop)))
+  ;; Install vterm-toggle using straight.el
+  (use-package vterm-toggle
+    :straight (:host github :repo "jixiuf/vterm-toggle")
+    ;; You can add your configuration for vterm-toggle here
+    ;; For example, to set a keybinding:
+    :init
+    (global-set-key (kbd "C-c v") 'vterm-toggle)
+    :config
+    (defvar vterm-compile-dedicated-buffer nil)
+    (defun vterm-compile ()
+      (interactive)
+      (let ((vterm-toggle-use-dedicated-buffer t)
+            (vterm-toggle--vterm-dedicated-buffer vterm-compile-dedicated-buffer))
+        (with-current-buffer (vterm-toggle-cd)
+          (setq vterm-compile-dedicated-buffer (current-buffer))
+          (rename-buffer "term compile")
+          (compilation-shell-minor-mode 1)
+          (vterm-send-string compile-command t)
+          (vterm-send-return))
+        )
+      )
+    )
+  )
 
 ;; Shell Pop
 (use-package shell-pop
