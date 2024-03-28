@@ -1,4 +1,4 @@
-;; -*- Emacs-Lisp -*-
+;; -*- face-settings.el -*-  set face for emacs  -*- lexical-binding: t -*-
 
 ;; Time-stamp: <2021-03-15 18:05:25 Monday by zhangguhua>
 ;;外观的配置
@@ -40,10 +40,9 @@
 
 
 (use-package ahei-face
-  :ensure nil
+  :load-path my-emacs-my-lisps-path
   :demand t
   :init
-  (scroll-bar-mode -1)
   (menu-bar-mode -1)
   (tool-bar-mode -1)
   :config
@@ -90,9 +89,6 @@ FUN-LIST can be a symbol, also can be a list whose element is a symbol."
 (use-package nerd-icons
   :demand t
   )
-
-(use-package solaire-mode
-  :hook (after-load-theme . solaire-global-mode))
 
 (use-package hide-mode-line
   :hook (((completion-list-mode
@@ -239,7 +235,7 @@ Nil to use font supports ligatures."
   ;; Enable flashing mode-line on errors
   (setq doom-themes-enable-bold t    ; if nil, bold is universally disabled
         doom-themes-enable-italic t) ; if nil, italics is universally disabled
-  (load-theme 'doom-Iosvkem t)
+  (load-theme 'doom-Iosvkem t t)
   (doom-themes-visual-bell-config)
   ;; Enable custom neotree theme
   (doom-themes-neotree-config)
@@ -393,22 +389,21 @@ Nil to use font supports ligatures."
    dashboard-items '((recents  . 8)
                      (bookmarks . 5)
                      (projects . 5))
-
-   dashboard-set-init-info t
-   dashboard-set-file-icons zgh-icon
-   dashboard-set-heading-icons zgh-icon
+   dashboard-icon-type 'nerd-icons
+   dashboard-set-file-icons t
+   dashboard-set-heading-icons t
    dashboard-heading-icons '((recents   . "nf-oct-history")
                              (bookmarks . "nf-oct-bookmark")
                              (agenda    . "nf-oct-calendar")
                              (projects  . "nf-oct-briefcase")
                              (registers . "nf-oct-database"))
+   dashboard-set-init-info t
+
    dashboard-set-footer t
    dashboard-footer-icon (if
                              (icons-displayable-p)
                              (nerd-icons-octicon "nf-oct-heart" :height 1.2 :face 'nerd-icons-lred)
                            (propertize ">" 'face 'dashboard-footer-icon-face))
-
-
    dashboard-set-navigator t
    )
 

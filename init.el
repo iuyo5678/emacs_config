@@ -34,6 +34,7 @@
       (eval-print-last-sexp)))
   (load bootstrap-file nil 'nomessage))
 (setq package-enable-at-startup nil)
+
 (require 'zgh-startup)
 
 ;;初始化配置elpa
@@ -78,6 +79,7 @@
 (require 'elisp-settings)
 
 (require 'c-settings)
+
 (require 'go-settings)
 
 (require 'python-settings)

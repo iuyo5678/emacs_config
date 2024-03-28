@@ -1,4 +1,4 @@
-;;; zgh-misc.el --- Some basic utility function of ahei
+;;; zgh-misc.el --- Some basic utility for zgh  -*- lexical-binding: t -*-
 ;; -*- Emacs-Lisp -*-
 
 ;; Time-stamp: <2021-03-15 18:11:32 Monday by zhangguhua>
