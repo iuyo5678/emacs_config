@@ -157,8 +157,8 @@ decrease this. If you experience stuttering, increase this.")
             (if (boundp 'after-focus-change-function)
                 (add-function :after after-focus-change-function
 			      (lambda ()
-				(unless (frame-focus-state)
-				  (garbage-collect))))
+				    (unless (frame-focus-state)
+				      (garbage-collect))))
               (add-hook 'focus-out-hook 'garbage-collect))
 
             ;; Avoid GCs while using `ivy'/`counsel'/`swiper' and `helm', etc.
@@ -172,8 +172,6 @@ decrease this. If you experience stuttering, increase this.")
             (add-hook 'minibuffer-setup-hook #'my-minibuffer-setup-hook)
             (add-hook 'minibuffer-exit-hook #'my-minibuffer-exit-hook)))
 
-;;custom config saveto personal/personal.el
-(setq custom-file (expand-file-name "personal/personal-info.el" user-emacs-directory))
 
 ;;;###autoload
 (defun eal-define-keys-commonly (keymap key-defs)

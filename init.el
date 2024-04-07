@@ -44,7 +44,6 @@
 
 (require 'init-hydra)
 
-(require 'face-settings)
 
 (require 'edit-settings)
 
@@ -59,8 +58,6 @@
 (require 'windows-settings)
 
 (require 'view-settings)
-
-(require 'dev-settings)
 
 (require 'docker-settings)
 
@@ -87,3 +84,11 @@
 (require 'web-settings)
 
 (require 'template-settings)
+
+(require 'face-settings)
+
+(require 'dev-settings)
+
+;;custom config saveto personal/personal.el
+(setq custom-file (expand-file-name "personal/personal-info.el" user-emacs-directory))
+(load custom-file)
