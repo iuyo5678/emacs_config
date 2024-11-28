@@ -59,7 +59,7 @@
   (use-package magit-todos
     :init
     (setq magit-todos-nice (if (executable-find "nice") t nil))
-    (magit-todos-mode 1)))
+    (setq magit-todos-mode t)))
 
 ;; Walk through git revisions of a file
 (use-package git-timemachine
@@ -178,3 +178,5 @@
          ("B" . browse-at-remote)))
 
 (provide 'vcs-settings)
+
+;;; vcs-settings.el ends here

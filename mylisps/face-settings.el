@@ -1,4 +1,4 @@
-;; -*- face-settings.el -*-  set face for emacs  -*- lexical-binding: t -*-
+;;; -*- face-settings.el  ---  set face for emacs   -*- lexical-binding: t -*-
 
 ;; Time-stamp: <2021-03-15 18:05:25 Monday by zhangguhua>
 ;;外观的配置
@@ -225,23 +225,6 @@ Nil to use font supports ligatures."
     (set-char-table-parent composition-ligature-table composition-function-table)))
 
 
-(use-package solaire-mode
-  :defer 0.1
-  :config (solaire-global-mode 1))
-
-(use-package doom-themes
-  :ensure t
-  :init
-  ;; Enable flashing mode-line on errors
-  (setq doom-themes-enable-bold t    ; if nil, bold is universally disabled
-        doom-themes-enable-italic t) ; if nil, italics is universally disabled
-  (load-theme 'doom-Iosvkem t t)
-  (doom-themes-visual-bell-config)
-  ;; Enable custom neotree theme
-  (doom-themes-neotree-config)
-  )
-
-
 (use-package doom-modeline
   :hook (after-init . doom-modeline-mode)
   :init
@@ -397,38 +380,24 @@ Nil to use font supports ligatures."
                              (agenda    . "nf-oct-calendar")
                              (projects  . "nf-oct-briefcase")
                              (registers . "nf-oct-database"))
-   dashboard-set-init-info t
 
-   dashboard-set-footer t
    dashboard-footer-icon (if
                              (icons-displayable-p)
                              (nerd-icons-octicon "nf-oct-heart" :height 1.2 :face 'nerd-icons-lred)
                            (propertize ">" 'face 'dashboard-footer-icon-face))
-   dashboard-set-navigator t
    )
-
+  (setq dashboard-startupify-list '(dashboard-insert-banner
+                                    dashboard-insert-newline
+                                    dashboard-insert-banner-title
+                                    dashboard-insert-newline
+                                    dashboard-insert-navigator
+                                    dashboard-insert-newline
+                                    dashboard-insert-init-info
+                                    dashboard-insert-items
+                                    dashboard-insert-newline
+                                    dashboard-insert-footer))
   (dashboard-setup-startup-hook)
   :config
-  ;; WORKAROUND: fix differnct background color of the banner image.
-  ;; @see https://github.com/emacs-dashboard/emacs-dashboard/issues/203
-  (defun my-dashboard-insert-image-banner (banner)
-    "Display an image BANNER."
-    (when (file-exists-p banner)
-      (let* ((title dashboard-banner-logo-title)
-             (spec (create-image banner))
-             (size (image-size spec))
-             (width (car size))
-             (left-margin (max 0 (floor (- dashboard-banner-length width) 2))))
-        (goto-char (point-min))
-        (insert "\n")
-        (insert (make-string left-margin ?\ ))
-        (insert-image spec)
-        (insert "\n\n")
-        (when title
-          (dashboard-insert-center title)
-          (insert (format "%s\n\n" (propertize title 'face 'dashboard-banner-logo-title)))))))
-  (advice-add #'dashboard-insert-image-banner :override #'my-dashboard-insert-image-banner)
-
   ;; FIXME: Insert copyright
   ;; @see https://github.com/emacs-dashboard/emacs-dashboard/issues/219
   (defun my-dashboard-insert-copyright ()
@@ -440,5 +409,17 @@ Nil to use font supports ligatures."
   (advice-add #'dashboard-insert-footer :after #'my-dashboard-insert-copyright)
   )
 
+(use-package doom-themes
+  :ensure t
+  :config
+  ;; Enable flashing mode-line on errors
+  (setq doom-themes-enable-bold t    ; if nil, bold is universally disabled
+        doom-themes-enable-italic t) ; if nil, italics is universally disabled
+  )
+
+(load-theme 'doom-one t)
+;; Enable custom neotree theme
+
 ;;(require 'dashboard)
 (provide 'face-settings)
+;;; face-settings.el ends here

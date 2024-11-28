@@ -36,8 +36,7 @@
 
 ;; Speed up startup
 (defvar centaur-gc-cons-threshold (if (display-graphic-p) 16000000 16000000)
-  "The default value to use for `gc-cons-threshold'. If you experience freezing,
-decrease this. If you experience stuttering, increase this.")
+  "for freezing, decrease this. for stuttering, increase this.")
 
 (defvar centaur-gc-cons-upper-limit (if (display-graphic-p) 400000000 100000000)
   "The temporary value for `gc-cons-threshold' to defer it.")
@@ -48,7 +47,7 @@ decrease this. If you experience stuttering, increase this.")
 (defvar default-file-name-handler-alist file-name-handler-alist)
 
 ;;第三方包不用开启native-comp
-(setq inhibit-automatic-native-compilation t)
+(setq-default inhibit-automatic-native-compilation t)
 
 (defconst sys/win32p
   (eq system-type 'windows-nt)
@@ -159,7 +158,7 @@ decrease this. If you experience stuttering, increase this.")
 			      (lambda ()
 				    (unless (frame-focus-state)
 				      (garbage-collect))))
-              (add-hook 'focus-out-hook 'garbage-collect))
+              (add-hook 'after-focus-change-function 'garbage-collect))
 
             ;; Avoid GCs while using `ivy'/`counsel'/`swiper' and `helm', etc.
             ;; @see http://bling.github.io/blog/2016/01/18/why-are-you-changing-gc-cons-threshold/
@@ -170,7 +169,9 @@ decrease this. If you experience stuttering, increase this.")
               (setq gc-cons-threshold centaur-gc-cons-threshold))
 
             (add-hook 'minibuffer-setup-hook #'my-minibuffer-setup-hook)
-            (add-hook 'minibuffer-exit-hook #'my-minibuffer-exit-hook)))
+            (add-hook 'minibuffer-exit-hook #'my-minibuffer-exit-hook)
+            )
+          )
 
 
 ;;;###autoload
@@ -191,7 +192,7 @@ like argument of `define-key'."
 (defalias 'define-key-list 'eal-define-keys-commonly)
 
 (defun apply-args-to-fun (fun args)
-  "Apply args to function FUN."
+  "Apply ARGS to function FUN."
   (if (listp args)
       (eval `(,fun ,@args))
     (eval `(,fun ,args))))
@@ -231,4 +232,4 @@ like argument of `define-key'."
        (require 'nerd-icons nil t)))
 
 (provide 'zgh-startup)
-;;; startup.el ends here
+;;; zgh-startup.el ends here

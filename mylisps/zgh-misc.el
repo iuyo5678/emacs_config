@@ -76,6 +76,15 @@
 	    exec-path-from-shell-arguments '("-l"))
   (exec-path-from-shell-initialize))
 
+(defun my-kill-buffer ()
+  "Kill the current buffer without confirmation if it has no unsaved changes."
+  (interactive)
+  (if (and (buffer-file-name) (buffer-modified-p))
+      (if (yes-or-no-p "Buffer has unsaved changes. Kill it anyway? ")
+          (kill-buffer (current-buffer)))
+    (kill-buffer (current-buffer))))
+
+(global-set-key (kbd "C-x k") 'my-kill-buffer)
 
 ;; Start server
 (use-package server

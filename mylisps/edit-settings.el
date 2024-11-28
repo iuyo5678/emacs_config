@@ -8,7 +8,6 @@
   :bind (([remap count-lines-page] . count-brf-lines)
 	     ("M-w" . smart-copy)
 	     ("C-k" . kill-whole-line)
-	     ("C-x k" . kill-this-buffer)
 	     :map minibuffer-local-completion-map)
   :config
   (setq x-select-enable-clipboard t
@@ -18,6 +17,16 @@
 	    ;;  自动的在文件末增加一新行
 	    require-final-newline t))
 
+(use-package rime
+  :straight (rime :type git
+                  :host github
+                  :repo "DogLooksGood/emacs-rime"
+                  :files ("*.el" "Makefile" "lib.c"))
+  :custom
+  (default-input-method "rime")
+  (rime-librime-root "~/.emacs.d/librime/dist")
+  (setq rime-show-candidate 'posframe)
+  )
 
 (use-package undo-tree
   :diminish
@@ -540,3 +549,4 @@
     ("C-x G o" goto-my-org-path)))
 
 (provide 'edit-settings)
+;;; edit-settings.el ends here
