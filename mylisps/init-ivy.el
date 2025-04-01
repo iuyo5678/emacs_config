@@ -467,6 +467,7 @@ This is for use in `ivy-re-builders-alist'."
 
 ;; More friendly display transformer for Ivy
 (use-package ivy-rich
+  :straight (:host github :repo "Yevgnen/ivy-rich")
   :hook (;; Must load after `counsel-projectile'
          (counsel-projectile-mode . ivy-rich-mode)
          (ivy-rich-mode . (lambda ()
@@ -480,7 +481,7 @@ This is for use in `ivy-re-builders-alist'."
 ;; Better experience with icons
 ;; Enable it before`ivy-rich-mode' for better performance
 (use-package nerd-icons-ivy-rich
-  :ensure t
+  :straight (:host github :repo "seagle0128/nerd-icons-ivy-rich")
   :init
   (nerd-icons-ivy-rich-mode 1)
   (ivy-rich-mode 1))

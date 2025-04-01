@@ -18,6 +18,10 @@
 ;; Street, Fifth Floor, Boston, MA 02110-1301, USA.
 
 
+(use-package copilot
+  :vc (:url "https://github.com/copilot-emacs/copilot.el"
+       :rev :newest
+       :branch "main"))
 
 ;; 增加自定义关键字
 (dolist (mode '(c-mode c++-mode java-mode lisp-mode emacs-lisp-mode

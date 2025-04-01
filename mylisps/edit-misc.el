@@ -33,7 +33,16 @@
 
 ;;; Code:
 
-(setq kill-ring-max 200)
+;; 启用 savehist 模式
+(savehist-mode 1)
+;; 指定保存 kill-ring 的文件路径（可选，默认是 ~/.emacs.d/history）
+(setq savehist-file (concat my-emacs-path "kill-ring-history"))
+;; 确保 kill-ring 被保存
+(add-to-list 'savehist-additional-variables 'kill-ring)
+;; 可选：设置保存的最大条目数，默认是 20
+(setq savehist-autosave-interval 60) ; 每 60 秒自动保存一次
+(setq history-length 1000)           ; 设置 kill-ring 的最大保存条目
+
 ;; Save clipboard contents into kill-ring before replace them
 (setq save-interprogram-paste-before-kill t)
 
@@ -79,36 +88,6 @@ If NOT-WHOLE is non-nil, do not kill whole sexp."
   (interactive "r")
   (copy-region-as-kill beg end))
 
-
-;;###autoload
-(defun copy-cur-line ()
-  "拷贝当前行"
-  (interactive)
-  (let ((end (min (point-max) (1+ (line-end-position)))))
-    (copy-region-as-kill (line-beginning-position) end)))
-
-;;;###autoload
-(defun copy-lines (&optional number)
-  "从当前行开始拷贝NUMBER行"
-  (interactive "p")
-  (if (null number)
-      (copy-cur-line)
-    (let ((lineNo))
-      (save-excursion
-        (if (< number 0)
-            (next-line))
-        (setq lineNo (line-number-at-pos nil))
-        (move-beginning-of-line nil)
-        (set-mark-command nil)
-        (goto-line (+ number lineNo))
-        (call-interactively 'copy-region-as-kill)))))
-
-
-;;;###autoload
-(defun smart-copy ()
-  "智能拷贝, 如果`mark-active'的话, 则`copy-region', 否则`copy-lines'"
-  (interactive)
-  (if mark-active (call-interactively 'copy-region) (call-interactively 'copy-lines)))
 
 ;;;###autoload
 (defun lisp-mark-function (&optional allow-extend)

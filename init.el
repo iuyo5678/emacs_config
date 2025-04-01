@@ -1,4 +1,5 @@
-;; -*- Emacs-Lisp -*-
+;;; init.el --- emacs init file  -*- lexical-binding: t -*-
+
 ;; Time-stamp: <2021-03-15 18:15:56 Monday by zhangguhua>
 ;; zgh的emacs配置启动文件
 ;;定义所有常用路径
@@ -92,5 +93,3 @@
 (setq custom-file (expand-file-name "personal/personal-info.el" user-emacs-directory))
 
 (load custom-file)
-
-;;; init.el ends here

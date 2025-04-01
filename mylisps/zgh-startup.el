@@ -1,4 +1,4 @@
-;;; zgh-startup.elp.el ---
+;;; zgh-startup.el --- Some init config for zgh  -*- lexical-binding: t -*-
 
 ;; Copyright 2021 Zhang Guhua
 ;;

@@ -141,6 +141,5 @@ mermaid.initialize({
           (apply fn args)))))))
 
 
-
 (provide 'markdown-settings)
 ;;; markdown-settings.el ends here

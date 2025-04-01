@@ -79,16 +79,21 @@ FUN-LIST can be a symbol, also can be a list whose element is a symbol."
      (cyan-face           'cyan-face)))
   )
 
+(use-package nerd-icons)
+
+(use-package nerd-icons-ibuffer
+  :straight (:host github :repo "seagle0128/nerd-icons-ibuffer")
+)
 (use-package unicode-fonts
-  :init (unicode-fonts-setup)
+  :straight (:host github :repo "rolandwalker/unicode-fonts")
+  :ensure t
+  :init
+  (unicode-fonts-setup)
   :config
   (set-frame-font "JetBrainsMono Nerd Font")  ;;默认字体
-  (face-spec-set 'default `((t (:height , 150)))) ;;默认大小
+  (face-spec-set 'default `((t (:height , 160)))) ;;默认大小
   )
 
-(use-package nerd-icons
-  :demand t
-  )
 
 (use-package hide-mode-line
   :hook (((completion-list-mode

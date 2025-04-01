@@ -1,21 +1,29 @@
+;;; edit-settings.el --- edit file  settings for emacs -*- lexical-binding:t -*-
 
 ;; -*- Emacs-Lisp -*-
 ;; Time-stamp: <2021-03-15 17:20:35 Monday by zhangguhua>
+
 
 (use-package edit-misc
   :ensure nil
   :defer
   :bind (([remap count-lines-page] . count-brf-lines)
-	     ("M-w" . smart-copy)
 	     ("C-k" . kill-whole-line)
 	     :map minibuffer-local-completion-map)
   :config
-  (setq x-select-enable-clipboard t
+  (setq select-enable-clipboard t
 	    mouse-drag-copy-region t
 	    ;; 在行首C-k时，同时删除该行
 	    kill-whole-line t
 	    ;;  自动的在文件末增加一新行
 	    require-final-newline t))
+
+(when (eq system-type 'darwin)
+  (use-package osx-clipboard
+    :straight (:host github :repo "joddie/osx-clipboard-mode")
+    :config
+    (osx-clipboard-mode +1))
+  )
 
 (use-package rime
   :straight (rime :type git
@@ -70,7 +78,7 @@
                '(and (derived-mode-p 'c-mode 'c++-mode 'csharp-mode
                                      'java-mode 'go-mode 'swift-mode)
                      (null (string-match "\\([;{}]\\|\\b\\(if\\|for\\|while\\)\\b\\)"
-                                         (thing-at-point 'line))))))
+                                              (thing-at-point 'line))))))
 
 
 (use-package anzu
