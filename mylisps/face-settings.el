@@ -1,7 +1,9 @@
-;;; -*- face-settings.el  ---  set face for emacs   -*- lexical-binding: t -*-
+;;; face-settings.el  ---  emacs face settings   -*- lexical-binding: t -*-
 
+;;; Commentary:
 ;; Time-stamp: <2021-03-15 18:05:25 Monday by zhangguhua>
 ;;外观的配置
+;;; Code:
 
 (use-package cal-china-x
   :ensure t

@@ -1,4 +1,4 @@
-;;; init-elpa.el ---
+;;; init-elpa.el --- package manger init file  -*- lexical-binding: t -*-
 
 ;; Copyright 2016 zhangguhua
 ;;
@@ -29,12 +29,6 @@
 ;;   (require 'init-elpa)
 
 ;;; Code:
-
-
-;;;;##########################################################################
-;;;;  User Options, Variables
-;;;;##########################################################################
-
 ;;(setq package-archives '(("gnu"   . "https://mirrors.tuna.tsinghua.edu.cn/elpa/gnu/")
 ;;                         ("melpa" . "https://mirrors.tuna.tsinghua.edu.cn/elpa/melpa/")))
 
@@ -62,7 +56,7 @@
   (setq use-package-enable-imenu-support t))
 
 (eval-when-compile
-  (require 'cl)
+  (require 'cl-lib)
   (require 'use-package))
 
 ;; Required by `use-package'

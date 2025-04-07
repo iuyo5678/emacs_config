@@ -1,4 +1,4 @@
-;;; docker-settings.el ---
+;;; docker-settings.el --- docker settings  -*- lexical-binding: t -*-
 
 ;; Copyright 2021 Zhang Guhua
 ;;
@@ -39,7 +39,7 @@
               docker-container-shell-file-name "/bin/bash"))
 
 ;;`tramp-container' is builtin since 29
-(unless emacs-major-version >= 29
+(unless emacs-major-version > 29
         (use-package docker-tramp))
 
 (use-package dockerfile-mode)

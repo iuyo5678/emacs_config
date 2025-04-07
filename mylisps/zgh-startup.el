@@ -33,6 +33,13 @@
 ;;;;##########################################################################
 ;;;;  User Options, Variables
 ;;;;##########################################################################
+(defconst my-emacs-path           "~/.emacs.d/" "我的emacs相关配置文件的路径.")
+(defconst my-emacs-my-lisps-path  (concat my-emacs-path "mylisps/") "我自己找的一些的emacs lisp包的路径.")
+(defconst my-emacs-lisps-path     (concat my-emacs-path "elpa/") "一些安装lisp包路径，后面想用elpa升级.")
+(defconst my-custom-config-path (concat my-emacs-path "personal/") "一些自己自定义的配置信息，如自己的个人信息，个人博客配置等.")
+(defconst my-emacs-doc-path (concat my-emacs-path "docs/") "文档路径.")
+(defconst my-emacs-templates-path (concat my-emacs-path "templates/") "模板路径.")
+(defconst my-org-file-path "~/Documents/EmacsOrg/" "我的org文件存储路径.")
 
 ;; Speed up startup
 (defvar centaur-gc-cons-threshold (if (display-graphic-p) 16000000 16000000)
@@ -144,6 +151,7 @@
 (setq file-name-handler-alist nil)
 (setq gc-cons-threshold centaur-gc-cons-upper-limit
       gc-cons-percentage 0.5)
+
 (add-hook 'emacs-startup-hook
           (lambda ()
             "Restore defalut values after startup."
@@ -178,8 +186,8 @@
 (defun eal-define-keys-commonly (keymap key-defs)
   "Execute `define-key' on KEYMAP use arguments from KEY-DEFS.
 KEY-DEFS should be one list, every element of it is a list
-whose first element is key like argument of `define-key', and second element is command
-like argument of `define-key'."
+whose first element is key like argument of `define-key',
+and second element is command like argument of `define-key'."
   (dolist (key-def key-defs)
     (when key-def
       (define-key keymap (eval `(kbd ,(car key-def))) (nth 1 key-def)))))
