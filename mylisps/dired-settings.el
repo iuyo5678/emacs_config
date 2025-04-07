@@ -47,16 +47,13 @@
 
   ;; Colourful dired
   (use-package diredfl
-    :init (diredfl-global-mode 1))
-
-
-  (use-package nerd-icons-dired
-    :diminish
-    :commands nerd-icons-dired-mode
-    :custom-face
-    (nerd-icons-dir-dirface ((t (:inherit nerd-icons-dsilver :foreground unspecified))))
+    :straight (:host github :repo "purcell/diredfl")
     :hook
-    (dired-mode . nerd-icons-dired-mode))
+    ((dired-mode . diredfl-mode)
+     ;; highlight parent and directory preview as well
+     (dirvish-directory-view-mode . diredfl-mode))
+    :config
+    (set-face-attribute 'diredfl-dir-name nil :bold t))
 
   ;; Extra Dired functionality
   (use-package dired-aux :ensure nil)
@@ -64,9 +61,9 @@
     :ensure nil
     :demand t
     :config
-    (let ((cmd (cond (sys/mac-x-p "open")
-                     (sys/linux-x-p "xdg-open")
-                     (sys/win32p "start")
+    (let ((cmd (cond ((and (eq system-type 'darwin) (display-graphic-p)) "open")  ; macOS GUI
+                     ((and (eq system-type 'gnu/linux) (display-graphic-p)) "xdg-open") ; Linux GUI
+                     ((eq system-type 'windows-nt) "start")                       ; Windows
                      (t ""))))
       (setq dired-guess-shell-alist-user
             `(("\\.pdf\\'" ,cmd)
@@ -90,12 +87,12 @@
   (use-package fd-dired))
 
 (use-package dirvish
+  :straight (:host github :repo "alexluigit/dirvish")
   :init
   (dirvish-override-dired-mode)
   :config
   (setq dirvish-mode-line-format
         '(:left (sort symlink) :right (omit yank index)))
-  (setq dirvish-mode-line-height 10)
   (setq dirvish-attributes
         '(nerd-icons file-time file-size collapse subtree-state vc-state git-msg))
   (setq dirvish-subtree-state-style 'nerd)
