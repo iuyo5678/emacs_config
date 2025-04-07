@@ -33,6 +33,8 @@
 ;;;;##########################################################################
 ;;;;  User Options, Variables
 ;;;;##########################################################################
+
+;;; 定义所有常用路径
 (defconst my-emacs-path           "~/.emacs.d/" "我的emacs相关配置文件的路径.")
 (defconst my-emacs-my-lisps-path  (concat my-emacs-path "mylisps/") "我自己找的一些的emacs lisp包的路径.")
 (defconst my-emacs-lisps-path     (concat my-emacs-path "elpa/") "一些安装lisp包路径，后面想用elpa升级.")
@@ -233,6 +235,7 @@ and second element is command like argument of `define-key'."
  '(tab-width 4)
  '(indent-tabs-mode nil))
 
+;;;###autoload
 (defun icons-displayable-p ()
   "Return non-nil if `nerd-icons' is displayable."
   (and zgh-icon

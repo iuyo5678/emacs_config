@@ -38,10 +38,6 @@
   :init (setq docker-image-run-arguments '("-i" "-t" "--rm")
               docker-container-shell-file-name "/bin/bash"))
 
-;;`tramp-container' is builtin since 29
-(unless emacs-major-version > 29
-        (use-package docker-tramp))
-
 (use-package dockerfile-mode)
 
 (provide 'docker-settings)

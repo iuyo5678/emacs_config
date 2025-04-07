@@ -2,7 +2,7 @@
 
 ;; Author: ahei <ahei0802@gmail.com>
 ;; URL: http://code.google.com/p/dea/source/browse/trunk/my-lisps/vc-settings.el
-;; Time-stamp: <2011-06-07 11:17:58 Tuesday by taoshanwen>
+;; Time-stamp: <2025-04-07 16:45:05 星期一 by zhangguhua>
 
 ;; This  file is free  software; you  can redistribute  it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -20,10 +20,13 @@
 ;; Street, Fifth Floor, Boston, MA 02110-1301, USA.
 ;; Git
 ;; See `magit-maybe-define-global-key-bindings'
+(use-package llama
+  :straight (:host github :repo "tarsius/llama"))
+
 (use-package magit
+  :straight (:host github :repo "magit/magit")
   :init (setq magit-diff-refine-hunk t)
   :config
-
   (when (fboundp 'transient-append-suffix)
     ;; Add switch: --tags
     (transient-append-suffix 'magit-fetch
@@ -49,6 +52,7 @@
   ;; Access Git forges from Magit
   (when (executable-find "cc")
     (use-package forge
+      :straight (:host github :repo "magit/forge")
       :init (setq forge-topic-list-columns
                   '(("#" 5 forge-topic-list-sort-by-number (:right-align t) number nil)
                     ("Title" 60 t nil title  nil)
@@ -57,6 +61,7 @@
 
   ;; Show TODOs in magit
   (use-package magit-todos
+    :straight (:host github :repo "alphapapa/magit-todos")
     :init
     (setq magit-todos-nice (if (executable-find "nice") t nil))
     (setq magit-todos-mode t)))

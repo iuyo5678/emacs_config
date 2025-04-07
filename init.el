@@ -1,9 +1,8 @@
 ;;; init.el --- emacs init file  -*- lexical-binding: t -*-
 
 ;;; Commentary:
-;;; Time-stamp: <2021-03-15 18:15:56 Monday by zhangguhua>
+;;; Time-stamp: <2025-04-07 15:45:12 星期一 by zhangguhua>
 ;;; zgh的emacs配置启动文件
-;;; 定义所有常用路径
 
 ;;; Code:
 
@@ -61,8 +60,6 @@
 
 (require 'markdown-settings)
 
-(require 'org-settings)
-
 (require 'vcs-settings)
 
 (require 'project-settings)
@@ -85,7 +82,13 @@
 
 (require 'dev-settings)
 
+(require 'org-settings)
+
+(require 'timestamp-settings)
+
 ;;custom config saveto personal/personal.el
 (setq custom-file (expand-file-name "personal/personal-info.el" user-emacs-directory))
 
 (load custom-file)
+
+;;; init.el ends here

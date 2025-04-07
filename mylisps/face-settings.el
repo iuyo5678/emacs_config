@@ -1,7 +1,7 @@
 ;;; face-settings.el  ---  emacs face settings   -*- lexical-binding: t -*-
 
 ;;; Commentary:
-;; Time-stamp: <2021-03-15 18:05:25 Monday by zhangguhua>
+;; Time-stamp: <2025-04-07 18:00:41 星期一 by zhangguhua>
 ;;外观的配置
 ;;; Code:
 
@@ -105,21 +105,9 @@ FUN-LIST can be a symbol, also can be a list whose element is a symbol."
 
 
 ;; Show native line numbers if possible, otherwise use `linum'
-(if (fboundp 'display-line-numbers-mode)
-    (use-package display-line-numbers
-      :ensure nil
-      :hook (prog-mode . display-line-numbers-mode))
-  (use-package linum-off
-    :defines linum-format
-    :hook (after-init . global-display-line-numbers-mode)
-    :init (setq linum-format "%4d ")
-    :config
-    ;; Highlight current line number
-    (use-package hlinum
-      :defines linum-highlight-in-all-buffersp
-      :custom-face (linum-highlight-face ((t (:inherit default))))
-      :hook (global-display-line-numbers-mode . hlinum-activate)
-      :init (setq linum-highlight-in-all-buffersp t))))
+(use-package display-line-numbers
+  :ensure nil
+  :hook (prog-mode . display-line-numbers-mode))
 
 (defcustom centaur-prettify-org-symbols-alist
   '(("[ ]" . ?☐)
